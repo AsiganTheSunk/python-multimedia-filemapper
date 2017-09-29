@@ -1,0 +1,10 @@
+TRUSTED_UPLOADERS = ['HorribleSubs|'
+                     'AnimeRG|'
+                     'Krosis|'
+                     'Dmcs-Fansubs|'
+                     'Ohys-Raws|'
+                     'PuyaSubs!|'
+                     'FUM|'
+                     'DIMENSION|'
+                     'PODO|'
+                     'ROVERS']

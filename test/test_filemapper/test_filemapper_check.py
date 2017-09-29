@@ -1,4 +1,4 @@
-from main.check import check_module as check
+from filemapper.check import check_module as check
 
 # Multimedia Check Tests
 def test0_filemapper_check_multimedia():
@@ -16,7 +16,7 @@ def test1_filemapper_check_multimedia():
 
 # Multimedia Subtitle Directory Tests
 def test0_filemapper_check_subtitles_directory():
-    assert check.check_subtitles_directory('multimpedia_directory_sample (subtitle)') is True
+    assert check.check_subtitles_directory('multimpedia_directory_sample (subs)') is True
 
 
 def test1_filemapper_check_subtitles_directory():
@@ -189,7 +189,7 @@ def test11_filemapper_check_show_subtitles():
 
 #Show Directory Subtitles Tests
 def test0_filemapper_check_subtitles_directory_show():
-    assert check.check_show_subtitles_directory('multimedia_sample_directory S01E01 subtitle') is True
+    assert check.check_show_subtitles_directory('multimedia_sample_directory S01E01 subs') is True
 
 
 def test1_filemapper_check_subtitles_directory_show():
@@ -209,11 +209,11 @@ def test4_filemapper_check_subtitles_directory_show():
 
 
 def test5_filemapper_check_subtitles_directory_show():
-    assert check.check_show_subtitles_directory('multimedia_sample_directory (1980) subtitle') is False
+    assert check.check_show_subtitles_directory('multimedia_sample_directory (1980) subs') is False
 
 
 def test6_filemapper_check_subtitles_directory_show():
-    assert check.check_show_subtitles_directory('[HorribleSubs] multimedia_sample_directory subtitle') is False
+    assert check.check_show_subtitles_directory('[HorribleSubs] multimedia_sample_directory subs') is False
 
 
 #Anime Directory Tests

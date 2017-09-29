@@ -1,4 +1,4 @@
-from main.datastructure import Metadata as meta
+from filemapper.datastructure import Metadata as meta
 
 
 # Metadata Create Tests

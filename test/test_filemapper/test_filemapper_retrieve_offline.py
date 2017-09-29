@@ -1,4 +1,4 @@
-from main.retrieve import offline_retrieve_module as offrmod
+from filemapper.retrieve import offline_retrieve_module as offrmod
 
 
 #Quality

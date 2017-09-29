@@ -1,4 +1,4 @@
-from main.datastructure import TreeRoot as tr
+from filemapper.datastructure import TreeRoot as tr
 
 
 # TreeRoot create Tests
