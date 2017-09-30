@@ -4,7 +4,7 @@ from langdetect import detect
 import chardet
 import pysrt
 import re
-from filemapper.retrieve.regex.ReEngine import compile_patterns
+from filemapper.retrieve.regex.RegexEngine import compile_pattern
 
 class SubtitleSrtExtension():
     def __init__(self):
@@ -53,7 +53,7 @@ class SubtitleSrtExtension():
         language = ''
         DetectorFactory.seed = 0
         stream = unicode(stream, "utf-8")
-        _language_patterns = compile_patterns(patterns=['\((en|es|spanish|english)\)'])
+        _language_patterns = compile_pattern(patterns=['\((en|es|spanish|english)\)'])
         try:
             language = re.search(_language_patterns[0], stream, re.IGNORECASE).group(0)
         except:

@@ -104,7 +104,7 @@ class StringBuilder():
             quality = metadata.get_quality()
             subtitle = metadata.get_subtitle()
             language = metadata.get_language()
-            film_flag = metadata.get_film_flag()
+            film_flag = metadata.get_film_tag()
             fflag = metadata.get_fflag()
             extension = metadata.get_extension()
 

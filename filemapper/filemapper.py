@@ -6,12 +6,12 @@ from logging import DEBUG
 from logging import basicConfig
 from logging import debug as log_debug
 from time import sleep
-from filemapper.datastructure.Metadata import Metadata
-from filemapper.datastructure.FileFlags import FileFlags as fflags
-import filemapper.check.check_module as cmod
-import filemapper.retrieve.offline_retrieve_module as offrmod
-import filemapper.retrieve.online_retrieve_module as onrmod
-from filemapper.datastructure.TreeRoot import TreeRoot
+from datastructure.Metadata import Metadata
+from datastructure.FileFlags import FileFlags as fflags
+import check.check_module as cmod
+import retrieve.offline_retrieve_module as offrmod
+import retrieve.online_retrieve_module as onrmod
+from datastructure.TreeRoot import TreeRoot
 
 # TODO turn this into a class
 # TODO: FileMapper Validation
@@ -262,8 +262,8 @@ def retrieve_show_info(path=None, verbose=None, fflag=None, deep=None, debug=Non
             uploader = offrmod.retrieve_uploader(path=aux, verbose=verbose)
             source = offrmod.retrieve_source(path=aux, verbose=verbose)
 
-            metadata.set_codec(codec=codec)
-            metadata.set_audio(audio=audio)
+            metadata.set_vcodec(codec=codec)
+            metadata.set_acodec(audio=audio)
             metadata.set_uploader(uploader=uploader)
             metadata.set_source(source=source)
 
@@ -275,7 +275,7 @@ def retrieve_show_info(path=None, verbose=None, fflag=None, deep=None, debug=Non
         metadata.set_extension(extension=extension)
         metadata.set_language(language=language)
         metadata.set_year(year=year)
-        metadata.set_film_flag(film_flag=film_flag)
+        metadata.set_film_tag(film_flag=film_flag)
         metadata.set_subtitle(subtitle)
         metadata.set_fflag(fflag=fflag)
 
@@ -493,7 +493,7 @@ def rebuild_name(meta, verbose=None):
     ename = meta.get_ename()
     extension = meta.get_extension()
     language = meta.get_language()
-    film_flag = meta.get_film_flag()
+    film_flag = meta.get_film_tag()
     year = meta.get_year()
     fflag = meta.get_fflag()
 

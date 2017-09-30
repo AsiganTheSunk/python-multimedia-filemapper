@@ -1,8 +1,11 @@
 from filemapper.datastructure.FileFlags import FileFlags as fflags
-from filemapper.retrieve.regex.ReEngine import compile_patterns
+#from filemapper.retrieve.regex.RegexEngine import compile_pattern
 import re
 
-class ReSubtitleExtension():
+def compile_pattern(patterns):
+    return [re.compile(pattern) for pattern in patterns]
+
+class RegexSubtitleExtension():
     def __init__(self):
         self.name = 'ReSubtitleExtension'
         self.supported_name_fflags = []
@@ -19,10 +22,10 @@ class ReSubtitleExtension():
         :param debug: It represents the debug status of the function, default it's False
         :return: SUBTITLE_DIRECTORY
         '''
-        _subtitle_directory_patterns = compile_patterns(patterns=['sub\w{0,6}'])
+        _subtitle_directory_patterns = compile_pattern(patterns=['sub\w{0,6}'])
         try:
             subtitle_directory = re.search(_subtitle_directory_patterns[0], stream, re.IGNORECASE).group(0)
-        except ValueError or TypeError:
+        except AttributeError:
             # raise error that would be corrected in ReEngine turning exception into blank field
             subtitle_directory = ''
             return subtitle_directory
