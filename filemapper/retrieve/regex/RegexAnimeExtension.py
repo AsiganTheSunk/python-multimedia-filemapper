@@ -39,12 +39,12 @@ class RegexAnimeExtension():
                 name = ''
                 return name
             else:
-                name = tail[header:-core]
+                name = StringBuilder().prettify_stream(tail[header:-core])
                 if debug:
                     print('{extension_engine}: {stream} :: name:{value}').format(extension_engine=self.name,
                                                                             stream=stream,
                                                                             value=name)
-                fixed_name = StringBuilder().prettify_stream(name)
+
                 return name
         else:
             name = tail[header:-2]

@@ -36,12 +36,13 @@ class RegexShowExtension():
             name = ''
             return name
         else:
+            name = StringBuilder().prettify_stream(name)
             if debug:
                 print('{extension_engine}: {stream} :: name:{value}').format(extension_engine=self.name,
                                                                         stream=stream,
                                                                         value=name)
-                fixed_name = StringBuilder().prettify_stream(name)
-            return fixed_name
+
+            return name
 
     def get_episode(self, stream, debug=False):
         '''

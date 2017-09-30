@@ -40,14 +40,16 @@ class StringBuilder():
 
     # ADD DUMMY FLAGS FUNCTIONS! to try to remap properly
 
-    def prettify_stream(self, stream):
+    def prettify_stream(self, stream, title=True):
         '''
         This function makes a stream look pretty, removing dots, dashes and spaces
         :param stream: It represents the input string of the function
         :return: PRETTY_STREAM
         '''
         try:
-            new_stream = stream.replace('-', ' ').replace('.', ' ').replace('_', ' ').rstrip().title()
+            if title:
+                new_stream = stream.replace('-', ' ').replace('.', ' ').replace('_', ' ').rstrip().title()
+            new_stream = stream.replace('-', ' ').replace('.', ' ').replace('_', ' ').rstrip()
         except Exception as e:
             return stream
         else:

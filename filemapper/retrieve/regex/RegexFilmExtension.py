@@ -33,12 +33,12 @@ class RegexFilmExtension():
             name = ''
             return name
         else:
+            name = StringBuilder().prettify_stream(name)
             if debug:
                 print('{extension_engine}: {stream} :: name:{value}').format(extension_engine=self.name,
                                                                         stream=stream,
                                                                         value=name)
-                fixed_name = StringBuilder().prettify_stream(name)
-            return fixed_name
+            return name
 
     def get_episode(self, stream, debug=False):
         return ''
@@ -82,6 +82,7 @@ class RegexFilmExtension():
             film_tag = ''
             return film_tag
         else:
+            film_tag =StringBuilder().prettify_stream(film_tag, title=False)
             if debug:
                 print('{extension_engine}: {stream} :: tags:{value}').format(extension_engine=self.name,
                                                                         stream=stream,
