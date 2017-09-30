@@ -7,17 +7,27 @@ from filemapper.retrieve.regex.RegexShowExtension import RegexShowExtension
 from filemapper.retrieve.regex.RegexAnimeExtension import RegexAnimeExtension
 from filemapper.retrieve.regex.RegexCommonExtension import RegexCommonExtension
 from filemapper.retrieve.regex.RegexSubtitleExtension import RegexSubtitleExtension
+from filemapper.retrieve.tvdb.TVDbShowExtension import TVDbShowExtension
+from filemapper.retrieve.tvdb.TVDbEngine import TVDbEngine
+from filemapper.retrieve.imdb.IMDbEngine import IMDbEngine
+
 def file_mapper():
     regex_engine = RegexEngine()
-    regex_engine.map(stream='Were.the.Millers.2013.EXTENDED.CUT.BRRip.XviD.MP3-RARBG', fflag=fflags.FILM_DIRECTORY_FLAG,
+    metadata0 = regex_engine.map(stream='Were.the.Millers.2013.EXTENDED.CUT.BRRip.XviD.MP3-RARBG', fflag=fflags.FILM_FLAG,
                      verbose=True)
 
     regex_engine = RegexEngine()
-    regex_engine.map(stream='Game.Of.Thrones.S01E05.1080p.BluRay.x265-PODO[rartv]', fflag=fflags.SHOW_DIRECTORY_FLAG,
+    metadata1 = regex_engine.map(stream='Game.Of.Thrones.S01E05.1080p.BluRay.x265-PODO[rartv]', fflag=fflags.SHOW_DIRECTORY_FLAG,
                      verbose=True)
     regex_engine.map(stream='[PuyaSubs!] Yuri!!! On ICE - 11 [720p][663F641B]', fflag=fflags.ANIME_DIRECTORY_FLAG,
                      verbose=True)
 
+
+    tvdb_engine = TVDbEngine()
+    tvdb_engine.map(metadata=metadata1, verbose=True)
+
+    imdb_engine = IMDbEngine()
+    imdb_engine.map(metadata=metadata0, verbose=True)
     #
     # movie_engine = RegexFilmExtension()
     # movie_engine.get_name(stream='Were.the.Millers.2013.EXTENDED.CUT.BRRip.XviD.MP3-RARBG',debug=True)

@@ -4,17 +4,15 @@ from langdetect import detect
 import chardet
 import pysrt
 import re
-from filemapper.retrieve.regex.RegexEngine import compile_pattern
 
 class SubtitleSrtExtension():
     def __init__(self):
-        self.name = 'SubtitleExtension'
-        self.supported_fflags = [fflags.SUBTITLE_ANIME_FLAG, fflags.SUBTITLE_FILM_FLAG, fflags.SUBTITLE_SHOW_FLAG]
+        self.name = 'SubtitleSrtExtension'
+        self.supported_fflags = []
+        self.supported_season_fflags = []
+        self.supported_subtitle_fflags = [fflags.SUBTITLE_ANIME_FLAG, fflags.SUBTITLE_FILM_FLAG, fflags.SUBTITLE_SHOW_FLAG]
         self.supported_formats = ['srt']
         return
-
-    def _get_name(self):
-        return self.name
 
     def _get_subtitle_chunk(self, path, chunk_size=15):
         '''
@@ -53,10 +51,10 @@ class SubtitleSrtExtension():
         language = ''
         DetectorFactory.seed = 0
         stream = unicode(stream, "utf-8")
-        _language_patterns = compile_pattern(patterns=['\((en|es|spanish|english)\)'])
+        _language_patterns = ['\((en|es|spanish|english)\)']
         try:
             language = re.search(_language_patterns[0], stream, re.IGNORECASE).group(0)
-        except:
+        except AttributeError:
             try:
                 if stream[-3:] in self.supported_formats:
                     language = detect(self._get_subtitle_chunk(path=stream))
@@ -66,14 +64,14 @@ class SubtitleSrtExtension():
                 return language
             else:
                 if debug:
-                    print('{extension_engine}: {stream} :: {value}').format(extension_engine=self.name,
+                    print('{extension_engine}: {stream} :: language:{value}').format(extension_engine=self.name,
                                                                             stream=stream,
                                                                             value=language)
                 return language
         else:
             language = language[1:-1]
             if debug:
-                print('{extension_engine}: {stream} :: {value}').format(extension_engine=self.name,
+                print('{extension_engine}: {stream} :: language:{value}').format(extension_engine=self.name,
                                                                         stream=stream,
                                                                         value=language)
             return

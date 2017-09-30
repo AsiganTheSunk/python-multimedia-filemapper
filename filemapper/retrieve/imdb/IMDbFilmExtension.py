@@ -5,12 +5,12 @@ class IMDbExtension():
     def __init__(self):
         self.name = 'IMDbExtension'
         self.imdb = imdb.IMDb()
-        self.supported_fflags = [fflags.FILM_FLAG, fflags.SHOW_FLAG]
-        self.support_formats = []
-
+        self.supported_fflags = [fflags.FILM_FLAG]
+        self.supported_season_fflags = []
+        self.supported_subtitle_fflags = []
         return
 
-    def retrieve_film_genre(self, name, index=0, debug=False):
+    def get_genre(self, name, index=0, debug=False):
         '''
         This function retrieves the genre of a the film
         :param name:  It represents the name of the show you're searching for
@@ -27,7 +27,7 @@ class IMDbExtension():
             return genre
         else:
             if debug:
-                print('{extension_engine}: {stream} :: {value}').format(extension_engine=self.name,
-                                                                        stream=name,
-                                                                        value=genre)
+                print('{extension_engine}: name:{name} :: genre:{genre}').format(extension_engine=self.name,
+                                                                        name=name,
+                                                                        genre=genre)
             return genre

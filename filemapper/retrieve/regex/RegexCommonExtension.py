@@ -1,18 +1,13 @@
 from filemapper.datastructure.FileFlags import FileFlags as fflags
-# from filemapper.retrieve.regex.RegexEngine import compile_pattern
-from config import TRUSTED_UPLOADERS
 import re
-
-def compile_pattern(patterns):
-    return [re.compile(pattern) for pattern in patterns]
 
 class RegexCommonExtension():
     def __init__(self):
-        self.name = 'ReCommonExtension'
-        self.supported_name_fflags = [fflags.FILM_DIRECTORY_FLAG, fflags.FILM_FLAG,
-                                      fflags.ANIME_DIRECTORY_FLAG, fflags.ANIME_FLAG,
-                                      fflags.SHOW_DIRECTORY_FLAG, fflags.SHOW_FLAG]
-        self.supported_season_fflags = []
+        self.name = 'RegexCommonExtension'
+        self.supported_fflags = [fflags.FILM_DIRECTORY_FLAG, fflags.FILM_FLAG,
+                                 fflags.ANIME_DIRECTORY_FLAG, fflags.ANIME_FLAG,
+                                 fflags.SHOW_DIRECTORY_FLAG, fflags.SHOW_FLAG]
+        self.supported_season_fflags = [fflags.SEASON_DIRECTORY_FLAG]
         self.supported_subtitle_fflags =  [fflags.SUBTITLE_DIRECTORY_FILM_FLAG, fflags.SUBTITLE_FILM_FLAG,
                                           fflags.SUBTITLE_DIRECTORY_SHOW_FLAG, fflags.SUBTITLE_SHOW_FLAG,
                                           fflags.SUBTITLE_DIRECTORY_ANIME_FLAG, fflags.SUBTITLE_ANIME_FLAG]

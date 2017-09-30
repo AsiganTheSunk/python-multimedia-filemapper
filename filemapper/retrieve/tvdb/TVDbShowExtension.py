@@ -1,11 +1,13 @@
 from filemapper.datastructure.FileFlags import FileFlags as fflags
 import tvdb_api
 
-class TVDbExtension():
+class TVDbShowExtension():
     def __init__(self):
-        self.name = 'TDVbExtension'
+        self.name = 'TVDbExtension'
         self.tvdb = tvdb_api.Tvdb()
-        self.supported_fflags = [fflags.SHOW_FLAG, fflags.SHOW_DIRECTORY_FLAG, fflags]
+        self.supported_fflags = [fflags.SHOW_FLAG, fflags.SHOW_DIRECTORY_FLAG]
+        self.supported_season_fflags = [fflags.SEASON_DIRECTORY_FLAG]
+        self.supported_subtitle_fflags = []
         return
 
     def get_genre(self, name, debug=False):
@@ -16,7 +18,7 @@ class TVDbExtension():
         :return: GENRE
         '''
         try:
-            genres = self.t[name]['genre']
+            genres = self.tvdb [name]['genre']
             genre = genres[1:-1].split('|')[0]
         except tvdb_api.tvdb_error or tvdb_api.tvdb_episodenotfound:
             # raise error that would be corrected in ReEngine turning exception into blank field
@@ -24,9 +26,9 @@ class TVDbExtension():
             return genre
         else:
             if debug:
-                print('{extension_engine}: {stream} :: {value}').format(extension_engine=self.name,
-                                                                        stream=name,
-                                                                        value=genre)
+                print('{extension_engine}: name:{name} :: genre:{genre}').format(extension_engine=self.name,
+                                                                        name=name,
+                                                                        genre=genre)
             return genre
 
     def get_episode_name(self, name, season, episode, debug=False):
@@ -39,18 +41,22 @@ class TVDbExtension():
         :return: EPISODE_NAME
         '''
         try:
-            episode = self.tvdb[name][int(season)][int(episode)]
+            aux_episode = self.tvdb[name][int(season)][int(episode)]
         except tvdb_api.tvdb_error or tvdb_api.tvdb_episodenotfound:
             # raise error that would be corrected in ReEngine turning exception into blank field
             episode_name = ''
             return episode_name
         else:
-            episode_name = episode['episodename']
+            episode_name = aux_episode['episodename']
             if debug:
-                print('{extension_engine}: {stream0},{stream1} :: {value}').format(extension_engine=self.name,
-                                                                                   stream0=name, stream1=season,
-                                                                                   value=episode_name)
-            return episode['episodename']
+                print('{extension_engine}: name:{name}, season:{season}, episode:{episode} :: ename:{ename}').format(
+                    extension_engine=self.name,
+                    name=name,
+                    season=season,
+                    episode=episode,
+                    ename=episode_name)
+
+            return episode_name
 
 
     def get_number_of_season_episodes(self, name, season, debug=False):
@@ -68,9 +74,9 @@ class TVDbExtension():
             return episode_count
         else:
             if debug:
-                print('{extension_engine}: {name},{season} :: {value}').format(extension_engine=self.name,
+                print('{extension_engine}: name:{name}, season:{season} :: episodes:{episodes}').format(extension_engine=self.name,
                                                                                name=name, season=season,
-                                                                               value=episode_count)
+                                                                               episodes=episode_count)
             return episode_count
 
 
@@ -87,7 +93,7 @@ class TVDbExtension():
             return season_count
         else:
             if debug:
-                print('{extension_engine}: {name},{season} :: {value}').format(extension_engine=self.name,
+                print('{extension_engine}: name:{name} :: seasons:{season_count}').format(extension_engine=self.name,
                                                                                name=name,
-                                                                               value=season_count)
+                                                                               season_count=season_count)
             return season_count

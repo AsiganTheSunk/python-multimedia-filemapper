@@ -1,8 +1,9 @@
 from filemapper.datastructure.Metadata import Metadata
 from filemapper.datastructure.FileFlags import FileFlags as fflags
-import ShowExtension as show
-import AnimeExtension as anime
-import FilmExtension as film
+
+from filemapper.sbuilder.FilmExtension import FilmExtension
+from filemapper.sbuilder.ShowExtension import ShowExtension
+from filemapper.sbuilder.AnimeExtension import AnimeExtension
 
 EMPTY_WRAP = -1
 BRACKET_WRAP = 0
@@ -34,23 +35,23 @@ def eval_wrapped_key(value, wrap_type):
 
 class StringBuilder():
     def __init__(self):
-        self.extension_engines = [anime.AnimeExtension(), show.ShowExtension(), film.FilmExtension()]
+        self.extension_engines = [AnimeExtension(), ShowExtension(), FilmExtension()]
         return
 
     # ADD DUMMY FLAGS FUNCTIONS! to try to remap properly
 
-    def prettify(self, path=None):
+    def prettify_stream(self, stream):
         '''
-        This function makes a name pretty
-        :param path:
-        :return:
+        This function makes a stream look pretty, removing dots, dashes and spaces
+        :param stream: It represents the input string of the function
+        :return: PRETTY_STREAM
         '''
         try:
-            new_path = path.replace('-', ' ').replace('.', ' ').replace('_', ' ').rstrip().title()
+            new_stream = stream.replace('-', ' ').replace('.', ' ').replace('_', ' ').rstrip().title()
         except Exception as e:
-            return path
+            return stream
         else:
-            return new_path
+            return new_stream
 
     '''
         GENERAL FUNCTIONS:

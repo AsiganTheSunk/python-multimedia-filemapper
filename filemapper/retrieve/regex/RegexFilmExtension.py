@@ -1,3 +1,4 @@
+from filemapper.sbuilder.StringBuilder import StringBuilder
 from filemapper.datastructure.FileFlags import FileFlags as fflags
 # from filemapper.retrieve.regex.RegexEngine import compile_pattern
 from config import TRUSTED_UPLOADERS
@@ -8,9 +9,9 @@ def compile_pattern(patterns):
 
 class RegexFilmExtension():
     def __init__(self):
-        self.name = 'ReFilmExtension'
-        self.supported_name_fflags = [fflags.FILM_DIRECTORY_FLAG, fflags.FILM_FLAG,
-                                      fflags.SUBTITLE_DIRECTORY_FILM_FLAG, fflags.SUBTITLE_FILM_FLAG]
+        self.name = 'RegexFilmExtension'
+        self.supported_fflags = [fflags.FILM_DIRECTORY_FLAG, fflags.FILM_FLAG,
+                                 fflags.SUBTITLE_DIRECTORY_FILM_FLAG, fflags.SUBTITLE_FILM_FLAG]
         self.supported_season_fflags = []
         self.supported_subtitle_fflags = [fflags.SUBTITLE_DIRECTORY_FILM_FLAG, fflags.SUBTITLE_FILM_FLAG]
         return
@@ -36,7 +37,8 @@ class RegexFilmExtension():
                 print('{extension_engine}: {stream} :: name:{value}').format(extension_engine=self.name,
                                                                         stream=stream,
                                                                         value=name)
-            return name
+                fixed_name = StringBuilder().prettify_stream(name)
+            return fixed_name
 
     def get_episode(self, stream, debug=False):
         return ''

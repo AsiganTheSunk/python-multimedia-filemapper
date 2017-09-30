@@ -1,5 +1,32 @@
-from StringBuilder import eval_wrapped_key, EMPTY_WRAP, BRACKET_WRAP, DASH_PARENTHESIS_WRAP, PARENTHESIS_WRAP, EXTENSION_WRAP
 from filemapper.datastructure.FileFlags import FileFlags as fflags
+
+def eval_wrapped_key(value, wrap_type):
+    '''
+    This function peform auxiliary help to the build name functions validating the content of the string
+    :param value: It represents the key you'regex testing
+    :param wrap_type: It represents the type of wrapping the string it's going to get, numbers 0 to 2, being
+                    0 for [value], 1 for (value), 2 for -(value) 3 value
+    :return: modified value
+    '''
+    if value is None:
+        return ''
+    else:
+        if wrap_type is 0:
+            return ('[' + value + ']')
+        elif wrap_type is 1:
+            return ('(' + value + ')')
+        elif wrap_type is 2:
+            return (' - (' + value + ')')
+        elif wrap_type is 3:
+            return ('.' + value)
+        else:
+            return value
+
+EMPTY_WRAP = -1
+BRACKET_WRAP = 0
+PARENTHESIS_WRAP = 1
+DASH_PARENTHESIS_WRAP = 2
+EXTENSION_WRAP = 3
 
 class AnimeExtension():
     def __init__(self):
