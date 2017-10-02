@@ -20,7 +20,7 @@ class SubtitleSrtExtension():
         This function opens the subs file and extract a chunk using pysrt
 
         :param path: It represents the path of the subs file
-        :param chunk_size: It represents the number of lines you'regex gonna retrieve in the chunk
+        :param chunk_size: It represents the number of lines you'regex gonna metadata in the chunk
         :return: SUBTITLE_CHUNK, None otherwise
         '''
         subtitle_chunk = ''
@@ -41,7 +41,7 @@ class SubtitleSrtExtension():
 
         '''
         This function retrieves language from a given path using regex | langdetect, firts it will try to get the
-        language from the name file, if the fuction it's unable to retrieve this way it will try reading a chunk of
+        language from the name file, if the fuction it's unable to metadata this way it will try reading a chunk of
         the subs content and detect the language using langdetect
         :param stream: It represents the input string you're parsing
         :param debug: It represents the debug status of the function, default it's False
@@ -51,27 +51,16 @@ class SubtitleSrtExtension():
         language = ''
         DetectorFactory.seed = 0
         stream = unicode(stream, "utf-8")
-        _language_patterns = ['\((en|es|spanish|english)\)']
         try:
-            language = re.search(_language_patterns[0], stream, re.IGNORECASE).group(0)
-        except AttributeError:
-            try:
-                if stream[-3:] in self.supported_formats:
-                    language = detect(self._get_subtitle_chunk(path=stream))
-            except Exception:
-                # raise error that would be corrected in ReEngine turning exception into blank field
-                language = ''
-                return language
-            else:
-                if debug:
-                    print('{extension_engine}: {stream} :: language:{value}').format(extension_engine=self.name,
-                                                                            stream=stream,
-                                                                            value=language)
-                return language
+            if stream[-3:] in self.supported_formats:
+                language = detect(self._get_subtitle_chunk(path=stream))
+        except Exception:
+            # raise error that would be corrected in ReEngine turning exception into blank field
+            language = ''
+            return language
         else:
-            language = language[1:-1]
             if debug:
                 print('{extension_engine}: {stream} :: language:{value}').format(extension_engine=self.name,
                                                                         stream=stream,
                                                                         value=language)
-            return
+            return language

@@ -1,11 +1,11 @@
 from filemapper.datastructure.FileFlags import FileFlags as fflags
-from filemapper.retrieve.imdb.IMDbFilmExtension import IMDbExtension
-from filemapper.datastructure.Metadata import ExtendedMetada
+from filemapper.metadata.imdb.IMDbFilmExtension import IMDbExtension
+from filemapper.datastructure.Metadata import Metadata
 
 class IMDbEngine():
     def __init__(self):
         self.name = 'IMDbExtension'
-        self.supported_name_fflags = [fflags.FILM_FLAG]
+        self.supported_fflags = [fflags.FILM_FLAG]
         self.category_extension = [IMDbExtension()]
         return
 
@@ -19,7 +19,7 @@ class IMDbEngine():
         :return: Metadata
         '''
         genre = ''
-
+        print metadata.get_name()
         for extension_engine in self.category_extension:
             # This will try to map the diferent values present in the file or directory basename
 
@@ -29,7 +29,7 @@ class IMDbEngine():
 
                 except AttributeError:
                     print('{extension_engine} Error: unable to parse argument ...').format(extension_engine=self.name)
-                    return ''
+                    return metadata.extended_metadata(genre='')
 
                 else:
                     if debug:
@@ -40,15 +40,15 @@ class IMDbEngine():
                                                       name=metadata.get_name(),
                                                       genre=genre)
 
-                    return ExtendedMetada(name=metadata.get_name(),
-                                          episode=metadata.get_episode(),
-                                          season=metadata.get_season(),
-                                          year=metadata.get_year(),
-                                          film_tag=metadata.get_film_tag(),
-                                          quality=metadata.get_quality(),
-                                          acodec=metadata.get_acodec(),
-                                          vcodec=metadata.get_vcodec(),
-                                          source=metadata.get_source(),
-                                          uploader=metadata.get_uploader(),
-                                          genre=genre)
+                    return Metadata(name=metadata.get_name(),
+                                    year=metadata.get_year(),
+                                    film_tag=metadata.get_film_tag(),
+                                    quality=metadata.get_quality(),
+                                    acodec=metadata.get_acodec(),
+                                    vcodec=metadata.get_vcodec(),
+                                    source=metadata.get_source(),
+                                    uploader=metadata.get_uploader(),
+                                    genre=genre,
+                                    fflag=metadata.get_fflag(),
+                                    extension=metadata.get_extension())
         return

@@ -11,13 +11,25 @@ def eval_wrapped_key(value, wrap_type):
     if value is None:
         return ''
     else:
-        if wrap_type is 0:
-            return ('[' + value + ']')
+        if wrap_type is -1:
+            if value is '':
+                return ''
+            return(' ' + value)
+        elif wrap_type is 0:
+            if value is '':
+                return value
+            return (' [' + value + ']')
         elif wrap_type is 1:
-            return ('(' + value + ')')
+            if value is '':
+                return value
+            return (' (' + value + ')')
         elif wrap_type is 2:
+            if value is '':
+                return value
             return (' - (' + value + ')')
         elif wrap_type is 3:
+            if value is '':
+                return value
             return ('.' + value)
         else:
             return value
@@ -27,11 +39,13 @@ BRACKET_WRAP = 0
 PARENTHESIS_WRAP = 1
 DASH_PARENTHESIS_WRAP = 2
 EXTENSION_WRAP = 3
+NONE_WRAP = 4
+
 
 class AnimeExtension():
     def __init__(self):
         self.name = 'AnimeExtension'
-        self.supported_name_fflags = [fflags.ANIME_DIRECTORY_FLAG, fflags.ANIME_FLAG]
+        self.supported_fflags = [fflags.ANIME_DIRECTORY_FLAG, fflags.ANIME_FLAG]
         self.supported_season_fflags = []
         self.supported_subtitle_fflags = [fflags.SUBTITLE_DIRECTORY_ANIME_FLAG, fflags.SUBTITLE_ANIME_FLAG]
         return
@@ -56,9 +70,9 @@ class AnimeExtension():
         :return:
         '''
         try:
-            ANIME_NAME = ('{name} E{episode} {ename} {quality}{extension}').format(
-                name=eval_wrapped_key(value=name, wrap_type=EMPTY_WRAP),
-                episode=eval_wrapped_key(value=episode, wrap_type=EMPTY_WRAP),
+            ANIME_NAME = ('{name}{episode}{ename}{quality}{extension}').format(
+                name=eval_wrapped_key(value=name, wrap_type=NONE_WRAP),
+                episode=eval_wrapped_key(value=('E' + episode), wrap_type=EMPTY_WRAP),
                 ename=eval_wrapped_key(value=ename, wrap_type=EMPTY_WRAP),
                 quality=eval_wrapped_key(value=quality, wrap_type=BRACKET_WRAP),
                 extension=eval_wrapped_key(value=extension, wrap_type=EXTENSION_WRAP)
@@ -68,8 +82,9 @@ class AnimeExtension():
                 print ('{engine}: {name}').format(engine=self.name, name=ANIME_NAME)
 
             return ANIME_NAME
-        except:
-            raise(Exception)
+        except Exception as e:
+            print e
+
 
 
     def build_subtitle_name(self, name, year, season, episode, subtitle, language, extension, debug=False):
@@ -85,9 +100,9 @@ class AnimeExtension():
         :return: SUBTITLE_NAME
         '''
         try:
-            SUBTITLE_NAME = ('{name} E{episode} {subs} {language}{extension}').format(
-                name=eval_wrapped_key(value=name, wrap_type=EMPTY_WRAP),
-                episode=eval_wrapped_key(value=episode, wrap_type=EMPTY_WRAP),
+            SUBTITLE_NAME = ('{name}{episode}{subtitle}{language}{extension}').format(
+                name=eval_wrapped_key(value=name, wrap_type=NONE_WRAP),
+                episode=eval_wrapped_key(value=('E' + episode), wrap_type=EMPTY_WRAP),
                 subtitle=eval_wrapped_key(value=subtitle, wrap_type=PARENTHESIS_WRAP),
                 language=eval_wrapped_key(value=language, wrap_type=DASH_PARENTHESIS_WRAP),
                 extension=eval_wrapped_key(value=extension, wrap_type=EXTENSION_WRAP)
@@ -98,5 +113,6 @@ class AnimeExtension():
 
             return SUBTITLE_NAME
 
-        except:
-            raise(Exception)
+        except Exception as e:
+            print e
+

@@ -80,7 +80,6 @@ class RegexCommonExtension():
                                                                         value=quality)
             return quality
 
-
     def get_acodec(self, stream, debug=False):
         '''
         This function retrieves the audio codec of the file or directory from the stream using regular expresions
@@ -140,7 +139,7 @@ class RegexCommonExtension():
         else:
             extension = extension[1:]
             if debug:
-                print('{extension_engine}: {stream} :: extension{value}').format(extension_engine=self.name,
+                print('{extension_engine}: {stream} :: extension:{value}').format(extension_engine=self.name,
                                                                         stream=stream,
                                                                         value=extension)
             return extension
@@ -166,7 +165,7 @@ class RegexCommonExtension():
                                                                         value=source)
             return source
 
-    def retrieve_unwanted(self, stream, debug=False):
+    def get_unwanted(self, stream, debug=False):
         '''
         This function retrieves the unwanted file argument from the stream using regular expresions
         :param stream: It represents the input string you're parsing
@@ -186,3 +185,18 @@ class RegexCommonExtension():
                                                                         stream=stream,
                                                                         value=unwanted)
             return unwanted
+
+    def get_language(self, stream, debug=False):
+        _language_patterns = ['\(es\)|\(spanish\)|\(en\w{0,5}\)']
+        try:
+            language = re.search(_language_patterns[0], stream, re.IGNORECASE).group(0)
+        except AttributeError:
+            language = ''
+            return language
+        else:
+            language = language[1:-1]
+            if debug:
+                print('{extension_engine}: {stream} :: language:{value}').format(extension_engine=self.name,
+                                                                                 stream=stream,
+                                                                                 value=language)
+            return language

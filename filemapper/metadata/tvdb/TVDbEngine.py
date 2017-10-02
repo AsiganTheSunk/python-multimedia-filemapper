@@ -1,11 +1,11 @@
 from filemapper.datastructure.FileFlags import FileFlags as fflags
-from filemapper.retrieve.tvdb.TVDbShowExtension import TVDbShowExtension
-from filemapper.datastructure.Metadata import ExtendedMetada
+from filemapper.metadata.tvdb.TVDbShowExtension import TVDbShowExtension
+from filemapper.datastructure.Metadata import Metadata
 
 class TVDbEngine():
     def __init__(self):
         self.name = 'TVDbEngine'
-        self.supported_fflags = [fflags.SHOW_FLAG, fflags.SHOW_DIRECTORY_FLAG]
+        self.supported_fflags = [fflags.SHOW_FLAG, fflags.SHOW_DIRECTORY_FLAG, fflags.SEASON_DIRECTORY_FLAG]
         self.category_extension = [TVDbShowExtension()]
         return
 
@@ -32,7 +32,7 @@ class TVDbEngine():
                                                               debug=verbose)
                 except AttributeError:
                     print 'PARSING FAILED'
-                    return
+                    return metadata.extended_metadata(genre='', ename='')
 
                 else:
                     if debug:
@@ -46,21 +46,22 @@ class TVDbEngine():
                                                       ename=ename,
                                                       genre=genre)
 
-                    return ExtendedMetada(name=metadata.get_name(),
-                                          episode=metadata.get_episode(),
-                                          ename=ename,
-                                          season=metadata.get_season(),
-                                          year=metadata.get_year(),
-                                          film_tag=metadata.get_film_tag(),
-                                          quality=metadata.get_quality(),
-                                          acodec=metadata.get_acodec(),
-                                          vcodec=metadata.get_vcodec(),
-                                          source=metadata.get_source(),
-                                          uploader=metadata.get_uploader(),
-                                          genre=genre,
-                                          fflag=metadata.get_fflag())
+                    return Metadata(name=metadata.get_name(),
+                                    episode=metadata.get_episode(),
+                                    ename=ename,
+                                    season=metadata.get_season(),
+                                    year=metadata.get_year(),
+                                    film_tag=metadata.get_film_tag(),
+                                    quality=metadata.get_quality(),
+                                    acodec=metadata.get_acodec(),
+                                    vcodec=metadata.get_vcodec(),
+                                    source=metadata.get_source(),
+                                    uploader=metadata.get_uploader(),
+                                    genre=genre,
+                                    fflag=metadata.get_fflag(),
+                                    extension=metadata.get_extension())
 
-            elif metadata.get_fflag() in extension_engine.supported_fflags:
+            elif metadata.get_fflag() in extension_engine.supported_season_fflags:
                 try:
                     n_season = extension_engine.get_number_of_seasons(name=metadata.get_name(), debug=verbose)
                     e_season = extension_engine.get_number_of_season_episodes(name=metadata.get_name(),
@@ -68,7 +69,7 @@ class TVDbEngine():
                                                                               debug=verbose)
                 except AttributeError:
                     print 'PARSING FAILED'
-                    return
+                    return metadata.extended_metadata(e_season='', n_season='')
 
                 else:
                     if debug:
@@ -83,11 +84,19 @@ class TVDbEngine():
                             n_season=n_season
                             )
 
-                    return ExtendedMetada(name=metadata.get_name(),
-                                          season=metadata.get_season(),
-                                          quality=metadata.get_quality(),
-                                          e_season=e_season,
-                                          n_season=n_season,
-                                          fflag=metadata.get_fflag())
+                    return Metadata(name=metadata.get_name(),
+                                    episode=metadata.get_episode(),
+                                    e_season=e_season,
+                                    season=metadata.get_season(),
+                                    year=metadata.get_year(),
+                                    film_tag=metadata.get_film_tag(),
+                                    quality=metadata.get_quality(),
+                                    acodec=metadata.get_acodec(),
+                                    vcodec=metadata.get_vcodec(),
+                                    source=metadata.get_source(),
+                                    uploader=metadata.get_uploader(),
+                                    n_season=n_season,
+                                    fflag=metadata.get_fflag(),
+                                    extension=metadata.get_extension())
 
         return

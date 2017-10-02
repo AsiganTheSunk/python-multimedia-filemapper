@@ -3,10 +3,10 @@
 import os
 import pandas as pd
 from pandas import DataFrame
-from filemapper import filemapper as fm
+from filemapper import FileMapper as fm
 from filemapper.datastructure.Metadata import Metadata
 from filemapper.datastructure.TreeRoot import TreeRoot
-from filemapper.retrieve import online_retrieve_module as onrmod
+from filemapper.metadata import online_retrieve_module as onrmod
 from filemapper.datastructure.FileFlags import FileFlags as FFLAGS
 
 
@@ -268,11 +268,11 @@ def create_default_show_tree_directory(dataframe, current_serie=str, library=str
     else:
         dataframe = update_parent_dataframe_row(dataframe=dataframe, index=int(main_show_directory.index), parent='Shows')
 
-    # retrieve season dataframe from current serie
+    # metadata season dataframe from current serie
     dataframe_seasons = retrieve_seasons(dataframe=dataframe, current_serie=current_serie)
-    # retrieve episode file dataframe from current serie
+    # metadata episode file dataframe from current serie
     dataframe_episodes = retrieve_episodes(dataframe=dataframe, current_serie=current_serie)
-    # retrieve episode directory dataframe from current serie
+    # metadata episode directory dataframe from current serie
     dataframe_episodes_directories = retrieve_episodes_directories(dataframe=dataframe, current_serie=current_serie)
 
     # reset index to simply iterate over the rows, extracting the values, to create the directory tree

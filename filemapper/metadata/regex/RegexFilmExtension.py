@@ -1,6 +1,6 @@
 from filemapper.sbuilder.StringBuilder import StringBuilder
 from filemapper.datastructure.FileFlags import FileFlags as fflags
-# from filemapper.retrieve.regex.RegexEngine import compile_pattern
+# from filemapper.metadata.regex.RegexEngine import compile_pattern
 from config import TRUSTED_UPLOADERS
 import re
 
@@ -10,8 +10,7 @@ def compile_pattern(patterns):
 class RegexFilmExtension():
     def __init__(self):
         self.name = 'RegexFilmExtension'
-        self.supported_fflags = [fflags.FILM_DIRECTORY_FLAG, fflags.FILM_FLAG,
-                                 fflags.SUBTITLE_DIRECTORY_FILM_FLAG, fflags.SUBTITLE_FILM_FLAG]
+        self.supported_fflags = [fflags.FILM_DIRECTORY_FLAG, fflags.FILM_FLAG]
         self.supported_season_fflags = []
         self.supported_subtitle_fflags = [fflags.SUBTITLE_DIRECTORY_FILM_FLAG, fflags.SUBTITLE_FILM_FLAG]
         return

@@ -98,10 +98,10 @@ class RegexAnimeExtension():
 
 
     def get_season(self, stream, season_directory=False, debug=False):
-        return
+        return ''
 
     def get_year(self, stream, debug=False):
-        return
+        return ''
 
     def get_tags(self, stream, debug=False):
-        return
+        return ''

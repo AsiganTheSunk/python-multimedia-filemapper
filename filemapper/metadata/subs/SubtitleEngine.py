@@ -1,5 +1,6 @@
 from filemapper.datastructure.FileFlags import FileFlags as fflags
-from filemapper.retrieve.subs.SubtitleSrtExtension import SubtitleSrtExtension
+from filemapper.metadata.subs.SubtitleSrtExtension import SubtitleSrtExtension
+from filemapper.datastructure.Metadata import Metadata
 
 class SubtitleEngine():
     def __init__(self):
@@ -9,7 +10,7 @@ class SubtitleEngine():
         self.category_extension = [SubtitleSrtExtension()]
         return
 
-    def map(self, stream, fflag, verbose=False, debug=False):
+    def map(self, stream, metadata, verbose=False, debug=False):
         '''
         This function maps the file or directory based on the premapping done by filemapper
         :param stream: It represents the input string you're mapping
@@ -22,8 +23,7 @@ class SubtitleEngine():
 
         for extension_engine in self.category_extension:
             # This will try to map the diferent values present in the file or directory basename
-
-            if fflag in extension_engine.supported_subtitle_fflags:
+            if metadata.get_fflag() in extension_engine.supported_subtitle_fflags:
                 try:
                     language = extension_engine.get_language(stream=stream, debug=verbose)
 
@@ -35,9 +35,16 @@ class SubtitleEngine():
                     if debug:
                         print('{extension_engine} :: {fflag}::{stream} ::\n language:{language}').format(
                             extension_engine=self.name,
-                            fflag=fflag,
+                            fflag=metadata.get_fflag(),
                             stream=stream,
                             language=language)
 
-                    return language
-        return
+                    return Metadata(name=metadata.get_name(),
+                                    episode=metadata.get_episode(),
+                                    season=metadata.get_season(),
+                                    year=metadata.get_year(),
+                                    film_tag=metadata.get_film_tag(),
+                                    subtitle=metadata.get_subtitle(),
+                                    fflag=metadata.get_fflag(),
+                                    language=metadata.get_language(),
+                                    extension=metadata.get_extension())

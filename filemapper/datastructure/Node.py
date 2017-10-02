@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 from Metadata import Metadata
-from Metadata import ExtendedMetada
 
 class Node:
     def __init__(self, basename, identifier, metadata):

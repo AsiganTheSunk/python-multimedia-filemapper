@@ -1,33 +1,62 @@
 #!/usr/bin/python
 
 from filemapper.datastructure.FileFlags import FileFlags as fflags
-from filemapper.retrieve.regex.RegexEngine import RegexEngine
-from filemapper.retrieve.regex.RegexFilmExtension import RegexFilmExtension
-from filemapper.retrieve.regex.RegexShowExtension import RegexShowExtension
-from filemapper.retrieve.regex.RegexAnimeExtension import RegexAnimeExtension
-from filemapper.retrieve.regex.RegexCommonExtension import RegexCommonExtension
-from filemapper.retrieve.regex.RegexSubtitleExtension import RegexSubtitleExtension
-from filemapper.retrieve.tvdb.TVDbShowExtension import TVDbShowExtension
-from filemapper.retrieve.tvdb.TVDbEngine import TVDbEngine
-from filemapper.retrieve.imdb.IMDbEngine import IMDbEngine
+from filemapper.metadata.regex.RegexEngine import RegexEngine
+from filemapper.metadata.regex.RegexFilmExtension import RegexFilmExtension
+from filemapper.metadata.regex.RegexShowExtension import RegexShowExtension
+from filemapper.metadata.regex.RegexAnimeExtension import RegexAnimeExtension
+from filemapper.metadata.regex.RegexCommonExtension import RegexCommonExtension
+from filemapper.metadata.regex.RegexSubtitleExtension import RegexSubtitleExtension
+from filemapper.metadata.tvdb.TVDbShowExtension import TVDbShowExtension
+from filemapper.metadata.tvdb.TVDbEngine import TVDbEngine
+from filemapper.metadata.imdb.IMDbEngine import IMDbEngine
+from filemapper.metadata.MetadataEngine import MetadataEngine
+from filemapper.check.CheckEngine import CheckEngine
+from filemapper.FileMapper import FileMapper
+from filemapper.sbuilder.StringBuilder import StringBuilder
+import os
 
 def file_mapper():
-    regex_engine = RegexEngine()
-    metadata0 = regex_engine.map(stream='Were.the.Millers.2013.EXTENDED.CUT.BRRip.XviD.MP3-RARBG', fflag=fflags.FILM_FLAG,
-                     verbose=True)
-
-    regex_engine = RegexEngine()
-    metadata1 = regex_engine.map(stream='Game.Of.Thrones.S01E05.1080p.BluRay.x265-PODO[rartv]', fflag=fflags.SHOW_DIRECTORY_FLAG,
-                     verbose=True)
-    regex_engine.map(stream='[PuyaSubs!] Yuri!!! On ICE - 11 [720p][663F641B]', fflag=fflags.ANIME_DIRECTORY_FLAG,
-                     verbose=True)
+    # regex_engine = RegexEngine()
+    # metadata0 = regex_engine.map(stream='[PuyaSubs!] Yuri!!! On ICE - 11(spanish).srt', fflag=fflags.SUBTITLE_ANIME_FLAG,
+    #                  verbose=True)
+    #
+    # regex_engine = RegexEngine()
+    # metadata1 = regex_engine.map(stream='Game.Of.Thrones.S01E05.subtitles', fflag=fflags.SUBTITLE_DIRECTORY_SHOW_FLAG,
+    #                  verbose=True)
 
 
-    tvdb_engine = TVDbEngine()
-    tvdb_engine.map(metadata=metadata1, verbose=True)
+    # # regex_engine.map(stream='[PuyaSubs!] Yuri!!! On ICE - 11 [720p][663F641B]', fflag=fflags.ANIME_DIRECTORY_FLAG,
+    # #                  verbose=True)
+    #
+    #
+    # tvdb_engine = TVDbEngine()
+    # tvdb_engine.map(metadata=metadata1, verbose=True)
+    #
+    # imdb_engine = IMDbEngine()
+    # imdb_engine.map(metadata=metadata0, verbose=True)
 
-    imdb_engine = IMDbEngine()
-    imdb_engine.map(metadata=metadata0, verbose=True)
+    #
+    metadata_engine = MetadataEngine()
+    metadata = metadata_engine.map(
+        stream='[PuyaSubs!] Yuri!!! On ICE - 11(spanish).srt',
+        fflag=fflags.SUBTITLE_ANIME_FLAG, verbose=True, debug=True)
+
+    string_builder = StringBuilder()
+    name = string_builder.rebuild_name(metadata=metadata, debug=True)
+    print name
+    # check_engine = CheckEngine()
+    # check_engine.check_show_subtitles_directory(stream='Game.Of.Thrones.S01E05.subtitles', debug=True)
+    # check_engine.check_main_directory(stream='Game Of Thrones', verbose=False, debug=True)
+    # # check_engine.check_anime_subtitles(stream='[PuyaSubs!] Yuri!!! On ICE - 11(spanish).srt', verbose=False, debug=True)
+    # basedir = str(os.getcwd()) + '/test-library'
+    # _file_mapper = FileMapper()
+    #
+    # directory = _file_mapper.map(path=basedir)
+    # _file_mapper.build_directory_tree(basedir=basedir, directory=directory)
+    # #
+
+    # print string_builder.rebuild_name(metadata=metadata1, debug=True)
     #
     # movie_engine = RegexFilmExtension()
     # movie_engine.get_name(stream='Were.the.Millers.2013.EXTENDED.CUT.BRRip.XviD.MP3-RARBG',debug=True)

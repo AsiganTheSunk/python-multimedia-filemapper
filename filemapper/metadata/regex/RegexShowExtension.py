@@ -95,7 +95,7 @@ class RegexShowExtension():
             return season
 
     def get_year(self, stream, debug=False):
-        return
+        return ''
 
     def get_tags(self, stream, debug=False):
-        return
+        return ''

@@ -22,7 +22,7 @@ build-movie:
 	#Directory, Subdirectory, File: Default Test (EXTENDED.CUT,BRRip, XviD)
 	mkdir -p ~/galung-project/test-library/'Were.the.Millers.2013.EXTENDED.CUT.BRRip.XviD.MP3-RARBG'
 	mkdir -p ~/galung-project/test-library/'Were.the.Millers.2013.EXTENDED.CUT.BRRip.XviD.MP3-RARBG'/'Were.the.Millers.2013.(subtitle)'
-	touch ~/galung-project/test-library/'Were.the.Millers.2013.EXTENDED.CUT.BRRip.XviD.MP3-RARBG'/'Were.the.Millers.2013.(subtitle)'/'Were.the.Millers.2013(english).srt'
+	touch ~/python-multimedia-filemapper/test-library/'Were.the.Millers.2013.EXTENDED.CUT.BRRip.XviD.MP3-RARBG'/'Were.the.Millers.2013.(subtitle)'/'Were.the.Millers.2013(english).srt'
 	touch ~/galung-project/test-library/'Were.the.Millers.2013.EXTENDED.CUT.BRRip.XviD.MP3-RARBG'/'System.nfo'
 	touch ~/galung-project/test-library/'Were.the.Millers.2013.EXTENDED.CUT.BRRip.XviD.MP3-RARBG'/'Readme.txt'
 	touch ~/galung-project/test-library/'Were.the.Millers.2013.EXTENDED.CUT.BRRip.XviD.MP3-RARBG'/'RARBG.com'

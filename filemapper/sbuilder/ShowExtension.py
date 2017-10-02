@@ -11,13 +11,25 @@ def eval_wrapped_key(value, wrap_type):
     if value is None:
         return ''
     else:
-        if wrap_type is 0:
-            return ('[' + value + ']')
+        if wrap_type is -1:
+            if value is '':
+                return ''
+            return(' ' + value)
+        elif wrap_type is 0:
+            if value is '':
+                return value
+            return (' [' + value + ']')
         elif wrap_type is 1:
-            return ('(' + value + ')')
+            if value is '':
+                return value
+            return (' (' + value + ')')
         elif wrap_type is 2:
+            if value is '':
+                return value
             return (' - (' + value + ')')
         elif wrap_type is 3:
+            if value is '':
+                return value
             return ('.' + value)
         else:
             return value
@@ -27,11 +39,12 @@ BRACKET_WRAP = 0
 PARENTHESIS_WRAP = 1
 DASH_PARENTHESIS_WRAP = 2
 EXTENSION_WRAP = 3
+NONE_WRAP = 4
 
 class ShowExtension():
     def __init__(self):
         self.name = 'ShowExtension'
-        self.supported_name_fflags = [fflags.SHOW_DIRECTORY_FLAG, fflags.SHOW_FLAG]
+        self.supported_fflags = [fflags.SHOW_DIRECTORY_FLAG, fflags.SHOW_FLAG]
         self.supported_season_fflags = [fflags.SEASON_DIRECTORY_FLAG]
         self.supported_subtitle_fflags = [fflags.SUBTITLE_DIRECTORY_SHOW_FLAG, fflags.SUBTITLE_SHOW_FLAG]
         return
@@ -58,10 +71,10 @@ class ShowExtension():
         :return: SHOW_NAME
         '''
         try:
-            SHOW_NAME = ('{name} S{season}E{episode} {ename} [{quality}]{extension}').format(
-                name=eval_wrapped_key(value=name, wrap_type=EMPTY_WRAP),
-                season=eval_wrapped_key(value=season, wrap_type=EMPTY_WRAP),
-                episode=eval_wrapped_key(value=episode, wrap_type=EMPTY_WRAP),
+            SHOW_NAME = ('{name}{season}{episode}{ename}{quality}{extension}').format(
+                name=eval_wrapped_key(value=name, wrap_type=NONE_WRAP),
+                season=eval_wrapped_key(value=('S' + season), wrap_type=EMPTY_WRAP),
+                episode=eval_wrapped_key(value=('E' +episode), wrap_type=EMPTY_WRAP),
                 ename=eval_wrapped_key(value=ename, wrap_type=EMPTY_WRAP),
                 quality=eval_wrapped_key(value=quality, wrap_type=BRACKET_WRAP),
                 extension=eval_wrapped_key(value=extension, wrap_type=EXTENSION_WRAP))
@@ -71,8 +84,8 @@ class ShowExtension():
 
             return SHOW_NAME
 
-        except:
-            raise (Exception)
+        except Exception as e:
+            print e
 
     def build_subtitle_name(self, name, year, season, episode, subtitle, language, extension, debug=False):
         '''
@@ -87,10 +100,10 @@ class ShowExtension():
         :return: SUBTITLE_NAME
         '''
         try:
-            SUBTITLE_NAME = ('{name} S{season}E{episode} {subs} {language}{extension}').format(
-                name=eval_wrapped_key(value=name, wrap_type=EMPTY_WRAP),
-                season=eval_wrapped_key(value=season, wrap_type=EMPTY_WRAP),
-                episode=eval_wrapped_key(value=episode, wrap_type=EMPTY_WRAP),
+            SUBTITLE_NAME = ('{name}{season}{episode}{subtitle}{language}{extension}').format(
+                name=eval_wrapped_key(value=name, wrap_type=NONE_WRAP),
+                season=eval_wrapped_key(value=('S' + season), wrap_type=EMPTY_WRAP),
+                episode=eval_wrapped_key(value=('E' +episode), wrap_type=EMPTY_WRAP),
                 subtitle=eval_wrapped_key(value=subtitle, wrap_type=PARENTHESIS_WRAP),
                 language=eval_wrapped_key(value=language, wrap_type=DASH_PARENTHESIS_WRAP),
                 extension=eval_wrapped_key(value=extension, wrap_type=EXTENSION_WRAP)
@@ -101,8 +114,8 @@ class ShowExtension():
 
             return SUBTITLE_NAME
 
-        except:
-            raise (Exception)
+        except Exception as e:
+            print e
 
     def build_season_name(self, name, season, debug=False):
         '''
@@ -113,7 +126,7 @@ class ShowExtension():
         :return: SEASON_NAME
         '''
         try:
-            SEASON_NAME = ('{name} {season}').format(
+            SEASON_NAME = ('{name}{season}').format(
                 name=eval_wrapped_key(value=name, wrap_type=EMPTY_WRAP),
                 season=eval_wrapped_key(value=('Season ' + season), wrap_type=BRACKET_WRAP)
             )
@@ -122,5 +135,5 @@ class ShowExtension():
                 print ('{engine}: {name}').format(engine=self.name, name=SEASON_NAME)
 
             return SEASON_NAME
-        except:
-            raise (Exception)
+        except Exception as e:
+            print e

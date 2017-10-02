@@ -1,9 +1,9 @@
 from filemapper.datastructure.FileFlags import FileFlags as fflags
-from filemapper.retrieve.regex.RegexAnimeExtension import RegexAnimeExtension
-from filemapper.retrieve.regex.RegexCommonExtension import RegexCommonExtension
-from filemapper.retrieve.regex.RegexFilmExtension import RegexFilmExtension
-from filemapper.retrieve.regex.RegexShowExtension import RegexShowExtension
-from filemapper.retrieve.regex.RegexSubtitleExtension import RegexSubtitleExtension
+from filemapper.metadata.regex.RegexAnimeExtension import RegexAnimeExtension
+from filemapper.metadata.regex.RegexCommonExtension import RegexCommonExtension
+from filemapper.metadata.regex.RegexFilmExtension import RegexFilmExtension
+from filemapper.metadata.regex.RegexShowExtension import RegexShowExtension
+from filemapper.metadata.regex.RegexSubtitleExtension import RegexSubtitleExtension
 from filemapper.datastructure.Metadata import Metadata
 
 import re
@@ -61,6 +61,7 @@ class RegexEngine():
                             vcodec = self.common_extension.get_vcodec(stream=stream, debug=verbose)
                             uploader = self.common_extension.get_uploader(stream=stream, debug=verbose)
                             source = self.common_extension.get_source(stream=stream, debug=verbose)
+                            extension = self.common_extension.get_extension(stream=stream, debug=verbose)
                         except AttributeError or Exception:
                             #caputure errors!!!
                             print 'Error common flags'
@@ -69,7 +70,8 @@ class RegexEngine():
                             if debug:
                                 print('{extension_engine} :: {fflag}::{stream} ::\n name:{name} episode:{episode}, '
                                       'season:{season}, year:{year} tags:{tags}, quality:{quality}\n acodec:{acodec}, '
-                                      'vcodec:{vcodec}, uploader:{uploader} source:{source}' ).format(
+                                      'vcodec:{vcodec}, uploader:{uploader} source:{source}, extension:{extension}' ).\
+                                    format(
                                     extension_engine=self.name,
                                     fflag=fflag,
                                     stream=stream,
@@ -82,11 +84,12 @@ class RegexEngine():
                                     acodec=acodec,
                                     vcodec=vcodec,
                                     source=source,
-                                    uploader=uploader)
+                                    uploader=uploader,
+                                    extension=extension)
 
                             return Metadata(name=name, episode=episode, season=season, year=year, film_tag=tags,
                                             quality=quality, acodec=acodec, vcodec=vcodec, source=source,
-                                            uploader=uploader, fflag=fflag)
+                                            uploader=uploader, fflag=fflag, extension=extension)
 
                 elif fflag in extension_engine.supported_season_fflags:
                     try:
@@ -99,10 +102,6 @@ class RegexEngine():
                     else:
                         try:
                             quality = self.common_extension.get_quality(stream=stream, debug=verbose)
-                            # acodec = self.common_engine.get_acodec(stream=stream, debug=debug)
-                            # vcodec = self.common_engine.get_vcodec(stream=stream, debug=debug)
-                            # uploader = self.common_engine.get_uploader(stream=stream, debug=debug)
-                            # source = self.common_engine.get_source(stream=stream)
                         except AttributeError:
                             #caputure errors!!!
                             return
@@ -134,20 +133,26 @@ class RegexEngine():
                     else:
                         try:
                             subs = self.subtitle_extension.get_subtitles_directory(stream=stream, debug=verbose)
+                            language = self.common_extension.get_language(stream=stream, debug=verbose)
+                            extension = self.common_extension.get_extension(stream=stream, debug=verbose)
                         except AttributeError:
                             # caputure errors!!!
                             return
                         else:
                             if debug:
                                 print('{extension_engine} :: {fflag}::{stream} ::\n name:{name} episode:{episode}, '
-                                      'season:{season}, year:{year} tags:{tags}, subs:{subs}').format(extension_engine=self.name,
-                                                                                                         fflag=fflag,
-                                                                                                         stream=stream,
-                                                                                                         name=name,
-                                                                                                         episode=episode,
-                                                                                                         season=season,
-                                                                                                         year=year,
-                                                                                                         tags=tags,
-                                                                                                         subs=subs)
+                                      'season:{season}, year:{year} tags:{tags}, language:{language}, subs:{subs}, '
+                                      'extension:{extension}').format(extension_engine=self.name,
+                                                                      fflag=fflag,
+                                                                      stream=stream,
+                                                                      name=name,
+                                                                      episode=episode,
+                                                                      season=season,
+                                                                      year=year,
+                                                                      tags=tags,
+                                                                      subs=subs,
+                                                                      language=language,
+                                                                      extension=extension)
 
-                            return Metadata(name=name, episode=episode, season=season, year=year, film_tag=tags, subtitle=subs, fflag=fflag)
+                            return Metadata(name=name, episode=episode, season=season, year=year, film_tag=tags,
+                                            subtitle=subs, fflag=fflag, language=language, extension=extension)
