@@ -64,7 +64,7 @@ class RegexFilmExtension():
                 print('{extension_engine}: {stream} :: year:{value}').format(extension_engine=self.name,
                                                                         stream=stream,
                                                                         value=year)
-            return year
+            return str(year)
 
     def get_tags(self, stream, debug=False):
         '''
@@ -81,9 +81,9 @@ class RegexFilmExtension():
             film_tag = ''
             return film_tag
         else:
-            film_tag =StringBuilder().prettify_stream(film_tag, title=False)
+            film_tag=StringBuilder().prettify_stream(film_tag, title=False)
             if debug:
-                print('{extension_engine}: {stream} :: tags:{value}').format(extension_engine=self.name,
+                print('{extension_engine}: {stream} :: tags:{tag}').format(extension_engine=self.name,
                                                                         stream=stream,
                                                                         value=film_tag)
             return film_tag

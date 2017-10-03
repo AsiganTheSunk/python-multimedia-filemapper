@@ -1,14 +1,15 @@
 #!/usr/bin/python
 
 import os
+
 import pandas as pd
 from pandas import DataFrame
+
 from filemapper import FileMapper as fm
-from filemapper.datastructure.Metadata import Metadata
+from filemapper.datastructure.FileFlags import FileFlags as FFLAGS
 from filemapper.datastructure.TreeRoot import TreeRoot
 from filemapper.metadata import online_retrieve_module as onrmod
-from filemapper.datastructure.FileFlags import FileFlags as FFLAGS
-
+from filemapper.metadata.Metadata import Metadata
 
 #TODO aqui tendria que haber un metdo que lea de los parametros de configuracion la direccion del path en la que
 #TODO vamos a guardar.

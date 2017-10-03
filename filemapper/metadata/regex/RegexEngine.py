@@ -1,12 +1,13 @@
+import re
+
 from filemapper.datastructure.FileFlags import FileFlags as fflags
+from filemapper.metadata.Metadata import Metadata
 from filemapper.metadata.regex.RegexAnimeExtension import RegexAnimeExtension
 from filemapper.metadata.regex.RegexCommonExtension import RegexCommonExtension
 from filemapper.metadata.regex.RegexFilmExtension import RegexFilmExtension
 from filemapper.metadata.regex.RegexShowExtension import RegexShowExtension
 from filemapper.metadata.regex.RegexSubtitleExtension import RegexSubtitleExtension
-from filemapper.datastructure.Metadata import Metadata
 
-import re
 
 def compile_pattern(patterns):
     return [re.compile(pattern) for pattern in patterns]
@@ -64,12 +65,12 @@ class RegexEngine():
                             extension = self.common_extension.get_extension(stream=stream, debug=verbose)
                         except AttributeError or Exception:
                             #caputure errors!!!
-                            print 'Error common flags'
+                            print 'Error Show Regex Engine'
                             return
                         else:
                             if debug:
                                 print('{extension_engine} :: {fflag}::{stream} ::\n name:{name} episode:{episode}, '
-                                      'season:{season}, year:{year} tags:{tags}, quality:{quality}\n acodec:{acodec}, '
+                                      'season:{season}, year:{year}, tags:{tags}, quality:{quality}\n acodec:{acodec}, '
                                       'vcodec:{vcodec}, uploader:{uploader} source:{source}, extension:{extension}' ).\
                                     format(
                                     extension_engine=self.name,
@@ -95,7 +96,7 @@ class RegexEngine():
                     try:
                         name = extension_engine.get_name(stream=stream, season_directory=True, debug=verbose)
                         season = extension_engine.get_season(stream=stream, season_directory=True, debug=verbose)
-                    except AttributeError or Exception:
+                    except AttributeError:
                         print('{extension_engine} Error: unable to parse argument ...').format(
                             extension_engine=self.name)
                         return
@@ -103,12 +104,12 @@ class RegexEngine():
                         try:
                             quality = self.common_extension.get_quality(stream=stream, debug=verbose)
                         except AttributeError:
-                            #caputure errors!!!
+                            print 'Error Subtitles Regex Engine'
                             return
                         else:
                             if debug:
                                 print('{extension_engine} :: {fflag}::{stream} ::\n name:{name}'
-                                      'season:{season}, quality:{quality} tags:{tags}, subs:{subs}').format(
+                                      'season:{season}, quality:{quality}').format(
                                     extension_engine=self.name,
                                     fflag=fflag,
                                     stream=stream,

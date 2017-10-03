@@ -18,7 +18,7 @@ class RegexSubtitleExtension():
         :param debug: It represents the debug status of the function, default it's False
         :return: SUBTITLE_DIRECTORY
         '''
-        _subtitle_directory_patterns = ['sub\w{0,6}']
+        _subtitle_directory_patterns = ['(sub\w{0,6}(?!=\!))']
         try:
             subtitle_directory = re.search(_subtitle_directory_patterns[0], stream, re.IGNORECASE).group(0)
         except AttributeError:

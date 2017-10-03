@@ -64,7 +64,7 @@ class RegexShowExtension():
                 print('{extension_engine}: {stream} :: episode:{value}').format(extension_engine=self.name,
                                                                         stream=stream,
                                                                         value=episode)
-            return episode
+            return str(episode)
 
     def get_season(self, stream, season_directory=False, debug=False):
         '''
@@ -92,7 +92,7 @@ class RegexShowExtension():
                 print('{extension_engine}: {stream} :: season:{value}').format(extension_engine=self.name,
                                                                         stream=stream,
                                                                         value=season)
-            return season
+            return str(season)
 
     def get_year(self, stream, debug=False):
         return ''

@@ -23,7 +23,7 @@ class IMDbExtension():
             genre = self.imdb.get_movie(unicode(genres))['genre'][index]
         except Exception as e:
             # raise error that would be corrected in ReEngine turning exception into blank field
-            genre = 'N/O'
+            genre = ''
             return genre
         else:
             if debug:

@@ -1,6 +1,6 @@
 from Node import Node
-from filemapper.datastructure.Metadata import Metadata
-import os
+from filemapper.metadata.Metadata import Metadata
+
 
 # TODO: Crear excepciones propias del treeroot
 class TreeRoot(object):

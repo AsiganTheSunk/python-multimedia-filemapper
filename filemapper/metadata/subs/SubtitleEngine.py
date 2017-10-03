@@ -1,6 +1,7 @@
 from filemapper.datastructure.FileFlags import FileFlags as fflags
+from filemapper.metadata.Metadata import Metadata
 from filemapper.metadata.subs.SubtitleSrtExtension import SubtitleSrtExtension
-from filemapper.datastructure.Metadata import Metadata
+
 
 class SubtitleEngine():
     def __init__(self):
@@ -29,7 +30,15 @@ class SubtitleEngine():
 
                 except Exception:
                     print('{extension_engine} Error: unable to parse argument ...').format(extension_engine=self.name)
-                    return ''
+                    return Metadata(name=metadata.get_name(),
+                                    episode=metadata.get_episode(),
+                                    season=metadata.get_season(),
+                                    year=metadata.get_year(),
+                                    film_tag=metadata.get_film_tag(),
+                                    subtitle=metadata.get_subtitle(),
+                                    fflag=metadata.get_fflag(),
+                                    language='',
+                                    extension=metadata.get_extension())
 
                 else:
                     if debug:
@@ -46,5 +55,5 @@ class SubtitleEngine():
                                     film_tag=metadata.get_film_tag(),
                                     subtitle=metadata.get_subtitle(),
                                     fflag=metadata.get_fflag(),
-                                    language=metadata.get_language(),
+                                    language=language,
                                     extension=metadata.get_extension())

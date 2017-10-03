@@ -1,10 +1,3 @@
-import os
-import pandas as pd
-from pandas import DataFrame
-from filemapper import FileMapper as fm
-from filemapper.datastructure.Metadata import Metadata
-from filemapper.datastructure.TreeRoot import TreeRoot
-from filemapper.metadata import online_retrieve_module as onrmod
 from filemapper.datastructure.FileFlags import FileFlags as FFLAGS
 from filemapper.pandas.PandasUtils import PandasUtils
 
@@ -13,40 +6,109 @@ class PandasAnimeExtension():
         self.pandas_utils = PandasUtils()
         return
 
-    def retrieve_animes_directories(self, dataframe, current_anime, drop_dup=False):
-        if drop_dup:
-            dataframe_episodes_directories = dataframe.groupby(['name']).get_group(current_anime).drop_duplicates()
-        else:
-            dataframe_episodes_directories = dataframe.groupby(['name']).get_group(current_anime)
-        return dataframe_episodes_directories[dataframe_episodes_directories.fflag == FFLAGS.ANIME_DIRECTORY_FLAG]
+    def create_default_library(self, dataframe, tree_root):
+        '''
+        This function creates a default library structure in pandas for films
+        :param dataframe: It represents the dataframe input for this function
+        :param tree_root: basename of the tree_root structure
+        :return: DATAFRAME
+        '''
+        unique_anime = self.get_anime_names(dataframe=dataframe)
+        dataframe = self.create_animes_directory(dataframe=dataframe, root=tree_root)
+        for current_anime in unique_anime:
+            dataframe = self.create_default_anime_tree_directory(dataframe=dataframe, current_anime=current_anime)
+        return dataframe
 
-    def retrieve_animes(self, dataframe, current_anime, drop_dup=False):
+    '''
+
+        CREATE SECTION OF PANDAS EXTENSION
+
+    '''
+
+    def get_anime_names(self, dataframe):
+        '''
+        This function returns the unique values for film names
+        :param dataframe: It represents the dataframe input for this function
+        :return: UNIQUE_ANIMES
+        '''
+        unique_anime = dataframe.name[dataframe['fflag'] == FFLAGS.ANIME_FLAG].unique()
+        return unique_anime
+
+    def get_anime(self, dataframe, current_anime, drop_dup=False):
+        '''
+        This function returns the files with anime_flag
+        :param dataframe: It represents the dataframe input for this function
+        :param current_anime: It represents the basename of the current anime your mapping
+        :param drop_dup: Drop duplicated values by default
+        :return:
+        '''
         if drop_dup:
             dataframe_episodes = dataframe.groupby(['name']).get_group(current_anime).drop_duplicates()
         else:
             dataframe_episodes = dataframe.groupby(['name']).get_group(current_anime)
         return dataframe_episodes[dataframe_episodes.fflag == FFLAGS.ANIME_FLAG]
 
+    def get_anime_directories(self, dataframe, current_anime, drop_dup=False):
+        '''
+        This function returns the directories with film_directory_flag
+        :param dataframe: It represents the dataframe input for this function
+        :param drop_dup: Drop duplicated values by default
+        :return: ANIME_DIRECTORIES
+        '''
+        if drop_dup:
+            dataframe_episodes_directories = dataframe.groupby(['name']).get_group(current_anime).drop_duplicates()
+        else:
+            dataframe_episodes_directories = dataframe.groupby(['name']).get_group(current_anime)
+        return dataframe_episodes_directories[dataframe_episodes_directories.fflag == FFLAGS.ANIME_DIRECTORY_FLAG]
 
-    def create_main_anime_directory(self, dataframe, current_serie=str):
-        dataframe = self.pandas_utils.add_dataframe_row(dataframe=dataframe, name=current_serie, season='N/A', episode='N/A',
-                                      fflag=FFLAGS.MAIN_SHOW_DIRECTORY_FLAG, basename=current_serie, parent='Animes')
+    '''
+
+        CREATE SECTION OF PANDAS EXTENSION
+
+    '''
+
+    def create_animes_directory(self, dataframe, root):
+        '''
+        This function creates a default ANIME folder to later move the films
+        :param dataframe: It represents the dataframe input for this function
+        :param root: It represents the basename of the TreeRoot structure
+        :return: ANIME_FOLDER
+        '''
+        dataframe = self.pandas_utils.add_dataframe_row(dataframe=dataframe, name='Animes', season='N/A', episode='N/A',
+                                                        fflag=FFLAGS.LIBRARY_FLAG, basename='Animes', parent=root,
+                                                        year='N/A', genre='N/A', n_season='N/A', e_season='N/A')
         return dataframe
 
-    def create_animes_directory(self, dataframe, library=str):
-        dataframe = self.pandas_utils.add_dataframe_row(dataframe=dataframe, name='Animes', season='', episode='',
-                                      fflag=FFLAGS.LIBRARY_FLAG, basename='Animes', parent=library)
+    def create_main_anime_directory(self, dataframe, current_anime):
+        '''
+        This function creates a default anime directory to later move the films
+        :param dataframe: It represents the dataframe input for this function
+        :param current_anime: It represents the basename of the current anime your mapping
+        :return: MOVIE_FOLDER
+        '''
+        dataframe = self.pandas_utils.add_dataframe_row(dataframe=dataframe, name=current_anime, season='N/A',
+                                                        episode='N/A', fflag=FFLAGS.MAIN_SHOW_DIRECTORY_FLAG,
+                                                        basename=current_anime, parent='Animes', year='N/A', genre='N/A',
+                                                        n_season='N/A', e_season='N/A')
         return dataframe
 
-    def create_default_anime_tree_directory(self, dataframe, current_anime=str, library=str, with_dir=True):
+    def create_default_anime_tree_directory(self, dataframe, current_anime):
+        '''
+        This function creates a default structure of Anime Library
+        :param dataframe: It represents the dataframe input for this function
+        :param current_anime: It represents the current serie you're mapping
+        :return: ANIME LIBRARY
+        '''
         main_show_directory = dataframe[dataframe['basename'] == current_anime]
         if main_show_directory.empty:
-            dataframe = self.create_main_anime_directory(dataframe=dataframe, current_serie=current_anime)
+            dataframe = self.create_main_anime_directory(dataframe=dataframe, current_anime=current_anime)
         else:
+            # TODO CHANGED BECAUSE OF TYPE ERROR INT64
+            #real_index = main_show_directory.index.tolist()[0]
             dataframe = self.pandas_utils.update_parent_dataframe_row(dataframe=dataframe, index=int(main_show_directory.index), parent='Animes')
 
-        dataframe_episodes_directories = self.retrieve_animes_directories(dataframe=dataframe, current_anime=current_anime)
-        dataframe_episodes = self.retrieve_animes(dataframe=dataframe, current_anime=current_anime)
+        dataframe_episodes_directories = self.get_anime_directories(dataframe=dataframe, current_anime=current_anime)
+        dataframe_episodes = self.get_anime(dataframe=dataframe, current_anime=current_anime)
 
         # reset index to simply iterate over the rows, extracting the values, to create the directory tree
         dataframe_temp = dataframe_episodes.reindex()
@@ -62,7 +124,10 @@ class PandasAnimeExtension():
             if dataframe_directory.empty:
                 print('CREATED: ' + str(basename[:-4]))
                 real_index = real_index.tolist()[0]
-                dataframe = self.pandas_utils.add_dataframe_row(dataframe=dataframe, name=name, season=season, episode=episode, fflag=FFLAGS.SHOW_DIRECTORY_FLAG, basename=basename[:-4], parent=parent)
+                dataframe = self.pandas_utils.add_dataframe_row(dataframe=dataframe, name=name, season=season,
+                                                                episode=episode, fflag=FFLAGS.SHOW_DIRECTORY_FLAG,
+                                                                basename=basename[:-4], parent=parent, year='N/A',
+                                                                genre='N/A', n_season='N/A', e_season='N/A')
                 dataframe = self.pandas_utils.update_parent_dataframe_row(dataframe=dataframe, index=int(real_index), parent=basename[:-4])
 
         dataframe_temp = dataframe_episodes_directories.reindex()

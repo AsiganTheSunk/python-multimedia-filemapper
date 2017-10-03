@@ -6,55 +6,32 @@
 # from filemapper.datastructure.TreeRoot import TreeRoot
 # from filemapper.metadata import online_retrieve_module as onrmod
 # from filemapper.datastructure.FileFlags import FileFlags as FFLAGS
-#
-# class PandasEngine():
-#     def __init__(self):
-#         return
-#
-#     def update_parent_dataframe_row(dataframe, index, parent):
-#         dataframe.loc[dataframe.index == index, 'parent'] = parent
-#         return dataframe
-#
-#     def retrieve_library_show_statistics(self, dataframe):
-#         unique_series = retrieve_name_series(dataframe=dataframe)
-#         print('------' * 20)
-#         print('-- DETECTED [ {current} ] SHOWS'.format(current=len(unique_series)))
-#         for current_serie in unique_series:
-#             retrieve_current_episodes_per_season(dataframe=dataframe, current_serie=current_serie)
-#             print
-#         return dataframe
-#
-#     def create_library(self, dataframe, library=str):
-#         unique_series = retrieve_name_series(dataframe=dataframe)
-#         dataframe = create_shows_directory(dataframe=dataframe, library=library)
-#         for current_serie in unique_series:
-#             dataframe = create_default_show_tree_directory(dataframe=dataframe, current_serie=current_serie,
-#                                                            library=library)
-#
-#         dataframe = create_movies_directory(dataframe=dataframe, library=library)
-#         dataframe = create_default_movies_tree_directory(dataframe)
-#
-#         dataframe = create_animes_directory(dataframe=dataframe, library=library)
-#         unique_animes = retrieve_name_animes(dataframe=dataframe)
-#         for current_anime in unique_animes:
-#             dataframe = create_default_anime_tree_directory(dataframe=dataframe, current_anime=current_anime,
-#                                                             library=library)
-#         # TODO Hay que hacerlo para cada uno de los estilos, movie y serie estan echos, hace falta un tercero para los animes
-#         # dataframe = build_genre_dataframe_row(dataframe=dataframe)
-#         return dataframe
-#
-#     def add_dataframe_row(dataframe, name, season, episode, fflag, basename, parent):
-#         dict = {'name': [name],
-#                 'season': [season],
-#                 'episode': [episode],
-#                 'fflag': [fflag],
-#                 'basename': [basename],
-#                 'parent': [parent]
-#                 }
-#         new_row = DataFrame(dict)
-#         dataframe = dataframe.append(new_row, ignore_index=True)
-#         return dataframe
-#
+from filemapper.datastructure.TreeRoot import TreeRoot
+from pandas import DataFrame
+from filemapper.pandas.PandasAnimeExtension import PandasAnimeExtension
+from filemapper.pandas.PandasShowExtension import PandasShowExtension
+from filemapper.pandas.PandasFilmExtension import PandasFilmExtension
+from filemapper.pandas.PandasUtils import PandasUtils
+
+class PandasEngine():
+    def __init__(self, tree):
+        self.tree = tree
+        self.old_dataframe = DataFrame()
+        self.new_dataframe = DataFrame()
+        self.pandas_utils = PandasUtils()
+        self.pandas_extension = [PandasShowExtension(), PandasFilmExtension(), PandasAnimeExtension()]
+        return
+
+    def create_library(self, tree):
+        self.old_dataframe = self.pandas_utils.create_data_frame(self.tree)
+        dataframe = self.old_dataframe
+
+        for extension in self.pandas_extension:
+            dataframe = extension.create_default_library(dataframe=dataframe, tree_root=tree)
+        self.new_dataframe = dataframe
+        return dataframe
+
+
 #     def update_tree_info(old_dataframe, dataframe, tree):
 #         total_rows = len(dataframe.index)
 #         new_rows = total_rows - len(old_dataframe.index)
@@ -91,20 +68,3 @@
 #
 #         return tree
 #
-#     def build_genre_dataframe_row (self, dataframe):
-#         dataframe['genre'] = 'N/A'
-#         # TODO: buscar aquellos que tengan como padre el basename de la carpeta y anadir genre ahi si es necesario
-#         for index in range(0, len(dataframe) , 1):
-#             fflag = dataframe.iloc[int(index)]['fflag']
-#             name = dataframe.iloc[int(index)]['name']
-#             if str(fflag) == FFLAGS.FILM_DIRECTORY_FLAG:
-#                 current_genre = onrmod.retrieve_film_genre(name)
-#                 dataframe.loc[dataframe.index == index, 'genre'] = current_genre
-#                 #print name
-#
-#             elif str(fflag) == FFLAGS.MAIN_SHOW_DIRECTORY_FLAG:
-#                 current_genre = onrmod.retrieve_show_genre(name)
-#                 dataframe.loc[dataframe.index == index, 'genre'] = current_genre
-#                 #print 'SHOW'
-#
-#         return dataframe

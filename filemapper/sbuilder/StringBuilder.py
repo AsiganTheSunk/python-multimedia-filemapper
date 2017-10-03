@@ -1,9 +1,8 @@
-from filemapper.datastructure.Metadata import Metadata
 from filemapper.datastructure.FileFlags import FileFlags as fflags
-
-from filemapper.sbuilder.FilmExtension import FilmExtension
-from filemapper.sbuilder.ShowExtension import ShowExtension
-from filemapper.sbuilder.AnimeExtension import AnimeExtension
+from filemapper.metadata.Metadata import Metadata
+from filemapper.sbuilder.StringAnimeExtension import StringAnimeExtension
+from filemapper.sbuilder.StringFilmExtension import StringFilmExtension
+from filemapper.sbuilder.StringShowExtension import StringShowExtension
 
 EMPTY_WRAP = -1
 BRACKET_WRAP = 0
@@ -35,7 +34,7 @@ def eval_wrapped_key(value, wrap_type):
 
 class StringBuilder():
     def __init__(self):
-        self.extension_engines = [AnimeExtension(), ShowExtension(), FilmExtension()]
+        self.extension_engines = [StringAnimeExtension(), StringShowExtension(), StringFilmExtension()]
         return
 
     # ADD DUMMY FLAGS FUNCTIONS! to try to remap properly
@@ -62,7 +61,7 @@ class StringBuilder():
             build_name:
     '''
 
-    def rebuild_name(self, metadata, debug=False):
+    def rebuild_name(self, metadata=Metadata(), debug=False):
         '''
         This function rebuilds the name of a show|movie|anime from a given class Metadata Object
         :param metadata: It represents the metadata gathered from the MetadataEngine
@@ -77,13 +76,10 @@ class StringBuilder():
             if metadata.get_fflag() is (fflags.LIBRARY_FLAG or fflags.MAIN_SHOW_DIRECTORY_FLAG or fflags.IGNORE_FLAG):
                 return name
             else:
-                print metadata.get_fflag()
                 for extension_engine in self.extension_engines:
-
                     if metadata.get_fflag() in extension_engine.supported_fflags:
                         return extension_engine.build_name(name=name, year=year, season=season, episode=episode, ename=ename, quality=quality, extension=extension, film_tag=film_tag, debug=debug)
                     elif metadata.get_fflag() in extension_engine.supported_subtitle_fflags:
-                        print 'entra subtitles'
                         return extension_engine.build_subtitle_name(name=name, year=year, season=season, episode=episode, subtitle=subtitle, language=language, extension=extension, debug=debug)
                     elif metadata.get_fflag() in extension_engine.supported_season_fflags:
                         return extension_engine.build_season_name(name=name, season=season, debug=debug)

@@ -73,7 +73,7 @@ class CheckAnimeExtension():
             # regex.search('\[(\w+!?)\]|\[(\w+\-?)*\](\s\w+)*\s(.?\s)?(\d{0,3}|E\w{0,6}.?\d{0,3})\s\(?\[?(\d{3,4}p|.*)\)?\]?', path, regex.IGNORECASE).group(0)
             re.search(_header_pattern[0], stream, re.IGNORECASE).group(0)
             re.search(_tail_pattern[0], stream, re.IGNORECASE).group(0)
-        except AttributeError:
+        except AttributeError as e:
             return status
         else:
             status = True

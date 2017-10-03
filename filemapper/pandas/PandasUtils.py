@@ -1,76 +1,93 @@
-import os
-import pandas as pd
 from pandas import DataFrame
-from filemapper import FileMapper as fm
-from filemapper.datastructure.Metadata import Metadata
 from filemapper.datastructure.TreeRoot import TreeRoot
-from filemapper.metadata import online_retrieve_module as onrmod
-from filemapper.datastructure.FileFlags import FileFlags as FFLAGS
+import pandas as pd
+
+pd.set_option('display.max_rows', 750)
+pd.set_option('display.max_columns',750)
+pd.set_option('display.width', 1400)
 
 class PandasUtils():
     def __init__(self):
         return
 
     def update_parent_dataframe_row(self, dataframe, index, parent):
+        '''
+        This function updates the parent of row from the dataframe using the index
+        :param dataframe: It represents the dataframe input
+        :param index: It represents the index you're about to modify
+        :param parent: It represents the name of the parent folder
+        :return: UPDATED_DATAFRAME
+        '''
         dataframe.loc[dataframe.index == index, 'parent'] = parent
         return dataframe
 
-    def add_dataframe_row(self, dataframe, name, season, episode, fflag, basename, parent):
-        dict = {'name': [name],
+    def add_dataframe_row(self, dataframe, name, season, year, genre, episode, fflag, basename, parent, n_season, e_season):
+        '''
+        This function adds a new row to the dataframe
+        :param dataframe: It represents the dataframe input
+        :param name: It represents metadata name of the file or directory
+        :param season: It represents metadata season of the file or directory
+        :param year: It represents metadata year of the file or directory
+        :param genre: It represents metadata genre of the file or directory
+        :param episode: It represents metadata episode of the file or directory
+        :param fflag: It represents metadata fflag of the file or directory
+        :param basename: It represents metadata basename of the file or directory
+        :param parent: It represents metadata parent of the file or directory
+        :param n_season: It represents metadata n_season of the file or directory
+        :param e_season: It represents metadata e_season of the file or directory
+        :return: UPDATED_DATAFRAME
+        '''
+        raw_data = {'name': [name],
                 'season': [season],
                 'episode': [episode],
+                'year': [year],
+                'genre': [genre],
                 'fflag': [fflag],
                 'basename': [basename],
-                'parent': [parent]
+                'parent': [parent],
+                'n_season': [n_season],
+                'e_season': [e_season]
                 }
-        new_row = DataFrame(dict)
+
+        new_row = DataFrame(raw_data, columns=['name', 'season', 'episode', 'year', 'genre', 'fflag', 'basename', 'parent', 'n_season','e_season'])
         dataframe = dataframe.append(new_row, ignore_index=True)
         return dataframe
 
-    def create_data_frame (self, tree=TreeRoot):
-        basenamelist = []
-        identifierlist = []
-        parent_basenamelist = []
-        namelist = []
-        seasonlist = []
-        episodelist = []
-        fflaglist = []
-        yearlist = []
+    def create_data_frame (self, tree=TreeRoot()):
+
+        basenamelist = identifierlist = parent_basenamelist = namelist = seasonlist = episodelist = fflaglist =\
+            yearlist = genrelist = n_seasonlist = e_seasonlist = []
 
         for node in tree.get_nodes():
             metadata = node.get_metadata()
             identifierlist.append(node.identifier)
             basenamelist.append(node.basename)
             parent_basenamelist.append(node.parent_basename)
+            namelist.append(self.eval_empty_value(metadata.get_name()))
+            episodelist.append(self.eval_empty_value(metadata.get_episode()))
+            seasonlist.append(self.eval_empty_value(metadata.get_season()))
+            yearlist.append(self.eval_empty_value(metadata.get_year()))
+            fflaglist.append(self.eval_empty_value(metadata.get_fflag()))
+            genrelist.append(self.eval_empty_value(metadata.get_genre()))
+            n_seasonlist.append(self.eval_empty_value(metadata.get_n_season()))
+            e_seasonlist.append(self.eval_empty_value(value=metadata.get_e_season()))
 
-            namelist.append(metadata.get_name())
-            episodelist.append(metadata.get_episode())
-            seasonlist.append(metadata.get_season())
-            yearlist.append(metadata.get_year())
-            fflaglist.append(metadata.get_fflag())
-
-        episodelist = self.clean_data(episodelist)
-        seasonlist = self.clean_data(seasonlist)
-
-        dict = {'name': namelist,
+        raw_data = {'name': namelist,
                 'season': seasonlist,
                 'episode': episodelist,
                 'year': yearlist,
+                'genre': genrelist,
                 'fflag': fflaglist,
                 'basename': basenamelist,
-                'parent': parent_basenamelist
+                'parent': parent_basenamelist,
+                'n_season': n_seasonlist,
+                'e_season':e_seasonlist
                 }
 
-        #dataframe = DataFrame(raw_data, columns=['name', 'size', 'seed', 'leech', 'magnet'])
-        dataframe = DataFrame(dict)
-        print(dataframe)
+        dataframe = DataFrame(raw_data, columns=['name', 'season', 'episode', 'year', 'genre', 'fflag', 'basename', 'parent', 'n_season','e_season'])
         return dataframe
 
-
-    def clean_data(self, list):
-        for i in range(0, len(list), 1):
-            if list[i] == '':
-                list[i] = 'N/A'
-            else:
-                list[i] = str(int(list[i]))
-        return list
+    def eval_empty_value(self, value):
+        if value is '':
+            return 'N/A'
+        return value

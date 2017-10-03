@@ -223,6 +223,37 @@ class CheckEngine():
 
             return status
 
+
+    def check_anime_directory(self, stream, verbose=False, debug=False):
+        '''
+        This function maps the file or directory based on the premapping done by check engine
+        :param stream: It represents the input string you're mapping
+        :param debug: It represents the debug status of the function, default it's False
+        :return: BOOLEAN
+        '''
+
+        try:
+            anime_directory_status = self.anime_engine.check_anime_directory(stream=stream, debug=debug)
+            subs_status = self.common_engine.check_subtitles_directory(stream=stream, debug=verbose)
+        except Exception as e:
+            print 'Exception' + str(e)
+            return
+        else:
+            if anime_directory_status and not subs_status:
+                status = True
+            else:
+                status = False
+            if debug:
+                print(
+                '{engine}: {stream} :: status:{status}\n anime:{anime_directory_status}, subs:{subs_status}').format(
+                    engine=self.name,
+                    stream=stream,
+                    status=status,
+                    anime_directory_status=anime_directory_status,
+                    subs_status=subs_status)
+
+            return status
+
     def check_film(self, stream, debug=False):
         '''
         This function maps the file or directory based on the premapping done by check engine
@@ -249,16 +280,6 @@ class CheckEngine():
         :return: BOOLEAN
         '''
         return self.anime_engine.check_anime_show(stream=stream, debug=debug)
-
-
-    def check_anime_directory(self, stream, debug=False):
-        '''
-        This function maps the file or directory based on the premapping done by check engine
-        :param stream: It represents the input string you're mapping
-        :param debug: It represents the debug status of the function, default it's False
-        :return: BOOLEAN
-        '''
-        return self.anime_engine.check_anime_directory(stream=stream, debug=debug)
 
     def check_season_directory(self, stream, debug=False):
         '''

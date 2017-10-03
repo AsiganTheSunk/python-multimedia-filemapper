@@ -1,52 +1,21 @@
 from filemapper.datastructure.FileFlags import FileFlags as fflags
-
-def eval_wrapped_key(value, wrap_type):
-    '''
-    This function peform auxiliary help to the build name functions validating the content of the string
-    :param value: It represents the key you'regex testing
-    :param wrap_type: It represents the type of wrapping the string it's going to get, numbers 0 to 2, being
-                    0 for [value], 1 for (value), 2 for -(value) 3 value
-    :return: modified value
-    '''
-    if value is None:
-        return ''
-    else:
-        if wrap_type is -1:
-            if value is '':
-                return ''
-            return(' ' + value)
-        elif wrap_type is 0:
-            if value is '':
-                return value
-            return (' [' + value + ']')
-        elif wrap_type is 1:
-            if value is '':
-                return value
-            return (' (' + value + ')')
-        elif wrap_type is 2:
-            if value is '':
-                return value
-            return (' - (' + value + ')')
-        elif wrap_type is 3:
-            if value is '':
-                return value
-            return ('.' + value)
-        else:
-            return value
+from filemapper.sbuilder.StringUtils import StringUtils
 
 EMPTY_WRAP = -1
 BRACKET_WRAP = 0
 PARENTHESIS_WRAP = 1
 DASH_PARENTHESIS_WRAP = 2
 EXTENSION_WRAP = 3
-NONE_WRAP = 4
+DASH_EMPTY_WRAP = 4
+NONE_WRAP = 5
 
-class ShowExtension():
+class StringShowExtension():
     def __init__(self):
         self.name = 'ShowExtension'
         self.supported_fflags = [fflags.SHOW_DIRECTORY_FLAG, fflags.SHOW_FLAG]
         self.supported_season_fflags = [fflags.SEASON_DIRECTORY_FLAG]
         self.supported_subtitle_fflags = [fflags.SUBTITLE_DIRECTORY_SHOW_FLAG, fflags.SUBTITLE_SHOW_FLAG]
+        self.string_utils = StringUtils()
         return
 
     '''
@@ -72,12 +41,12 @@ class ShowExtension():
         '''
         try:
             SHOW_NAME = ('{name}{season}{episode}{ename}{quality}{extension}').format(
-                name=eval_wrapped_key(value=name, wrap_type=NONE_WRAP),
-                season=eval_wrapped_key(value=('S' + season), wrap_type=EMPTY_WRAP),
-                episode=eval_wrapped_key(value=('E' +episode), wrap_type=EMPTY_WRAP),
-                ename=eval_wrapped_key(value=ename, wrap_type=EMPTY_WRAP),
-                quality=eval_wrapped_key(value=quality, wrap_type=BRACKET_WRAP),
-                extension=eval_wrapped_key(value=extension, wrap_type=EXTENSION_WRAP))
+                name=self.string_utils.eval_wrapped_key(value=name, wrap_type=NONE_WRAP),
+                season=self.string_utils.eval_wrapped_key(value=('S' + season), wrap_type=EMPTY_WRAP),
+                episode=self.string_utils.eval_wrapped_key(value=('E' +episode), wrap_type=NONE_WRAP),
+                ename=self.string_utils.eval_wrapped_key(value=ename, wrap_type=DASH_EMPTY_WRAP),
+                quality=self.string_utils.eval_wrapped_key(value=quality, wrap_type=BRACKET_WRAP),
+                extension=self.string_utils.eval_wrapped_key(value=extension, wrap_type=EXTENSION_WRAP))
 
             if debug:
                 print ('{engine}: {name}').format(engine=self.name, name=SHOW_NAME)
@@ -101,12 +70,12 @@ class ShowExtension():
         '''
         try:
             SUBTITLE_NAME = ('{name}{season}{episode}{subtitle}{language}{extension}').format(
-                name=eval_wrapped_key(value=name, wrap_type=NONE_WRAP),
-                season=eval_wrapped_key(value=('S' + season), wrap_type=EMPTY_WRAP),
-                episode=eval_wrapped_key(value=('E' +episode), wrap_type=EMPTY_WRAP),
-                subtitle=eval_wrapped_key(value=subtitle, wrap_type=PARENTHESIS_WRAP),
-                language=eval_wrapped_key(value=language, wrap_type=DASH_PARENTHESIS_WRAP),
-                extension=eval_wrapped_key(value=extension, wrap_type=EXTENSION_WRAP)
+                name=self.string_utils.eval_wrapped_key(value=name, wrap_type=NONE_WRAP),
+                season=self.string_utils.eval_wrapped_key(value=('S' + season), wrap_type=EMPTY_WRAP),
+                episode=self.string_utils.eval_wrapped_key(value=('E' +episode), wrap_type=NONE_WRAP),
+                subtitle=self.string_utils.eval_wrapped_key(value=subtitle, wrap_type=PARENTHESIS_WRAP),
+                language=self.string_utils.eval_wrapped_key(value=language, wrap_type=DASH_PARENTHESIS_WRAP),
+                extension=self.string_utils.eval_wrapped_key(value=extension, wrap_type=EXTENSION_WRAP)
             )
 
             if debug:
@@ -127,8 +96,8 @@ class ShowExtension():
         '''
         try:
             SEASON_NAME = ('{name}{season}').format(
-                name=eval_wrapped_key(value=name, wrap_type=EMPTY_WRAP),
-                season=eval_wrapped_key(value=('Season ' + season), wrap_type=BRACKET_WRAP)
+                name=self.string_utils.eval_wrapped_key(value=name, wrap_type=NONE_WRAP),
+                season=self.string_utils.eval_wrapped_key(value=('Season ' + str(int(season))), wrap_type=BRACKET_WRAP)
             )
 
             if debug:

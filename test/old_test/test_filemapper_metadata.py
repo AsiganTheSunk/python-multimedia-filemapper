@@ -1,6 +1,3 @@
-from filemapper.datastructure import Metadata as meta
-
-
 # Metadata Create Tests
 def test0_metadata_create():
     return

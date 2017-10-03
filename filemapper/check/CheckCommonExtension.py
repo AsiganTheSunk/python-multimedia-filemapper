@@ -73,12 +73,10 @@ class CheckCommonExtension():
         :param debug: It represents the debug status of the function, default it's False
         :return: BOOLEAN
         '''
-        print 'stream' + stream
         status = False
-        _subtitle_pattern = ['sub\w{0,6}']
-
+        _subtitle_pattern = ['(sub\w{0,6}(?!=\!))']
         try:
-            r = re.search(_subtitle_pattern[0], stream, re.IGNORECASE).group(0)
+            r = re.search(_subtitle_pattern[0], stream).group(0)
             print r
         except AttributeError:
             return status

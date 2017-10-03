@@ -1,6 +1,7 @@
 from filemapper.datastructure.FileFlags import FileFlags as fflags
+from filemapper.metadata.Metadata import Metadata
 from filemapper.metadata.imdb.IMDbFilmExtension import IMDbExtension
-from filemapper.datastructure.Metadata import Metadata
+
 
 class IMDbEngine():
     def __init__(self):
@@ -19,7 +20,6 @@ class IMDbEngine():
         :return: Metadata
         '''
         genre = ''
-        print metadata.get_name()
         for extension_engine in self.category_extension:
             # This will try to map the diferent values present in the file or directory basename
 

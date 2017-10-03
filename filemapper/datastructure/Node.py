@@ -1,9 +1,8 @@
 #!/usr/bin/python
-
-from Metadata import Metadata
+from filemapper.metadata.Metadata import Metadata
 
 class Node:
-    def __init__(self, basename, identifier, metadata):
+    def __init__(self, basename, identifier, metadata=Metadata()):
         self.identifier = identifier
         self.basename = basename
         self.parent_basename = None

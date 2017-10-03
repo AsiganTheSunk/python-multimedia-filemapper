@@ -1,10 +1,12 @@
+import os
+
+from filemapper.datastructure.FileFlags import FileFlags as fflags
+from filemapper.metadata.Metadata import Metadata
 from filemapper.metadata.imdb.IMDbEngine import IMDbEngine
 from filemapper.metadata.regex.RegexEngine import RegexEngine
 from filemapper.metadata.subs.SubtitleEngine import SubtitleEngine
 from filemapper.metadata.tvdb.TVDbEngine import TVDbEngine
-from filemapper.datastructure.Metadata import Metadata
-from filemapper.datastructure.FileFlags import FileFlags as fflags
-import os
+
 
 # from filemapper.metadata import FFProbeExtension as ffprobee
 
@@ -24,23 +26,22 @@ class MetadataEngine():
         :param debug:
         :return: METADATA
         '''
-        metadata = Metadata
+        metadata = Metadata()
         basename = os.path.basename(stream)
         try:
+            if fflag is (fflags.LIBRARY_FLAG or fflags.MAIN_SHOW_DIRECTORY_FLAG or fflags.IGNORE_FLAG):
+                return Metadata(name=basename, fflag=fflag)
+
             metadata = self.regex_engine.map(stream=basename, fflag=fflag, verbose=verbose, debug=debug)
-            try:
-                if fflag in self.subs_engine.supported_fflags:
-                    if metadata.get_language() is '':
-                        metadata = self.subs_engine.map(stream=stream, metadata=metadata, verbose=verbose, debug=debug)
+            if fflag in self.subs_engine.supported_fflags:
+                if metadata.get_language() is '':
+                    metadata = self.subs_engine.map(stream=stream, metadata=metadata, verbose=verbose, debug=debug)
 
-                for category_engine in self.category_engine:
-                    if fflag in category_engine.supported_fflags:
-                        metadata = category_engine.map(metadata=metadata, verbose=verbose, debug=debug)
-
-            except Exception as e:
-                print e
+            for category_engine in self.category_engine:
+                if fflag in category_engine.supported_fflags:
+                    metadata = category_engine.map(metadata=metadata, verbose=verbose, debug=debug)
         except Exception as e:
-            print e
-            return
+            print 'ERROR HERE' + str(e)
+            return Metadata()
         else:
             return metadata

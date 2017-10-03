@@ -94,7 +94,7 @@ class RegexAnimeExtension():
                 print('{extension_engine}: {stream} :: episode:{value}').format(extension_engine=self.name,
                                                                         stream=stream,
                                                                         value=episode)
-            return episode
+            return str(episode)
 
 
     def get_season(self, stream, season_directory=False, debug=False):
