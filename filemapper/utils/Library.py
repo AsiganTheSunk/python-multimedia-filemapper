@@ -6,7 +6,6 @@ class Library:
         self.default_film_dest = self.default_dest
         self.default_show_dest = self.default_dest
         self.default_anime_dest = self.default_dest
-        self.library_list = []
 
     def get_default_dest(self):
         return self.default_dest
@@ -35,16 +34,3 @@ class Library:
     def set_default_anime_dest(self, value):
         self.default_anime_dest = value
         return self.default_anime_dest
-
-    def add_library_source(self, path):
-        try:
-            return self.library_list.append(path)
-        except:
-            return None
-
-    def remove_library_source(self, path):
-        return self.library_list.remove(path)
-
-    def list_library_source(self):
-        for i in self.library_list:
-            print (self.library_list[i])
