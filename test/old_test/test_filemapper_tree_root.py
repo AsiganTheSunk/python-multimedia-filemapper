@@ -1,26 +1,26 @@
-from filemapper.datastructure import TreeRoot as tr
+from filemapper.metadata import MetadataTree as tr
 
 
 # TreeRoot create Tests
 def test0_create_tree_root():
-    assert tr.TreeRoot() != None
+    assert tr.MetadataTree() != None
 
 
 # TreeRoot get_nodes Tests
 def test0_get_nodes():
-    assert tr.TreeRoot().get_nodes() == []
+    assert tr.MetadataTree().get_nodes() == []
 
 
 # TreeRoot add_node_count Tests
 def test0_add_node_count():
-    tree = tr.TreeRoot()
+    tree = tr.MetadataTree()
     tree.add_node_count()
     tree.get_node_count() != -1
 
 
 # TreeRoot add_nodes Tests
 def test0_add_nodes():
-    tree = tr.TreeRoot()
+    tree = tr.MetadataTree()
     tree.add_node(basename='root')
     tree.get_node_count() != -1
 
@@ -32,7 +32,7 @@ def test0_search():
 
 # TreeRoot update_parent_by_index Tests
 def test0_update_parent_by_index():
-    tree = tr.TreeRoot()
+    tree = tr.MetadataTree()
     tree.add_node(basename='root')
     tree.add_node(basename='node0', parent_basename='root')
     tree.add_node(basename='node1',parent_basename='node0')

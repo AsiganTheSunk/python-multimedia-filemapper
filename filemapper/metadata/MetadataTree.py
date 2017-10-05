@@ -1,9 +1,7 @@
-from Node import Node
+from filemapper.metadata.MetadataNode import MNode
 from filemapper.metadata.Metadata import Metadata
 
-
-# TODO: Crear excepciones propias del treeroot
-class TreeRoot(object):
+class MetadataTree():
     def __init__(self):
         self.nodes = []
         self.node_count = -1
@@ -30,7 +28,7 @@ class TreeRoot(object):
         '''
         self.add_node_count()
         if metadata is None: metadata = Metadata()
-        node = Node(basename, self.node_count, metadata)
+        node = MNode(basename, self.node_count, metadata)
         node.parent_basename = parent_basename
         if debug:
             print ('[ADDED]: - basename:'+str(node.basename), ' --- parent_basename: '+str(node.parent_basename))
@@ -140,7 +138,7 @@ class TreeRoot(object):
         :type parent: str
         '''
 
-        tnode = pnode = Node
+        tnode = pnode = MNode
         for node in self.get_nodes():
             if node.identifier == index:
                 pnode = self.search(basename=node.parent_basename)[0]
@@ -167,20 +165,17 @@ class TreeRoot(object):
         for i, val in enumerate(subtrees):
              self.subtree_path(subtrees[i].basename, deep=1)
 
-    def subtree_path(self, basename, parent_basename=None, deep=int):
+    def subtree_path(self, basename, deep, parent_basename=None):
         if parent_basename is None:
             nodelist = self.search(basename)
             for i, val in enumerate(nodelist):
-                self.subtree_path(nodelist[i].basename, nodelist[i].parent_basename, deep=deep)
+                self.subtree_path(nodelist[i].basename, deep=deep, parent_basename=nodelist[i].parent_basename)
         else:
             node = self.search(basename, parent_basename)[0]
             print 'index('+ str(node.identifier) +') - deep: ' + str(deep) + ' - ' + self.get_full_path(node.basename)
             if node.children is not []:
                 for child in node.children:
-                    self.subtree_path(child.basename, child.parent_basename, deep=deep + 1)
-
-
-
+                    self.subtree_path(child.basename, deep=deep + 1, parent_basename=child.parent_basename)
 
     #
     # def update_parent_node (self, basename, parent):

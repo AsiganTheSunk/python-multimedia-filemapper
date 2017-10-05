@@ -1,4 +1,4 @@
-from filemapper.datastructure.FileFlags import FileFlags as FFLAGS
+from filemapper.utils.FileFlags import FileFlags as FFLAGS
 from filemapper.pandas.PandasUtils import PandasUtils
 
 class PandasFilmExtension():
@@ -6,14 +6,14 @@ class PandasFilmExtension():
         self.pandas_utils = PandasUtils()
         return
 
-    def create_default_library(self, dataframe, tree_root):
+    def create_default_library(self, dataframe, root_basename):
         '''
         This function creates a default library structure in pandas for films
         :param dataframe: It represents the dataframe input for this function
-        :param tree_root: basename of the tree_root structure
+        :param root_basename: basename of the tree_root structure
         :return: DATAFRAME
         '''
-        dataframe = self.create_film_directory(dataframe=dataframe, root=tree_root)
+        dataframe = self.create_film_directory(dataframe=dataframe, root_basename=root_basename)
         dataframe = self.create_default_movies_tree_directory(dataframe)
         return dataframe
 
@@ -54,15 +54,15 @@ class PandasFilmExtension():
 
     '''
 
-    def create_film_directory(self, dataframe, root):
+    def create_film_directory(self, dataframe, root_basename):
         '''
         This function creates a default Movies folder to later move the films
         :param dataframe: It represents the dataframe input for this function
-        :param root: It represents the basename of the TreeRoot structure
+        :param root_basename: It represents the basename of the TreeRoot structure
         :return: MOVIES_FOLDER
         '''
         dataframe = self.pandas_utils.add_dataframe_row(dataframe=dataframe, name='Movies', season='N/A', episode='N/A',
-                                                        fflag=FFLAGS.LIBRARY_FLAG, basename='Movies', parent=root,
+                                                        fflag=FFLAGS.LIBRARY_FLAG, basename='Movies', parent=root_basename,
                                                         year='N/A', genre='N/A', n_season='N/A', e_season='N/A')
         return dataframe
 
@@ -72,41 +72,28 @@ class PandasFilmExtension():
         :param dataframe: It represents the dataframe input for this function
         :return: MOVIES_LIBRARY
         '''
+
         dataframe_film = self.get_film(dataframe)
-        dataframe_film_directories = self.get_film_directories(dataframe)
+        for film_index in dataframe_film.index.tolist():
+            name = dataframe.iloc[int(film_index)]['name']
+            year = dataframe.iloc[int(film_index)]['year']
+            basename = dataframe.iloc[int(film_index)]['basename']
+            parent = dataframe.iloc[int(film_index)]['parent']
 
-        print dataframe_film_directories
-        dataframe_film_temp = dataframe_film.reindex()
-
-        for index in range(0, len(dataframe_film_temp.index), 1):
-            name = dataframe_film_temp.iloc[int(index)]['name']
-            basename = dataframe_film_temp.iloc[int(index)]['basename']
-            parent = dataframe_film_temp.iloc[int(index)]['parent']
-            dataframe_directory = dataframe_film_directories[dataframe_film_directories.basename == basename[:-4]]
-
-            real_index = dataframe_film.index[dataframe_film.basename == basename]
-
-            print 'real index in films: ',
-            if dataframe_directory.empty:
-                # TODO CHANGED BECAUSE OF TYPE ERROR INT64
-                # real_index = real_index.tolist()[0]
+            dataframe_film_directories = self.get_film_directories(dataframe)
+            if  dataframe_film_directories[dataframe_film_directories.basename == basename[:-4]].empty:
                 dataframe = self.pandas_utils.add_dataframe_row(dataframe=dataframe, name=name,
                                                                 season='N/A', episode='N/A',
                                                                 fflag=FFLAGS.FILM_DIRECTORY_FLAG,
                                                                 basename=basename[:-4], parent=parent,
-                                                                year='N/A',genre='N/A', n_season='N/A', e_season='N/A')
-                dataframe = self.pandas_utils.update_parent_dataframe_row(dataframe=dataframe, index=int(real_index), parent=basename[:-4])
+                                                                year=year, genre='N/A', n_season='N/A', e_season='N/A')
+                dataframe = self.pandas_utils.update_parent_dataframe_row(dataframe=dataframe, index=int(film_index),
+                                                                          parent=basename[:-4])
+        dataframe_film_directories = self.get_film_directories(dataframe=dataframe)
 
-        dataframe_dfilm_temp = dataframe_film_directories.reindex()
-        for index in range(0, len(dataframe_dfilm_temp.index), 1):
-            name = dataframe_dfilm_temp.iloc[int(index)]['name']
-            season = dataframe_dfilm_temp.iloc[int(index)]['season']
-            basename = dataframe_dfilm_temp.iloc[int(index)]['basename']
-            parent = dataframe_dfilm_temp.iloc[int(index)]['parent']
-            real_index = dataframe.index[dataframe.basename == basename]
-
-            if parent not in 'Movies':
-                real_index = real_index.tolist()[0]
-                dataframe = self.pandas_utils.update_parent_dataframe_row(dataframe=dataframe, index=int(real_index), parent='Movies')
+        for directory_film_index in  dataframe_film_directories.index.tolist():
+            parent = dataframe.iloc[int(directory_film_index)]['parent']
+            if parent is not 'Movies':
+                dataframe = self.pandas_utils.update_parent_dataframe_row(dataframe=dataframe, index=int(directory_film_index), parent='Movies')
 
         return dataframe

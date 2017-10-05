@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from filemapper.datastructure.FileFlags import FileFlags as FFLAGS
+from filemapper.utils.FileFlags import FileFlags as FFLAGS
 import re
 
 def validate_show_season_directory(path=None, verbose=None):

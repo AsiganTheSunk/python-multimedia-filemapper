@@ -13,7 +13,7 @@ class CheckShowExtension():
         :return: BOOLEAN
         '''
         status = False
-        _show_directory_pattern = ['(\w+.+)([s]\d{1,3}[e]\d{1,3}).?(\d{3,4}p).*(\[.*\])?']
+        _show_directory_pattern = ['(\w+.+)([s]\d{1,3}[e]\d{1,3}).?(?=(\d{3,4}p)?).*(\[.*\])?']
         try:
             re.search(_show_directory_pattern[0], stream, re.IGNORECASE).group(0)
         except AttributeError:

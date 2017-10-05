@@ -1,6 +1,6 @@
 import os
 
-from filemapper.datastructure.FileFlags import FileFlags as fflags
+from filemapper.utils.FileFlags import FileFlags as fflags
 from filemapper.metadata.Metadata import Metadata
 from filemapper.metadata.imdb.IMDbEngine import IMDbEngine
 from filemapper.metadata.regex.RegexEngine import RegexEngine

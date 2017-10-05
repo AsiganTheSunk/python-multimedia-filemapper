@@ -1,6 +1,5 @@
-from pandas import DataFrame
-from filemapper.datastructure.TreeRoot import TreeRoot
 import pandas as pd
+from pandas import DataFrame
 
 pd.set_option('display.max_rows', 750)
 pd.set_option('display.max_columns',750)
@@ -53,41 +52,76 @@ class PandasUtils():
         dataframe = dataframe.append(new_row, ignore_index=True)
         return dataframe
 
-    def create_data_frame (self, tree=TreeRoot()):
+    def create_data_frame (self, tree, verbose=False, debug=False):
+        '''
+        This function transforms MetadataTree into Pandas Detaframe
+        :param tree: It respresents the the MetadataTree input
+        :param debug: It represents the debug status of the function, default it's False
+        :return: DATAFRAME
+        '''
 
-        basenamelist = identifierlist = parent_basenamelist = namelist = seasonlist = episodelist = fflaglist =\
-            yearlist = genrelist = n_seasonlist = e_seasonlist = []
+        dataframe = DataFrame()
+        basenamelist = []
+        identifierlist = []
+        parent_basenamelist = []
+        namelist = []
+        seasonlist  = []
+        episodelist = []
+        fflaglist = []
+        yearlist = []
+        genrelist = []
+        n_seasonlist  = []
+        e_seasonlist = []
 
-        for node in tree.get_nodes():
-            metadata = node.get_metadata()
-            identifierlist.append(node.identifier)
-            basenamelist.append(node.basename)
-            parent_basenamelist.append(node.parent_basename)
-            namelist.append(self.eval_empty_value(metadata.get_name()))
-            episodelist.append(self.eval_empty_value(metadata.get_episode()))
-            seasonlist.append(self.eval_empty_value(metadata.get_season()))
-            yearlist.append(self.eval_empty_value(metadata.get_year()))
-            fflaglist.append(self.eval_empty_value(metadata.get_fflag()))
-            genrelist.append(self.eval_empty_value(metadata.get_genre()))
-            n_seasonlist.append(self.eval_empty_value(metadata.get_n_season()))
-            e_seasonlist.append(self.eval_empty_value(value=metadata.get_e_season()))
+        try:
+            for node in tree.get_nodes():
+                metadata = node.get_metadata()
+                identifierlist.append(node.identifier)
+                basenamelist.append(node.basename)
+                parent_basenamelist.append(node.parent_basename)
+                namelist.append(self.eval_empty_value(metadata.get_name()))
+                episodelist.append(self.eval_empty_value(metadata.get_episode()))
+                seasonlist.append(self.eval_empty_value(metadata.get_season()))
+                yearlist.append(self.eval_empty_value(metadata.get_year()))
+                fflaglist.append(self.eval_empty_value(metadata.get_fflag()))
+                genrelist.append(self.eval_empty_value(metadata.get_genre()))
+                n_seasonlist.append(self.eval_empty_value(metadata.get_n_season()))
+                e_seasonlist.append(self.eval_empty_value(metadata.get_e_season()))
 
-        raw_data = {'name': namelist,
-                'season': seasonlist,
-                'episode': episodelist,
-                'year': yearlist,
-                'genre': genrelist,
-                'fflag': fflaglist,
-                'basename': basenamelist,
-                'parent': parent_basenamelist,
-                'n_season': n_seasonlist,
-                'e_season':e_seasonlist
-                }
+            raw_data = {'name': namelist,
+                    'season': seasonlist,
+                    'episode': episodelist,
+                    'year': yearlist,
+                    'genre': genrelist,
+                    'fflag': fflaglist,
+                    'basename': basenamelist,
+                    'parent': parent_basenamelist,
+                    'n_season': n_seasonlist,
+                    'e_season': e_seasonlist
+                    }
 
-        dataframe = DataFrame(raw_data, columns=['name', 'season', 'episode', 'year', 'genre', 'fflag', 'basename', 'parent', 'n_season','e_season'])
+            if verbose:
+                print (len(namelist)), '\n', namelist
+                print (len(seasonlist)), '\n', seasonlist
+                print (len(episodelist)), '\n',episodelist
+                print (len(fflaglist)), '\n',fflaglist
+                print (len(basenamelist)), '\n',basenamelist
+                print (len(parent_basenamelist)), '\n',parent_basenamelist
+                print (len(n_seasonlist)), '\n',n_seasonlist
+                print (len(e_seasonlist)), '\n',e_seasonlist
+                print (len(yearlist)), '\n',yearlist
+                print (len(genrelist)) , '\n', genrelist
+            dataframe = DataFrame(raw_data, columns=['name', 'season', 'episode', 'year', 'genre', 'fflag', 'basename', 'parent', 'n_season','e_season'])
+        except Exception as e:
+            print 'Create dataframe ERROR: ',e
         return dataframe
 
     def eval_empty_value(self, value):
         if value is '':
             return 'N/A'
+        return value
+
+    def clean_empty_value(self, value):
+        if value is 'N/A':
+            return ''
         return value

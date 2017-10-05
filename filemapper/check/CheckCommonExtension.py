@@ -74,10 +74,9 @@ class CheckCommonExtension():
         :return: BOOLEAN
         '''
         status = False
-        _subtitle_pattern = ['(sub\w{0,6}(?!=\!))']
+        _subtitle_pattern = ['subtitle|subtitles']
         try:
-            r = re.search(_subtitle_pattern[0], stream).group(0)
-            print r
+            re.search(_subtitle_pattern[0], stream).group(0)
         except AttributeError:
             return status
         else:

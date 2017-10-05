@@ -6,10 +6,10 @@ import pandas as pd
 from pandas import DataFrame
 
 from filemapper import FileMapper as fm
-from filemapper.datastructure.FileFlags import FileFlags as FFLAGS
-from filemapper.datastructure.TreeRoot import TreeRoot
+from filemapper.utils.FileFlags import FileFlags as FFLAGS
 from filemapper.metadata import online_retrieve_module as onrmod
 from filemapper.metadata.Metadata import Metadata
+from filemapper.metadata.MetadataTree import MetadataTree
 
 #TODO aqui tendria que haber un metdo que lea de los parametros de configuracion la direccion del path en la que
 #TODO vamos a guardar.
@@ -21,7 +21,7 @@ pd.set_option('display.max_columns',750)
 pd.set_option('display.width', 1400)
 
 
-def create_data_frame (tree=TreeRoot):
+def create_data_frame (tree=MetadataTree):
     basenamelist = []
     identifierlist = []
     parent_basenamelist = []
@@ -253,8 +253,9 @@ def create_default_movies_tree_directory(dataframe):
         season = dataframe_dfilm_temp.iloc[int(index)]['season']
         basename = dataframe_dfilm_temp.iloc[int(index)]['basename']
         parent = dataframe_dfilm_temp.iloc[int(index)]['parent']
-        real_index = dataframe.index[dataframe.basename == basename]
 
+        real_index = dataframe.index[dataframe.basename == basename]
+        real_index = real_index.tolist()[0]
         if parent not in 'Movies':
             real_index = real_index.tolist()[0]
             dataframe = update_parent_dataframe_row(dataframe=dataframe, index=int(real_index), parent='Movies')

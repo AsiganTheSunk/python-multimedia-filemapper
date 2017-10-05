@@ -8,7 +8,7 @@ def test0_filemapper_check_show():
 
 
 def test1_filemapper_check_show():
-    assert check.check_show_directory('multimedia_directory_sample S00E00.mkv') is True
+    assert check.check_show_directory('multimedia_directory_sample S00E00.mkv') is False
 
 
 # Multimedia Film Directory/File Tests

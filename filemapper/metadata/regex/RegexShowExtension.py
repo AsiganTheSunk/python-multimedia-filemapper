@@ -1,5 +1,5 @@
 from filemapper.sbuilder.StringBuilder import StringBuilder
-from filemapper.datastructure.FileFlags import FileFlags as fflags
+from filemapper.utils.FileFlags import FileFlags as fflags
 import re
 
 def compile_pattern(patterns):
@@ -80,9 +80,11 @@ class RegexShowExtension():
             if season_directory:
                 season_directory = re.search( _season_directory_patterns[0], stream, re.IGNORECASE).group(0)
                 season = re.search(_season_patterns[0], season_directory, re.IGNORECASE).group(0)
+                season = str(int(season))
             else:
                 season = re.search(_season_patterns[1], stream, re.IGNORECASE).group(0)
                 season = season[1:]
+
         except AttributeError:
             season = ''
             return season

@@ -1,5 +1,5 @@
 from filemapper.sbuilder.StringBuilder import StringBuilder
-from filemapper.datastructure.FileFlags import FileFlags as fflags
+from filemapper.utils.FileFlags import FileFlags as fflags
 # from filemapper.metadata.regex.RegexEngine import compile_pattern
 from config import TRUSTED_UPLOADERS
 import re

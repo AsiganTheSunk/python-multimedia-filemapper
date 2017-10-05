@@ -7,7 +7,7 @@ class Metadata:
         self.name = name
         self.ename = ename
         self.season = season
-        self.episode = episode
+        self.episode =  episode
         self.quality = quality
         self.extension = extension
         self.uploader = uploader
@@ -26,6 +26,11 @@ class Metadata:
         self.chapters = chapters
         self.n_season = n_season
         self.e_season = e_season
+
+    def eval_value(self, value):
+        if value is '':
+            return value
+
 
     def get_name(self):
         return self.name

@@ -1,6 +1,6 @@
 import re
 
-from filemapper.datastructure.FileFlags import FileFlags as fflags
+from filemapper.utils.FileFlags import FileFlags as fflags
 from filemapper.metadata.Metadata import Metadata
 from filemapper.metadata.regex.RegexAnimeExtension import RegexAnimeExtension
 from filemapper.metadata.regex.RegexCommonExtension import RegexCommonExtension

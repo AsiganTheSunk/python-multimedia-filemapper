@@ -15,13 +15,13 @@ class CheckFilmExtension():
         status = False
         _film_pattern = ['(.*)(([1-2])([890])(\d{2}))(?!p)']
         try:
-            re.search(_film_pattern[0], stream).group(0)
-            status = True
+            re.search(_film_pattern[0], stream, re.IGNORECASE).group(0)
         except AttributeError:
             return status
         else:
+            status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(extension=self.name, stream=stream,
+                print('{extension}: {stream} :: status:{status}').format(extension=self.name, stream=stream,
                                                                                 status=str(status))
             return status
 

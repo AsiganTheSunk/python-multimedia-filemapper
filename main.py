@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from filemapper.datastructure.FileFlags import FileFlags as fflags
+from filemapper.utils.FileFlags import FileFlags as fflags
 from filemapper.metadata.regex.RegexEngine import RegexEngine
 from filemapper.metadata.regex.RegexFilmExtension import RegexFilmExtension
 from filemapper.metadata.regex.RegexShowExtension import RegexShowExtension
@@ -18,22 +18,24 @@ from filemapper.pandas.PandasUtils import PandasUtils
 from filemapper.pandas.PandasFilmExtension import PandasFilmExtension
 from filemapper.pandas.PandasAnimeExtension import PandasAnimeExtension
 from filemapper.pandas.PandasEngine import PandasEngine
- #from filemapper.pandas.PandasShowExtension import
+
 import os
 
 def file_mapper():
     basedir = str(os.getcwd()) + '/test-library'
     _file_mapper = FileMapper()
 
-    directory = _file_mapper.premap(path=basedir)
-    tree = _file_mapper.build_directory_tree(basedir=basedir, debug=True)
-    tree[0].tree()
-    print '~~~~~~~~~~~~~~~~~~~~' * 7
-    pandas_engine = PandasEngine(tree=tree[0])
-    dataframe = pandas_engine.create_library(tree=tree[0].nodes[0].basename)
-    print '~~~~~~~~~~~~~~~~~~~~' * 7
-    print '~~~~~~~~~~~~~~~~~~~~' * 7
+    directory = _file_mapper.premap(path=basedir, debug=True)
+    tree = _file_mapper.build_directory_tree(basedir=basedir, debug=False)
+    #
+    # check_engine = CheckEngine()
+    # check_engine.check_anime_directory(stream='[HorribleSubs] Mob Psycho 100 - 12 [1080p]', debug=True)
 
+    tree[0].tree()
+
+    pandas_engine = PandasEngine(tree=tree[0])
+    dataframe = pandas_engine.create_library(debug=True)
+    tree = pandas_engine.update_tree(debug=True)
 
     # movie_engine = RegexFilmExtension()
     # movie_engine.get_name(stream='Were.the.Millers.2013.EXTENDED.CUT.BRRip.XviD.MP3-RARBG',debug=True)

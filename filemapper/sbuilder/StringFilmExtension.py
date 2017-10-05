@@ -1,4 +1,4 @@
-from filemapper.datastructure.FileFlags import FileFlags as fflags
+from filemapper.utils.FileFlags import FileFlags as fflags
 from filemapper.sbuilder.StringUtils import StringUtils
 
 EMPTY_WRAP = -1
