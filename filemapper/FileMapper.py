@@ -8,20 +8,30 @@ from filemapper.metadata.Metadata import Metadata
 from filemapper.metadata.MetadataEngine import MetadataEngine
 from filemapper.metadata.MetadataTree import MetadataTree
 from filemapper.sbuilder.StringBuilder import StringBuilder
+from filemapper.pandas.PandasEngine import PandasEngine
 
 
 class FileMapper():
     def __init__(self):
+        self.directory_dict = {}
         self.multimedia_source = []
+
         self.tOriginal = MetadataTree()
         self.tUpdated = MetadataTree()
-        self.directory_dict = {}
+
         self.metadata_engine = MetadataEngine()
         self.check_engine = CheckEngine()
         self.string_builder = StringBuilder()
 
-    def add_multimedia_source(self, path):
+    def add_source(self, path):
         self.multimedia_source.append(path)
+
+    def get_sources(self):
+        for item in self.multimedia_source:
+            print item
+
+    def set_tupdated(self, tree):
+        self.tUpdated = tree
 
     def premap(self, path, verbose=False, debug=False):
         '''
@@ -90,8 +100,6 @@ class FileMapper():
             print 'CheckEngine  :: results'
             self.list_directory(self.directory_dict)
             print '~~~~~~~~~~~~~~~~~~~~~~~~~~' * 8
-
-
         return self.directory_dict
 
     def list_directory(self, dict):
@@ -158,53 +166,68 @@ class FileMapper():
         else:
             return [self.tUpdated, self.tOriginal]
 
-    # def publish_library(self, library):
-    #     '''
-    #     This function creates the new directory tree for the library
-    #     :param old_tree:
-    #     :param new_tree:
-    #     :param library:
-    #     :return:
-    #     '''
-    #     new_tree_list = self.tUpdated.build_full_path_tree()
-    #     old_tree_list = self.tOriginal.build_full_path_tree()
-    #
-    #     basedir = os.getcwd()
-    #     list_index_files = []
-    #     list_index_dir = []
-    #
-    #     for index in range(1, len(old_tree_list), 1):
-    #         current_item = basedir + old_tree_list[index]
-    #         if os.path.isfile(current_item):
-    #             list_index_files.append(index)
-    #
-    #         if os.path.isdir(current_item):
-    #             if os.listdir(current_item) != []:
-    #                 list_index_dir.append(index)
-    #
-    #     # TODO: cambiar os.path.join(a,b) para compatibilidad con linux y windows
-    #     for index in range(len(old_tree_list), len(new_tree_list), 1):
-    #         new_file = basedir + '/result' + new_tree_list[index]
-    #         if not os.path.exists(new_file):
-    #             os.makedirs(new_file)
-    #
-    #     for index in list_index_dir:
-    #         new_file = basedir + '/result' +new_tree_list[index]
-    #         if not os.path.exists(new_file):
-    #             os.makedirs(new_file)
-    #
-    #     for index in list_index_files:
-    #         new_file = basedir + '/result' + new_tree_list[index]
-    #         old_file = basedir + old_tree_list[index]
-    #         try:
-    #             os.rename(old_file, new_file)
-    #         except Exception as e:
-    #             print 'Error Moving File {current_file}, {error}'.format(current_file=old_file, error=str(e))
-    #
-    #     try:
-    #         library_basename = os.path.basename(library)
-    #         shutil.rmtree(library, ignore_errors=True)
-    #         os.rename(os.path.join(os.path.join(basedir, 'result'), library_basename), library)
-    #         shutil.rmtree(os.path.join(basedir, 'result'), ignore_errors=True)
-    #     except Exception as e:
-    #         print e
+    def map(self, basedir, verbose=False, debug=False):
+        '''
+
+        :param basedir:
+        :param verbose:
+        :param debug:
+        :return:
+        '''
+        self.premap(path=basedir, verbose=verbose, debug=True)
+        tree = self.build_directory_tree(basedir=basedir, verbose=verbose, debug=False)
+        pandas_engine = PandasEngine(tree=tree[0])
+        pandas_engine.create_library(debug=debug)
+        tree = pandas_engine.update_tree(debug=True)
+        self.set_tupdated(tree=tree)
+
+    def publish(self, library):
+        '''
+        This function creates the new directory tree for the library
+        :param old_tree:
+        :param new_tree:
+        :param library:
+        :return:
+        '''
+        new_tree_list = self.tUpdated.build_full_path_tree()
+        old_tree_list = self.tOriginal.build_full_path_tree()
+
+        basedir = os.getcwd()
+        list_index_files = []
+        list_index_dir = []
+
+        for index in range(1, len(old_tree_list), 1):
+            current_item = basedir + old_tree_list[index]
+            if os.path.isfile(current_item):
+                list_index_files.append(index)
+
+            if os.path.isdir(current_item):
+                if os.listdir(current_item) != []:
+                    list_index_dir.append(index)
+
+        # TODO: cambiar os.path.join(a,b) para compatibilidad con linux y windows
+        for index in range(len(old_tree_list), len(new_tree_list), 1):
+            new_file = basedir + '/result' + new_tree_list[index]
+            if not os.path.exists(new_file):
+                os.makedirs(new_file)
+
+        for index in list_index_dir:
+            new_file = basedir + '/result' +new_tree_list[index]
+            if not os.path.exists(new_file):
+                os.makedirs(new_file)
+
+        for index in list_index_files:
+            new_file = basedir + '/result' + new_tree_list[index]
+            old_file = basedir + old_tree_list[index]
+            try:
+                os.rename(old_file, new_file)
+            except Exception as e:
+                print 'Error Moving File {current_file}, {error}'.format(current_file=old_file, error=str(e))
+
+        try:
+            library_basename = os.path.basename(library)
+            # shutil.rmtree(library, ignore_errors=True)
+            # os.rename(os.path.join(os.path.join(basedir, 'result'), library_basename), library)
+            # shutil.rmtree(os.path.join(basedir, 'result'), ignore_errors=True)
+        except Exception as e:
+            print e
