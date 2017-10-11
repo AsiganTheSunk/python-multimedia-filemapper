@@ -1,5 +1,6 @@
-from filemapper.metadata.MetadataNode import MNode
 from filemapper.metadata.Metadata import Metadata
+from filemapper.metadata.MetadataNode import MetadataNode
+
 
 class MetadataTree():
     def __init__(self):
@@ -15,7 +16,11 @@ class MetadataTree():
     def add_node_count(self):
         self.node_count += 1
 
-    def add_node(self, basename=str, metadata=None, parent_basename=None, debug=None):
+    def get_node_fflag_by_index(self, index):
+        return self.nodes[index].get_metadata().get_fflag()
+
+    def add_node(self, basename=str, metadata=None, parent_basename=None,
+                 debug=None):
         '''
         :param basename: node basename
         :param metadata: metadata
@@ -28,16 +33,22 @@ class MetadataTree():
         '''
         self.add_node_count()
         if metadata is None: metadata = Metadata()
-        node = MNode(basename, self.node_count, metadata)
+        node = MetadataNode(basename, self.node_count, metadata)
         node.parent_basename = parent_basename
         if debug:
-            print ('[ADDED]: - basename:'+str(node.basename), ' --- parent_basename: '+str(node.parent_basename))
+            print ('[ADDED]: - basename:' + str(node.basename),
+                   ' --- parent_basename: ' + str(node.parent_basename))
         if parent_basename is not None:
             pnode = self.search(parent_basename)
-            pnode[len(pnode)-1].add_child(node)
+            pnode[len(pnode) - 1].add_child(node)
             if debug:
-                print ('[PARENT]: - ID(' + str(pnode[len(pnode)-1].identifier)+') '+str(pnode[len(pnode)-1].basename))
-                print ('[_CHILD]: COUNT('+str(len(pnode[len(pnode)-1].children))+') - ID(' + str(node.identifier)+') '+str(node.basename))
+                print (
+                    '[PARENT]: - ID(' + str(
+                        pnode[len(pnode) - 1].identifier) + ') ' + str(
+                        pnode[len(pnode) - 1].basename))
+                print ('[_CHILD]: COUNT(' + str(
+                    len(pnode[len(pnode) - 1].children)) + ') - ID(' + str(
+                    node.identifier) + ') ' + str(node.basename))
         self.nodes.append(node)
         return node
 
@@ -69,7 +80,7 @@ class MetadataTree():
         '''
         subtrees = self.nodes[0].children
         for i, val in enumerate(subtrees):
-             self.subtree(subtrees[i].basename, deep=1)
+            self.subtree(subtrees[i].basename, deep=1)
 
     def subtree(self, basename=str, parent_basename=None, deep=int):
         '''
@@ -85,25 +96,30 @@ class MetadataTree():
             nodelist = self.search(basename)
             print('--' + str(basename))
             for i, val in enumerate(nodelist):
-                self.subtree(nodelist[i].basename, nodelist[i].parent_basename, deep=deep)
+                self.subtree(nodelist[i].basename, nodelist[i].parent_basename,
+                             deep=deep)
         else:
             node = self.search(basename, parent_basename)[0]
-            string = '--'*int(deep)
-            print (str(string) + ': index: ('+str(node.identifier) + ') - [basename]: '+str(node.basename) )#+ ' [parent]: ' + str(node.parent_basename))
+            string = '--' * int(deep)
+            print (str(string) + ': index: (' + str(
+                node.identifier) + ') - [basename]: ' + str(
+                node.basename))  # + ' [parent]: ' + str(node.parent_basename))
             if node.children is not []:
                 for child in node.children:
-                    self.subtree(child.basename, child.parent_basename, deep=deep + 1)
+                    self.subtree(child.basename, child.parent_basename,
+                                 deep=deep + 1)
 
     def display(self):
         '''
         :return: print list of nodes
         '''
         for item in self.nodes:
-            print ('[ID]: ' + str(item.identifier)+' [PATH]: '+str(item.parent_basename)+' ./'+str(item.basename))
-
+            print (
+                '[ID]: ' + str(item.identifier) + ' [PATH]: ' + str(
+                    item.parent_basename) + ' ./' + str(item.basename))
 
     # TODO: rehacer esta funcion usando os.path.join(a,b), por temas de portabilidad entre sistemas linux y windows
-    def get_full_path (self, path, source=None, aux=None):
+    def get_full_path(self, path, source=None, aux=None):
         '''
         This function rebuilds the new path for the file in the updated library
         :param path: basename
@@ -117,7 +133,7 @@ class MetadataTree():
         if source is None: source = path
         if aux is None: aux = ''
         node = self.search(path)
-        node = node[len(node)-1]
+        node = node[len(node) - 1]
 
         if node.parent_basename is not None:
             aux += '/' + str(node.basename)
@@ -126,7 +142,7 @@ class MetadataTree():
         aux += '/' + str(node.basename)
         list = aux.split('/')
         temp = ''
-        for i in range (len(list)-1, 0, -1):
+        for i in range(len(list) - 1, 0, -1):
             temp += '/' + list[i]
         return temp
 
@@ -138,7 +154,7 @@ class MetadataTree():
         :type parent: str
         '''
 
-        tnode = pnode = MNode
+        tnode = pnode = MetadataNode
         for node in self.get_nodes():
             if node.identifier == index:
                 pnode = self.search(basename=node.parent_basename)[0]
@@ -151,8 +167,7 @@ class MetadataTree():
                 new_parent = self.search(basename=parent)[0]
                 new_parent.add_child(child=tnode)
 
-
-    def build_full_path_tree(self):
+    def get_tree_basename(self):
         nodes = self.get_nodes()
         list = []
         for node in nodes:
@@ -163,28 +178,32 @@ class MetadataTree():
     def tree_path(self):
         subtrees = self.nodes[0].children
         for i, val in enumerate(subtrees):
-             self.subtree_path(subtrees[i].basename, deep=1)
+            self.subtree_path(subtrees[i].basename, deep=1)
 
     def subtree_path(self, basename, deep, parent_basename=None):
         if parent_basename is None:
             nodelist = self.search(basename)
             for i, val in enumerate(nodelist):
-                self.subtree_path(nodelist[i].basename, deep=deep, parent_basename=nodelist[i].parent_basename)
+                self.subtree_path(nodelist[i].basename, deep=deep,
+                                  parent_basename=nodelist[i].parent_basename)
         else:
             node = self.search(basename, parent_basename)[0]
-            print 'index('+ str(node.identifier) +') - deep: ' + str(deep) + ' - ' + self.get_full_path(node.basename)
+            print 'index(' + str(node.identifier) + ') - deep: ' + str(
+                deep) + ' - ' + self.get_full_path(node.basename)
             if node.children is not []:
                 for child in node.children:
-                    self.subtree_path(child.basename, deep=deep + 1, parent_basename=child.parent_basename)
+                    self.subtree_path(child.basename, deep=deep + 1,
+                                      parent_basename=child.parent_basename)
 
-    #
-    # def update_parent_node (self, basename, parent):
-    #     node = self.search(basename=basename)[0]                        # recupero el nodo
-    #     current_parent = node.parent_basename                           # guardo el nombre del padre actual
-    #     node.parent_basename = parent                                   # asigno new_parent_basename al parent_basename del nodo buscado
-    #
-    #     parent_node = self.search(basename=current_parent)[0]           # busco el nodo padre
-    #     self.remove_child_node (node=parent_node, basename=basename)    # elimino la aparicion del nodo hijo en su lista
-    #
-    #     new_parent = self.search(basename=parent)[0]                    # busco el nuevo nodo padre
-    #     new_parent.add_child_node(node=node)                            # inserto el nodo en su lista de hijos
+
+                    #
+                    # def update_parent_node (self, basename, parent):
+                    #     node = self.search(basename=basename)[0]                        # recupero el nodo
+                    #     current_parent = node.parent_basename                           # guardo el nombre del padre actual
+                    #     node.parent_basename = parent                                   # asigno new_parent_basename al parent_basename del nodo buscado
+                    #
+                    #     parent_node = self.search(basename=current_parent)[0]           # busco el nodo padre
+                    #     self.remove_child_node (node=parent_node, basename=basename)    # elimino la aparicion del nodo hijo en su lista
+                    #
+                    #     new_parent = self.search(basename=parent)[0]                    # busco el nuevo nodo padre
+                    #     new_parent.add_child_node(node=node)                            # inserto el nodo en su lista de hijos

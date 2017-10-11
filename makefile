@@ -1,4 +1,4 @@
-.PHONY: build clean build-addon build-movie build-serie build-anime build-subs
+.PHONY: build clean build-addon build-movie build-serie build-anime build-subs build-exec build-bonus
 
 build-movie:
 	#Directory, File: Default Test (BlueRay)
@@ -36,6 +36,8 @@ build-serie:
 	#Directory, File: Default Test
 	mkdir -p ~/python-multimedia-filemapper/test-library/'Game Of Thrones'
 	mkdir -p ~/python-multimedia-filemapper/test-library/'WestWorld'
+	mkdir -p ~/python-multimedia-filemapper/test-library/'WestWorld.S01E02.1080p'
+	touch ~/python-multimedia-filemapper/test-library/'WestWorld.S01E02.1080p'/'WestWorld.S01E02.1080p.mkv'
 	
 	mkdir -p ~/python-multimedia-filemapper/test-library/'Game.of.Thrones.S06.1080p.BluRay.x264-ROVERS[rartv]'
 	touch ~/python-multimedia-filemapper/test-library/'Game.of.Thrones.S06.1080p.BluRay.x264-ROVERS[rartv]'/'Game.of.Thrones.S06E01.1080p.BluRay.x264-ROVERS[rartv].mkv'
@@ -69,8 +71,8 @@ build-serie:
 	mkdir -p ~/python-multimedia-filemapper/test-library/'Teen.Wolf.S01E05.1080p.BluRay.x265-PODO[rartv]'/
 	touch ~/python-multimedia-filemapper/test-library/'Teen.Wolf.S01E05.1080p.BluRay.x265-PODO[rartv]'/'Teen.Wolf.S01E05.1080p.mkv'
 	mkdir -p ~/python-multimedia-filemapper/test-library/'Teen.Wolf.S01E05.1080p.BluRay.x265-PODO[rartv]'/'Teen.Wolf.S01E05.subtitles'
-	#touch ~/python-multimedia-filemapper/test-library/'Teen.Wolf.S01E05.1080p.BluRay.x265-PODO[rartv]'/'Teen.Wolf.S01E05.subtitles'/'Teen.Wolf.S01E05(english).srt'
-	#touch ~/python-multimedia-filemapper/test-library/'Teen.Wolf.S01E05.1080p.BluRay.x265-PODO[rartv]'/'Teen.Wolf.S01E05.subtitles'/'Teen.Wolf.S01E05(es).srt'
+	touch ~/python-multimedia-filemapper/test-library/'Teen.Wolf.S01E05.1080p.BluRay.x265-PODO[rartv]'/'Teen.Wolf.S01E05.subtitles'/'Teen.Wolf.S01E05(english).srt'
+	touch ~/python-multimedia-filemapper/test-library/'Teen.Wolf.S01E05.1080p.BluRay.x265-PODO[rartv]'/'Teen.Wolf.S01E05.subtitles'/'Teen.Wolf.S01E05(es).srt'
 	
 	#Directory, File: Retrieving Repetead Lost Episode Test
 	#mkdir -p ~/python-multimedia-filemapper/test-library/'Game.Of.Thrones.S01E01.1080p.BluRay.x265-PODO[rartv]'/'Game.Of.Thrones.S01E01.1080p.mkv'
@@ -97,12 +99,12 @@ build-anime:
 	touch ~/python-multimedia-filemapper/test-library/'[HorribleSubs] One Piece - 768 [1080p]'/'[HorribleSubs] One Piece - 768 [1080p].mkv'
 	mkdir -p ~/python-multimedia-filemapper/test-library/'[HorribleSubs] One Piece - 768 [1080p]'/'[HorribleSubs] One Piece - 768 subtitle'/
 	touch ~/python-multimedia-filemapper/test-library/'[HorribleSubs] One Piece - 768 [1080p]'/'[HorribleSubs] One Piece - 768 subtitle'/'[HorribleSubs] One Piece - 768(eng).srt'
-
+	
 	mkdir -p ~/python-multimedia-filemapper/test-library/'[HorribleSubs] One Piece x769 [1080p]'/
 	touch ~/python-multimedia-filemapper/test-library/'[HorribleSubs] One Piece x769 [1080p]'/'[HorribleSubs] One Piece x769 [1080p].mkv'
 	mkdir -p ~/python-multimedia-filemapper/test-library/'[HorribleSubs] One Piece x769 [1080p]'/'[HorribleSubs] One Piece x769 subtitle'/
 	touch ~/python-multimedia-filemapper/test-library/'[HorribleSubs] One Piece x769 [1080p]'/'[HorribleSubs] One Piece x769 subtitle'/'[HorribleSubs] One Piece x769(eng).srt'
-
+	
 	mkdir -p ~/python-multimedia-filemapper/test-library/'[Ohys-Raws] Detective Conan - 842 (NTV 1280x720 x264 AAC)'/
 	touch ~/python-multimedia-filemapper/test-library/'[Ohys-Raws] Detective Conan - 842 (NTV 1280x720 x264 AAC)'/'[Ohys-Raws] Detective Conan - 842 (NTV 1280x720 x264 AAC).mp4'
 	mkdir -p ~/python-multimedia-filemapper/test-library/'[Ohys-Raws] Detective Conan - 842 (NTV 1280x720 x264 AAC)'/'[Ohys-Raws] Detective Conan - 842 subtitle'/
@@ -123,10 +125,18 @@ build-anime:
 build-subs:
 	cp -ar ~/python-multimedia-filemapper/subs ~/python-multimedia-filemapper/test-library/
 
+build-bonus:
+	mkdir -p ~/python-multimedia-filemapper/test-library/'Howls_Moving_Castle_(2004)_[720p,HDTV,x264,DTS]-FlexGet'
+	touch ~/python-multimedia-filemapper/test-library/'Howls_Moving_Castle_(2004)_[720p,HDTV,x264,DTS]-FlexGet'/'Howls_Moving_Castle_(2004)_[720p,HDTV,x264,DTS]-FlexGet.mkv'
+	mkdir -p ~/python-multimedia-filemapper/test-library/'Battle Royale (Batoru.Rowaiaru) (2000)'
+	touch ~/python-multimedia-filemapper/test-library/'Battle Royale (Batoru.Rowaiaru) (2000)'/'Battle.Royale.(Batoru.Rowaiaru).(2000).(Special.Edition).CD1of2.DVDRiP.XviD-[ZeaL].mkv'
+	mkdir -p ~/python-multimedia-filemapper/test-library/'Un Espia y Medio (2016) [MicroHD 1080p][AC3 5.1-DTS 5.1-Castellano-AC3 5.1 Ingles+Subs][ES-EN]'
+	touch ~/python-multimedia-filemapper/test-library/'Un Espia y Medio (2016) [MicroHD 1080p][AC3 5.1-DTS 5.1-Castellano-AC3 5.1 Ingles+Subs][ES-EN]'/'Un Espia y Medio (2016) [MicroHD 1080p][AC3 5.1-DTS 5.1-Castellano-AC3 5.1 Ingles+Subs][ES-EN].mkv'
+
 
 build-addon:
 	rm -f ~/python-multimedia-filemapper/trunk/addon/'script.galung.project.zip'
-	zip -r ~/python-multimedia-filemapper/trunk/addon/script.galung.project.zip ~/TFG/trunk/addon/script.galung.project/
+	zip -r ~/python-multimedia-filemapper/trunk/addon/'script.galung.project.zip' ~/TFG/trunk/addon/script.galung.project/
 
 
 build-all:
@@ -134,5 +144,11 @@ build-all:
 	make build-serie
 	make build-anime
 
+build-exec:
+	make clean
+	make build-all
+	./main.py
+
 clean:
 	rm -rf ~/python-multimedia-filemapper/test-library/*
+	rm -rf ~/python-multimedia-filemapper/result/*

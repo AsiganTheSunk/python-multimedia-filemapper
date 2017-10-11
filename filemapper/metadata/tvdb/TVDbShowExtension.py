@@ -1,5 +1,7 @@
-from filemapper.utils.FileFlags import FileFlags as fflags
 import tvdb_api
+
+from filemapper.utils.FileFlags import FileFlags as fflags
+
 
 class TVDbShowExtension():
     def __init__(self):
@@ -18,7 +20,7 @@ class TVDbShowExtension():
         :return: GENRE
         '''
         try:
-            genres = self.tvdb [name]['genre']
+            genres = self.tvdb[name]['genre']
             genre = genres[1:-1].split('|')[0]
         except tvdb_api.tvdb_error or tvdb_api.tvdb_episodenotfound:
             # raise error that would be corrected in ReEngine turning exception into blank field
@@ -26,9 +28,11 @@ class TVDbShowExtension():
             return genre
         else:
             if debug:
-                print('{extension_engine}: name:{name} :: genre:{genre}').format(extension_engine=self.name,
-                                                                        name=name,
-                                                                        genre=genre)
+                print(
+                '{extension_engine}: name:{name} :: genre:{genre}').format(
+                    extension_engine=self.name,
+                    name=name,
+                    genre=genre)
             return genre
 
     def get_episode_name(self, name, season, episode, debug=False):
@@ -49,7 +53,8 @@ class TVDbShowExtension():
         else:
             episode_name = aux_episode['episodename']
             if debug:
-                print('{extension_engine}: name:{name}, season:{season}, episode:{episode} :: ename:{ename}').format(
+                print(
+                '{extension_engine}: name:{name}, season:{season}, episode:{episode} :: ename:{ename}').format(
                     extension_engine=self.name,
                     name=name,
                     season=season,
@@ -57,7 +62,6 @@ class TVDbShowExtension():
                     ename=episode_name)
 
             return episode_name
-
 
     def get_number_of_season_episodes(self, name, season, debug=False):
         '''
@@ -67,18 +71,19 @@ class TVDbShowExtension():
         :return: EPISODE_COUNT
         '''
         try:
-            episode_count =  len(self.tvdb[name][int(season)])
+            episode_count = len(self.tvdb[name][int(season)])
         except tvdb_api.tvdb_error or tvdb_api.tvdb_episodenotfound:
             # raise error that would be corrected in ReEngine turning exception into blank field
             episode_count = 0
             return episode_count
         else:
             if debug:
-                print('{extension_engine}: name:{name}, season:{season} :: episodes:{episodes}').format(extension_engine=self.name,
-                                                                               name=name, season=season,
-                                                                               episodes=episode_count)
+                print(
+                '{extension_engine}: name:{name}, season:{season} :: episodes:{episodes}').format(
+                    extension_engine=self.name,
+                    name=name, season=season,
+                    episodes=episode_count)
             return episode_count
-
 
     def get_number_of_seasons(self, name, debug=False):
         '''
@@ -93,7 +98,9 @@ class TVDbShowExtension():
             return season_count
         else:
             if debug:
-                print('{extension_engine}: name:{name} :: seasons:{season_count}').format(extension_engine=self.name,
-                                                                               name=name,
-                                                                               season_count=season_count)
+                print(
+                '{extension_engine}: name:{name} :: seasons:{season_count}').format(
+                    extension_engine=self.name,
+                    name=name,
+                    season_count=season_count)
             return season_count

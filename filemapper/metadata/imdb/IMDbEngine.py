@@ -1,6 +1,6 @@
-from filemapper.utils.FileFlags import FileFlags as fflags
 from filemapper.metadata.Metadata import Metadata
 from filemapper.metadata.imdb.IMDbFilmExtension import IMDbExtension
+from filemapper.utils.FileFlags import FileFlags as fflags
 
 
 class IMDbEngine():
@@ -25,20 +25,24 @@ class IMDbEngine():
 
             if metadata.get_fflag() in extension_engine.supported_fflags:
                 try:
-                    genre = extension_engine.get_genre(name=metadata.get_name(), debug=verbose)
+                    genre = extension_engine.get_genre(name=metadata.get_name(),
+                                                       debug=verbose)
 
                 except AttributeError:
-                    print('{extension_engine} Error: unable to parse argument ...').format(extension_engine=self.name)
+                    print(
+                    '{extension_engine} Error: unable to parse argument ...').format(
+                        extension_engine=self.name)
                     return metadata.extended_metadata(genre='')
 
                 else:
                     if debug:
-                        print('{extension_engine} :: {fflag}::{stream} ::\n name:{name}, '
-                              'genre:{genre}').format(extension_engine=self.name,
-                                                      fflag=metadata.get_fflag(),
-                                                      stream=metadata,
-                                                      name=metadata.get_name(),
-                                                      genre=genre)
+                        print(
+                        '{extension_engine} :: {fflag}::{stream} ::\n name:{name}, '
+                        'genre:{genre}').format(extension_engine=self.name,
+                                                fflag=metadata.get_fflag(),
+                                                stream=metadata,
+                                                name=metadata.get_name(),
+                                                genre=genre)
 
                     return Metadata(name=metadata.get_name(),
                                     year=metadata.get_year(),

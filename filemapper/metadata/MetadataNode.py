@@ -1,7 +1,8 @@
 #!/usr/bin/python
 from filemapper.metadata.Metadata import Metadata
 
-class MNode:
+
+class MetadataNode:
     def __init__(self, basename, identifier, metadata=Metadata()):
         self.identifier = identifier
         self.basename = basename
@@ -47,4 +48,3 @@ class MNode:
                 new_child_list.append(item)
         self.set_children(new_child_list)
         return self.children
-

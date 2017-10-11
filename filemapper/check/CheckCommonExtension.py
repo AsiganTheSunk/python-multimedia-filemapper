@@ -1,5 +1,6 @@
 import re
 
+
 class CheckCommonExtension():
     def __init__(self):
         self.name = 'CheckCommonExtension'
@@ -21,11 +22,13 @@ class CheckCommonExtension():
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name, stream=stream,
-                                                                                status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(
+                    extension_engine=self.name,
+                    stream=stream,
+                    status=str(status))
             return status
 
-    def check_multimedia (self, stream, debug=False):
+    def check_multimedia(self, stream, debug=False):
         '''
         This function checks if the stream it's a multimedia file returning True, otherwise False
         :param stream: It represents the input string you're parsing
@@ -41,8 +44,10 @@ class CheckCommonExtension():
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name, stream=stream,
-                                                                                status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(
+                    extension_engine=self.name,
+                    stream=stream,
+                    status=str(status))
             return status
 
     def check_subtitles(self, stream, debug=False):
@@ -62,8 +67,10 @@ class CheckCommonExtension():
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name, stream=stream,
-                                                                                status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(
+                    extension_engine=self.name,
+                    stream=stream,
+                    status=str(status))
             return status
 
     def check_subtitles_directory(self, stream, debug=False):
@@ -82,6 +89,8 @@ class CheckCommonExtension():
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name, stream=stream,
-                                                                                status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(
+                    extension_engine=self.name,
+                    stream=stream,
+                    status=str(status))
             return status

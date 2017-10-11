@@ -1,11 +1,12 @@
 import re
 
+
 class CheckFilmExtension():
     def __init__(self):
         self.name = 'CheckFilmExtension'
         return
 
-    def check_film (self, stream, debug=False):
+    def check_film(self, stream, debug=False):
         '''
         This function checks if the stream it's a film file returning True, otherwise False
         :param stream: It represents the input string you're parsing
@@ -21,7 +22,7 @@ class CheckFilmExtension():
         else:
             status = True
             if debug:
-                print('{extension}: {stream} :: status:{status}').format(extension=self.name, stream=stream,
-                                                                                status=str(status))
+                print('{extension}: {stream} :: status:{status}').format(
+                    extension=self.name, stream=stream,
+                    status=str(status))
             return status
-

@@ -1,13 +1,15 @@
-from filemapper.utils.FileFlags import FileFlags as fflags
 from filemapper.metadata.Metadata import Metadata
 from filemapper.metadata.subs.SubtitleSrtExtension import SubtitleSrtExtension
+from filemapper.utils.FileFlags import FileFlags as fflags
 
 
 class SubtitleEngine():
     def __init__(self):
         self.name = 'SubtitleEngine'
-        self.supported_fflags = [fflags.SUBTITLE_ANIME_FLAG, fflags.SUBTITLE_FILM_FLAG, fflags.SUBTITLE_SHOW_FLAG]
-        self.supported_formats = ['srt','ass']
+        self.supported_fflags = [fflags.SUBTITLE_ANIME_FLAG,
+                                 fflags.SUBTITLE_FILM_FLAG,
+                                 fflags.SUBTITLE_SHOW_FLAG]
+        self.supported_formats = ['srt', 'ass']
         self.category_extension = [SubtitleSrtExtension()]
         return
 
@@ -26,10 +28,13 @@ class SubtitleEngine():
             # This will try to map the diferent values present in the file or directory basename
             if metadata.get_fflag() in extension_engine.supported_subtitle_fflags:
                 try:
-                    language = extension_engine.get_language(stream=stream, debug=verbose)
+                    language = extension_engine.get_language(stream=stream,
+                                                             debug=verbose)
 
                 except Exception:
-                    print('{extension_engine} Error: unable to parse argument ...').format(extension_engine=self.name)
+                    print(
+                    '{extension_engine} Error: unable to parse argument ...').format(
+                        extension_engine=self.name)
                     return Metadata(name=metadata.get_name(),
                                     episode=metadata.get_episode(),
                                     season=metadata.get_season(),
@@ -42,7 +47,8 @@ class SubtitleEngine():
 
                 else:
                     if debug:
-                        print('{extension_engine} :: {fflag}::{stream} ::\n language:{language}').format(
+                        print(
+                        '{extension_engine} :: {fflag}::{stream} ::\n language:{language}').format(
                             extension_engine=self.name,
                             fflag=metadata.get_fflag(),
                             stream=stream,

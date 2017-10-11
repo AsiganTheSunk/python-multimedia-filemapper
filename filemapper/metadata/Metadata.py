@@ -1,13 +1,16 @@
 # TODO: update default values to N/A to match the index namespace
 class Metadata:
-    def __init__(self, name='', year='', ename='', season='', episode='', quality='', film_tag='',
-                 language='', subtitle='', uploader='', source='', extension='', fflag='', acodec='', vcodec='',
-                 director='', actors='', genre='', duration='', chapters='', n_season='', e_season=''):
+    def __init__(self, name='', year='', ename='', season='', episode='',
+                 quality='', film_tag='',
+                 language='', subtitle='', uploader='', source='', extension='',
+                 fflag='', acodec='', vcodec='',
+                 director='', actors='', genre='', duration='', chapters='',
+                 n_season='', e_season=''):
 
         self.name = name
         self.ename = ename
         self.season = season
-        self.episode =  episode
+        self.episode = episode
         self.quality = quality
         self.extension = extension
         self.uploader = uploader
@@ -30,7 +33,6 @@ class Metadata:
     def eval_value(self, value):
         if value is '':
             return value
-
 
     def get_name(self):
         return self.name
@@ -187,11 +189,14 @@ class Metadata:
             n_season = self.get_n_season()
             e_season = self.get_e_season()
 
-
             if debug:
-                print (name, year, season, episode, ename, quality, subtitle, language, film_tag, fflag, extension)
+                print (
+                name, year, season, episode, ename, quality, subtitle, language,
+                film_tag, fflag, extension)
 
-            return (name, year, season, episode, ename, quality, subtitle, language, film_tag, fflag, extension)
+            return (
+            name, year, season, episode, ename, quality, subtitle, language,
+            film_tag, fflag, extension)
 
         except Exception as e:
             print e

@@ -21,16 +21,19 @@ class PandasEngine():
         self.old_dataframe = DataFrame()
         self.new_dataframe = DataFrame()
         self.pandas_utils = PandasUtils()
-        self.pandas_extension = [PandasShowExtension(), PandasFilmExtension(), PandasAnimeExtension()]
+        self.pandas_extension = [PandasShowExtension(), PandasFilmExtension(),
+                                 PandasAnimeExtension()]
         return
 
     def create_library(self, debug=False):
         root_basename = self.tree.nodes[0].basename
-        self.old_dataframe = self.pandas_utils.create_data_frame(tree=self.tree, debug=debug)
+        self.old_dataframe = self.pandas_utils.create_data_frame(tree=self.tree,
+                                                                 debug=debug)
 
         dataframe = self.old_dataframe
         for extension in self.pandas_extension:
-            dataframe = extension.create_default_library(dataframe=dataframe, root_basename=root_basename)
+            dataframe = extension.create_default_library(dataframe=dataframe,
+                                                         root_basename=root_basename)
 
         self.new_dataframe = dataframe
         if debug:
@@ -40,9 +43,9 @@ class PandasEngine():
             print '~~~~~~~~~~~~~~~~~~~~~~~~~~' * 8
         return self.new_dataframe
 
-
     def calculate_rows(self):
-        return len(self.new_dataframe.index), (len(self.old_dataframe)), (len(self.new_dataframe) - len(self.old_dataframe))
+        return len(self.new_dataframe.index), (len(self.old_dataframe)), (
+            len(self.new_dataframe) - len(self.old_dataframe))
 
     def update_tree(self, debug=False):
         _total_rows, _old_rows, _new_rows = self.calculate_rows()
@@ -52,9 +55,11 @@ class PandasEngine():
 
         if debug:
             print '~~~~~~~~~~~~~~~~~~~~~~~~~~' * 8
-            print ('MetadataTree MetadataNodes               :: {total}').format(total=_total_rows)
-            print ('MetadataTree MetadataNodes to be added   :: {new}').format(new=_new_rows)
-
+            print (
+            'MetadataTree MetadataNodes               :: {total}').format(
+                total=_total_rows)
+            print ('MetadataTree MetadataNodes to be added   :: {new}').format(
+                new=_new_rows)
 
         for index in range(len(old_dataframe.index), len(dataframe.index), 1):
             name = dataframe.iloc[int(index)]['name']
@@ -67,18 +72,21 @@ class PandasEngine():
             n_season = dataframe.iloc[int(index)]['n_season']
             e_season = dataframe.iloc[int(index)]['e_season']
 
-            metadata = Metadata(name=self.pandas_utils.clean_empty_value(value=name),
-                                season=self.pandas_utils.clean_empty_value(value=season),
-                                episode=self.pandas_utils.clean_empty_value(value=episode),
-                                year=self.pandas_utils.clean_empty_value(value=year),
-                                genre=self.pandas_utils.clean_empty_value(value=genre),
-                                n_season=self.pandas_utils.clean_empty_value(value=n_season),
-                                e_season=self.pandas_utils.clean_empty_value(value=e_season))
+            metadata = Metadata(
+                name=self.pandas_utils.clean_empty_value(value=name),
+                season=self.pandas_utils.clean_empty_value(value=season),
+                episode=self.pandas_utils.clean_empty_value(value=episode),
+                year=self.pandas_utils.clean_empty_value(value=year),
+                genre=self.pandas_utils.clean_empty_value(value=genre),
+                n_season=self.pandas_utils.clean_empty_value(value=n_season),
+                e_season=self.pandas_utils.clean_empty_value(value=e_season))
 
-            tree.add_node(basename=basename, metadata=metadata, parent_basename=parent)
+            tree.add_node(basename=basename, metadata=metadata,
+                          parent_basename=parent)
 
         if debug:
-            print ('MetadataTree MetadataNodes to be updated :: {old}').format(old=_old_rows)
+            print ('MetadataTree MetadataNodes to be updated :: {old}').format(
+                old=_old_rows)
             print '~~~~~~~~~~~~~~~~~~~~~~~~~~' * 8
 
         for index in range(0, len(old_dataframe.index), 1):
@@ -90,8 +98,10 @@ class PandasEngine():
                 # print('------'*20)
                 # print('Input: index({index}) basename: {base} - [Parent]: old: {old_parent}'.format(index=index, old_parent=old_parent_basename, base=node.basename))
                 # print('Onput: index({index}) basename: {basename} - [Parent]: new: {new_parent}'.format(index=index, basename=current_basename, new_parent=current_parent))
-                tree.update_parent_node_by_index(index=int(index), parent=current_parent)
+                tree.update_parent_node_by_index(index=int(index),
+                                                 parent=current_parent)
 
         tree.tree()
         return tree
+
 #

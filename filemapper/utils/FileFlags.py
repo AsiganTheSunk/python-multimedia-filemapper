@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class FileFlags(Enum):
     LIBRARY_FLAG = '0'
     MAIN_SHOW_DIRECTORY_FLAG = '1'

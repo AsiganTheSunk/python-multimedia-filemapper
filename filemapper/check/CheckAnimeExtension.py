@@ -1,5 +1,6 @@
 import re
 
+
 class CheckAnimeExtension():
     def __init__(self):
         self.name = 'CheckAnimeExtension'
@@ -14,7 +15,7 @@ class CheckAnimeExtension():
         :return: BOOLEAN
         '''
         status = False
-        _header_pattern  = ['(^\[(\w+(\s|\-|.?))+\])']
+        _header_pattern = ['(^\[(\w+(\s|\-|.?))+\])']
         _tail_pattern = ['(\-)(.?)\d{1,3}|(x|E(pisode)?)(\s|\.|\-)?\d{1,3}']
         try:
             re.search(_header_pattern[0], stream, re.IGNORECASE).group(0)
@@ -24,8 +25,10 @@ class CheckAnimeExtension():
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name, stream=stream,
-                                                                                status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(
+                    extension_engine=self.name,
+                    stream=stream,
+                    status=str(status))
             return status
 
     def check_anime_show(self, stream, debug=False):
@@ -37,25 +40,34 @@ class CheckAnimeExtension():
         '''
         status = False
         try:
-            re.search('\[(\w+-?)*\](\s\w+)*\s(.?\s)?(\d{0,3}|E\w{0,6}.?\d{0,3})\s\(?\[?(\d{3,4}p|.*)\)?\]?(.mp4|.mkv)', stream, re.IGNORECASE).group(0)
+            re.search(
+                '\[(\w+-?)*\](\s\w+)*\s(.?\s)?(\d{0,3}|E\w{0,6}.?\d{0,3})\s\(?\[?(\d{3,4}p|.*)\)?\]?(.mp4|.mkv)',
+                stream, re.IGNORECASE).group(0)
         except AttributeError:
             try:
-                re.search('^\[(\w+(\s|\-|.?))+\]', stream, re.IGNORECASE).group(0)
-                re.search('\-(.?)\d{1,3}|(x|E(pisode)?)(\s|\.|\-)?\d{1,3}', stream, re.IGNORECASE).group(0)
+                re.search('^\[(\w+(\s|\-|.?))+\]', stream, re.IGNORECASE).group(
+                    0)
+                re.search('\-(.?)\d{1,3}|(x|E(pisode)?)(\s|\.|\-)?\d{1,3}',
+                          stream, re.IGNORECASE).group(0)
                 re.search('\.mp4|\.mkv', stream, re.IGNORECASE).group(0)
             except AttributeError:
                 return status
             else:
                 status = True
                 if debug:
-                    print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name, stream=stream,
-                                                                                    status=str(status))
+                    print(
+                    '{extension_engine}: {stream} :: status:{status}').format(
+                        extension_engine=self.name,
+                        stream=stream,
+                        status=str(status))
                 return status
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name, stream=stream,
-                                                                                status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(
+                    extension_engine=self.name,
+                    stream=stream,
+                    status=str(status))
             return status
 
     def check_anime_directory(self, stream, debug=False):
@@ -78,7 +90,8 @@ class CheckAnimeExtension():
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name, stream=stream,
-                                                                                status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(
+                    extension_engine=self.name,
+                    stream=stream,
+                    status=str(status))
             return status
-

@@ -1,14 +1,15 @@
-from filemapper.utils.FileFlags import FileFlags as fflags
 from filemapper.metadata.Metadata import Metadata
 from filemapper.sbuilder.StringAnimeExtension import StringAnimeExtension
 from filemapper.sbuilder.StringFilmExtension import StringFilmExtension
 from filemapper.sbuilder.StringShowExtension import StringShowExtension
+from filemapper.utils.FileFlags import FileFlags as fflags
 
 EMPTY_WRAP = -1
 BRACKET_WRAP = 0
 PARENTHESIS_WRAP = 1
 DASH_PARENTHESIS_WRAP = 2
 EXTENSION_WRAP = 3
+
 
 def eval_wrapped_key(value, wrap_type):
     '''
@@ -32,9 +33,11 @@ def eval_wrapped_key(value, wrap_type):
         else:
             return value
 
+
 class StringBuilder():
     def __init__(self):
-        self.extension_engines = [StringAnimeExtension(), StringShowExtension(), StringFilmExtension()]
+        self.extension_engines = [StringAnimeExtension(), StringShowExtension(),
+                                  StringFilmExtension()]
         return
 
     # ADD DUMMY FLAGS FUNCTIONS! to try to remap properly
@@ -46,9 +49,11 @@ class StringBuilder():
         '''
         try:
             if title:
-                new_stream = stream.replace('-', ' ').replace('.', ' ').replace('_', ' ').rstrip().title()
+                new_stream = stream.replace('-', ' ').replace('.', ' ').replace(
+                    '_', ' ').rstrip().title()
             else:
-                new_stream = stream.replace('-', ' ').replace('.', ' ').replace('_', ' ').rstrip()
+                new_stream = stream.replace('-', ' ').replace('.', ' ').replace(
+                    '_', ' ').rstrip()
         except Exception as e:
             return stream
         else:
@@ -73,16 +78,33 @@ class StringBuilder():
         film_tag, fflag, extension = metadata.unpack_metadata(debug=debug)
 
         try:
-            if metadata.get_fflag() is (fflags.LIBRARY_FLAG or fflags.MAIN_SHOW_DIRECTORY_FLAG or fflags.IGNORE_FLAG):
+            if metadata.get_fflag() is (
+                    fflags.LIBRARY_FLAG or fflags.MAIN_SHOW_DIRECTORY_FLAG or fflags.IGNORE_FLAG):
                 return name
             else:
                 for extension_engine in self.extension_engines:
                     if metadata.get_fflag() in extension_engine.supported_fflags:
-                        return extension_engine.build_name(name=name, year=year, season=season, episode=episode, ename=ename, quality=quality, extension=extension, film_tag=film_tag, debug=debug)
+                        return extension_engine.build_name(name=name, year=year,
+                                                           season=season,
+                                                           episode=episode,
+                                                           ename=ename,
+                                                           quality=quality,
+                                                           extension=extension,
+                                                           film_tag=film_tag,
+                                                           debug=debug)
                     elif metadata.get_fflag() in extension_engine.supported_subtitle_fflags:
-                        return extension_engine.build_subtitle_name(name=name, year=year, season=season, episode=episode, subtitle=subtitle, language=language, extension=extension, debug=debug)
+                        return extension_engine.build_subtitle_name(name=name,
+                                                                    year=year,
+                                                                    season=season,
+                                                                    episode=episode,
+                                                                    subtitle=subtitle,
+                                                                    language=language,
+                                                                    extension=extension,
+                                                                    debug=debug)
                     elif metadata.get_fflag() in extension_engine.supported_season_fflags:
-                        return extension_engine.build_season_name(name=name, season=season, debug=debug)
+                        return extension_engine.build_season_name(name=name,
+                                                                  season=season,
+                                                                  debug=debug)
 
         except Exception as e:
             print e

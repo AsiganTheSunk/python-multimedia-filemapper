@@ -1,5 +1,7 @@
-from filemapper.utils.FileFlags import FileFlags as fflags
 import imdb
+
+from filemapper.utils.FileFlags import FileFlags as fflags
+
 
 class IMDbExtension():
     def __init__(self):
@@ -27,7 +29,9 @@ class IMDbExtension():
             return genre
         else:
             if debug:
-                print('{extension_engine}: name:{name} :: genre:{genre}').format(extension_engine=self.name,
-                                                                        name=name,
-                                                                        genre=genre)
+                print(
+                '{extension_engine}: name:{name} :: genre:{genre}').format(
+                    extension_engine=self.name,
+                    name=name,
+                    genre=genre)
             return genre

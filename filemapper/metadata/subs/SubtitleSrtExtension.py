@@ -1,16 +1,19 @@
-from filemapper.utils.FileFlags import FileFlags as fflags
-from langdetect import DetectorFactory
-from langdetect import detect
 import chardet
 import pysrt
-import re
+from langdetect import DetectorFactory
+from langdetect import detect
+
+from filemapper.utils.FileFlags import FileFlags as fflags
+
 
 class SubtitleSrtExtension():
     def __init__(self):
         self.name = 'SubtitleSrtExtension'
         self.supported_fflags = []
         self.supported_season_fflags = []
-        self.supported_subtitle_fflags = [fflags.SUBTITLE_ANIME_FLAG, fflags.SUBTITLE_FILM_FLAG, fflags.SUBTITLE_SHOW_FLAG]
+        self.supported_subtitle_fflags = [fflags.SUBTITLE_ANIME_FLAG,
+                                          fflags.SUBTITLE_FILM_FLAG,
+                                          fflags.SUBTITLE_SHOW_FLAG]
         self.supported_formats = ['srt']
         return
 
@@ -31,7 +34,7 @@ class SubtitleSrtExtension():
                 content = pysrt.open(path, encoding=encoding['encoding'])
 
                 for i in range(0, chunk_size, 1):
-                   subtitle_chunk += ' ' + content[i].text
+                    subtitle_chunk += ' ' + content[i].text
 
             return subtitle_chunk
         except Exception:
@@ -60,7 +63,9 @@ class SubtitleSrtExtension():
             return language
         else:
             if debug:
-                print('{extension_engine}: {stream} :: language:{value}').format(extension_engine=self.name,
-                                                                        stream=stream,
-                                                                        value=language)
+                print(
+                '{extension_engine}: {stream} :: language:{value}').format(
+                    extension_engine=self.name,
+                    stream=stream,
+                    value=language)
             return language

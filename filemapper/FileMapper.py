@@ -2,17 +2,18 @@
 
 import os
 
-from utils.FileFlags import FileFlags as fflags
 from filemapper.check.CheckEngine import CheckEngine
 from filemapper.metadata.Metadata import Metadata
 from filemapper.metadata.MetadataEngine import MetadataEngine
 from filemapper.metadata.MetadataTree import MetadataTree
-from filemapper.sbuilder.StringBuilder import StringBuilder
 from filemapper.pandas.PandasEngine import PandasEngine
+from filemapper.sbuilder.StringBuilder import StringBuilder
+from utils.FileFlags import FileFlags as fflags
 
 
 class FileMapper():
-    def __init__(self):
+    def __init__(self, basedir):
+        self.basedir = basedir
         self.directory_dict = {}
         self.multimedia_source = []
 
@@ -33,7 +34,7 @@ class FileMapper():
     def set_tupdated(self, tree):
         self.tUpdated = tree
 
-    def premap(self, path, verbose=False, debug=False):
+    def premap(self, verbose=False, debug=False):
         '''
         This function pre-maps the contents of the directory from a given path
         :param path:
@@ -45,27 +46,38 @@ class FileMapper():
             print 'CheckEngine  ::'
             print '~~~~~~~~~~~~~~~~~~~~~~~~~~' * 8
 
-        for root, directories, files in os.walk(path):
+        for root, directories, files in os.walk(self.basedir):
             for directory in directories:
                 try:
                     if self.check_engine.check_main_directory(stream=directory, verbose=verbose, debug=debug):
                         if not os.listdir(os.path.join(root, directory)) == []:
-                            self.directory_dict[str(os.path.abspath(os.path.join(root, directory)))] = fflags.MAIN_SHOW_DIRECTORY_FLAG
-                    elif self.check_engine.check_show_subtitles_directory(stream=directory, verbose=verbose, debug=debug):
-                        self.directory_dict[str(os.path.abspath(os.path.join(root, directory)))] = fflags.SUBTITLE_DIRECTORY_SHOW_FLAG
-                    elif self.check_engine.check_anime_subtitles_directory(stream=directory, verbose=verbose, debug=debug):
-                        self.directory_dict[str(os.path.abspath(os.path.join(root, directory)))] = fflags.SUBTITLE_DIRECTORY_ANIME_FLAG
-                    elif self.check_engine.check_film_subtitles_directory(stream=directory, verbose=verbose, debug=debug):
-                        self.directory_dict[str(os.path.abspath(os.path.join(root, directory)))] = fflags.SUBTITLE_DIRECTORY_FILM_FLAG
+                            self.directory_dict[
+                                str(os.path.abspath(os.path.join(root, directory)))] = fflags.MAIN_SHOW_DIRECTORY_FLAG
+                    elif self.check_engine.check_show_subtitles_directory(stream=directory, verbose=verbose,
+                                                                          debug=debug):
+                        self.directory_dict[
+                            str(os.path.abspath(os.path.join(root, directory)))] = fflags.SUBTITLE_DIRECTORY_SHOW_FLAG
+                    elif self.check_engine.check_anime_subtitles_directory(stream=directory, verbose=verbose,
+                                                                           debug=debug):
+                        self.directory_dict[
+                            str(os.path.abspath(os.path.join(root, directory)))] = fflags.SUBTITLE_DIRECTORY_ANIME_FLAG
+                    elif self.check_engine.check_film_subtitles_directory(stream=directory, verbose=verbose,
+                                                                          debug=debug):
+                        self.directory_dict[
+                            str(os.path.abspath(os.path.join(root, directory)))] = fflags.SUBTITLE_DIRECTORY_FILM_FLAG
                     elif self.check_engine.check_show_directory(stream=directory, verbose=verbose, debug=debug):
-                        self.directory_dict[str(os.path.abspath(os.path.join(root, directory)))] = fflags.SHOW_DIRECTORY_FLAG
+                        self.directory_dict[
+                            str(os.path.abspath(os.path.join(root, directory)))] = fflags.SHOW_DIRECTORY_FLAG
                     elif self.check_engine.check_anime_directory(stream=directory, verbose=verbose, debug=debug):
-                        self.directory_dict[str(os.path.abspath(os.path.join(root, directory)))] = fflags.ANIME_DIRECTORY_FLAG
+                        self.directory_dict[
+                            str(os.path.abspath(os.path.join(root, directory)))] = fflags.ANIME_DIRECTORY_FLAG
                     elif self.check_engine.check_season_directory(stream=directory, verbose=verbose, debug=debug):
                         if not os.listdir(os.path.join(root, directory)) == []:
-                            self.directory_dict[str(os.path.abspath(os.path.join(root, directory)))] = fflags.SEASON_DIRECTORY_FLAG
+                            self.directory_dict[
+                                str(os.path.abspath(os.path.join(root, directory)))] = fflags.SEASON_DIRECTORY_FLAG
                     elif self.check_engine.check_film(stream=directory, verbose=verbose, debug=debug):
-                        self.directory_dict[str(os.path.abspath(os.path.join(root, directory)))] = fflags.FILM_DIRECTORY_FLAG
+                        self.directory_dict[
+                            str(os.path.abspath(os.path.join(root, directory)))] = fflags.FILM_DIRECTORY_FLAG
                     else:
                         self.directory_dict[str(os.path.abspath(os.path.join(root, directory)))] = fflags.UNKOWN_FLAG
 
@@ -81,7 +93,8 @@ class FileMapper():
                     elif self.check_engine.check_film_subtitles(file_, verbose=verbose, debug=debug):
                         self.directory_dict[str(os.path.abspath(os.path.join(root, file_)))] = fflags.SUBTITLE_FILM_FLAG
                     elif self.check_engine.check_anime_subtitles(file_, verbose=verbose, debug=debug):
-                        self.directory_dict[str(os.path.abspath(os.path.join(root, file_)))] = fflags.SUBTITLE_ANIME_FLAG
+                        self.directory_dict[
+                            str(os.path.abspath(os.path.join(root, file_)))] = fflags.SUBTITLE_ANIME_FLAG
                     elif self.check_engine.check_show(file_, verbose=verbose, debug=debug):
                         self.directory_dict[str(os.path.abspath(os.path.join(root, file_)))] = fflags.SHOW_FLAG
                     elif self.check_engine.check_film(file_, verbose=verbose, debug=debug):
@@ -109,9 +122,9 @@ class FileMapper():
         :return: DIRECTORY
         '''
         for item in sorted(dict):
-            print('  :: item: {item} : fflag: {fflag}').format(item=item,fflag=dict[item])
+            print('  :: item: {item} : fflag: {fflag}').format(item=item, fflag=dict[item])
 
-    def build_directory_tree(self, basedir, verbose=False, debug=False):
+    def build_directory_tree(self, verbose=False, debug=False):
         '''
         This function creates a tree data structure from a given dictionary
         :param basedir:
@@ -122,6 +135,7 @@ class FileMapper():
         :return:
         '''
         try:
+            basedir = self.basedir
             metadata = Metadata()
             parent_metadata = Metadata()
             new_basename = ''
@@ -135,27 +149,32 @@ class FileMapper():
             for item in sorted(self.directory_dict):
                 len_aux = len(str(os.path.basename(item)))
                 parent = item[:-len_aux - 1]
-                metadata = self.metadata_engine.map(stream=str(item), fflag=self.directory_dict[item], verbose=verbose, debug=debug)
+                metadata = self.metadata_engine.map(stream=str(item), fflag=self.directory_dict[item], verbose=verbose,
+                                                    debug=debug)
                 new_basename = self.string_builder.rebuild_name(metadata=metadata)
 
                 if parent in basedir:
-                    parent_metadata = self.metadata_engine.map(stream=str(parent), fflag=fflags.LIBRARY_FLAG, verbose=verbose, debug=debug)
+                    parent_metadata = self.metadata_engine.map(stream=str(parent), fflag=fflags.LIBRARY_FLAG,
+                                                               verbose=verbose, debug=debug)
                     new_parent_basename = self.string_builder.rebuild_name(metadata=parent_metadata)
                 else:
-                    parent_metadata = self.metadata_engine.map(stream=str(parent), fflag=self.directory_dict[parent], verbose=verbose, debug=debug)
+                    parent_metadata = self.metadata_engine.map(stream=str(parent), fflag=self.directory_dict[parent],
+                                                               verbose=verbose, debug=debug)
                     new_parent_basename = self.string_builder.rebuild_name(metadata=parent_metadata)
 
-                self.tOriginal.add_node(basename=str(os.path.basename(item)), metadata=metadata, parent_basename=str(os.path.basename(parent)))
-                self.tUpdated.add_node(basename=str(new_basename), metadata=metadata, parent_basename=str(new_parent_basename))
+                self.tOriginal.add_node(basename=str(os.path.basename(item)), metadata=metadata,
+                                        parent_basename=str(os.path.basename(parent)))
+                self.tUpdated.add_node(basename=str(new_basename), metadata=metadata,
+                                       parent_basename=str(new_parent_basename))
                 if debug:
                     print(
-                        'MetadataTree :: fflag{fflag} : input_basename{ibasename} input_parent{iparentbasename}').format(
+                        'MetadataTree :: fflag: {fflag} : input_basename: {ibasename} input_parent: {iparentbasename}').format(
                         fflag=str(self.directory_dict[item]),
                         ibasename=str(os.path.basename(item)),
                         iparentbasename=str(os.path.basename(parent)))
 
                     print(
-                        'MetadataTree :: fflag{fflag} : input_basename{obasename} input_parent{oparentbasename}').format(
+                        'MetadataTree :: fflag: {fflag} : input_basename: {obasename} input_parent: {oparentbasename}').format(
                         fflag=str(self.directory_dict[item]),
                         obasename=str(new_basename),
                         oparentbasename=str(new_parent_basename))
@@ -166,7 +185,7 @@ class FileMapper():
         else:
             return [self.tUpdated, self.tOriginal]
 
-    def map(self, basedir, verbose=False, debug=False):
+    def map(self, verbose=False, debug=False):
         '''
 
         :param basedir:
@@ -174,60 +193,78 @@ class FileMapper():
         :param debug:
         :return:
         '''
-        self.premap(path=basedir, verbose=verbose, debug=True)
-        tree = self.build_directory_tree(basedir=basedir, verbose=verbose, debug=False)
+        self.premap(verbose=verbose, debug=True)
+        tree = self.build_directory_tree(verbose=verbose, debug=False)
         pandas_engine = PandasEngine(tree=tree[0])
         pandas_engine.create_library(debug=debug)
         tree = pandas_engine.update_tree(debug=True)
         self.set_tupdated(tree=tree)
 
-    def publish(self, library):
+    def test_map(self, verbose=False, debug=False):
         '''
-        This function creates the new directory tree for the library
-        :param old_tree:
-        :param new_tree:
-        :param library:
+
+        :param basedir:
+        :param verbose:
+        :param debug:
         :return:
         '''
-        new_tree_list = self.tUpdated.build_full_path_tree()
-        old_tree_list = self.tOriginal.build_full_path_tree()
+        self.premap(verbose=verbose, debug=debug)
+        self.build_directory_tree(verbose=verbose, debug=debug)
+        return
 
-        basedir = os.getcwd()
-        list_index_files = []
-        list_index_dir = []
-
-        for index in range(1, len(old_tree_list), 1):
-            current_item = basedir + old_tree_list[index]
-            if os.path.isfile(current_item):
-                list_index_files.append(index)
-
-            if os.path.isdir(current_item):
-                if os.listdir(current_item) != []:
-                    list_index_dir.append(index)
-
-        # TODO: cambiar os.path.join(a,b) para compatibilidad con linux y windows
-        for index in range(len(old_tree_list), len(new_tree_list), 1):
-            new_file = basedir + '/result' + new_tree_list[index]
-            if not os.path.exists(new_file):
-                os.makedirs(new_file)
-
-        for index in list_index_dir:
-            new_file = basedir + '/result' +new_tree_list[index]
-            if not os.path.exists(new_file):
-                os.makedirs(new_file)
-
-        for index in list_index_files:
-            new_file = basedir + '/result' + new_tree_list[index]
-            old_file = basedir + old_tree_list[index]
-            try:
-                os.rename(old_file, new_file)
-            except Exception as e:
-                print 'Error Moving File {current_file}, {error}'.format(current_file=old_file, error=str(e))
-
+    def publish(self, debug=False):
+        '''
+        This function creates the new directory tree for the library
+        :param path:
+        :return:
+        '''
         try:
-            library_basename = os.path.basename(library)
-            # shutil.rmtree(library, ignore_errors=True)
-            # os.rename(os.path.join(os.path.join(basedir, 'result'), library_basename), library)
-            # shutil.rmtree(os.path.join(basedir, 'result'), ignore_errors=True)
+            new_basename_list = self.tUpdated.get_tree_basename()
+            old_basename_list = self.tOriginal.get_tree_basename()
+
+            basedir = os.getcwd()
+            basedir_dest = basedir + '/result'
+            file_index_list = []
+            dir_index_list = []
+
+            # First we split the data into directory type of file type so we can create
+            # the new directory structure and then move the files to the new location.
+            for index in range(1, len(old_basename_list), 1):
+                current_item = basedir + old_basename_list[index]
+                if os.path.isfile(current_item):
+                    file_index_list.append(index)
+
+                if os.path.isdir(current_item):
+                    if os.listdir(current_item) != []:
+                        dir_index_list.append(index)
+
+            # TODO: cambiar os.path.join(a,b) para compatibilidad con linux y windows
+            # Second we create the new directory tree and then we move + rename the files to it's new location.
+            for index in range(len(old_basename_list), len(new_basename_list), 1):
+                new_file = basedir_dest + new_basename_list[index]
+                if not os.path.exists(new_file):
+                    if debug:
+                        print ('Publish :: Creating {new_dir}').format(new_dir=new_file)
+                    os.makedirs(new_file)
+
+            for index in dir_index_list:
+                new_file = basedir_dest + new_basename_list[index]
+                if not os.path.exists(new_file):
+                    if debug:
+                        print ('Publish :: Creating {old_dir}').format(old_dir=new_file)
+                    os.makedirs(new_file)
+
+            for index in file_index_list:
+                new_file = basedir_dest + new_basename_list[index]
+                old_file = basedir + old_basename_list[index]
+                try:
+                    if debug:
+                        print ('Publish :: Moving {new_file}').format(new_file=new_file)
+                    os.rename(old_file, new_file)
+                except Exception as e:
+                    if debug:
+                        print ('Publish :: Error moving: {old_file} to {new_file}: error: {error}\n').format(
+                            old_file=old_file, new_file=new_file, error=str(e))
         except Exception as e:
-            print e
+            if debug:
+                print ('Publish :: error: {error}').format(error=str(e))
