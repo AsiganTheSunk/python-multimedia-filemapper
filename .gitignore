@@ -4,3 +4,7 @@
 *.pyc
 
 \.cache/v/cache/
+
+*.mkv
+
+*.srt
