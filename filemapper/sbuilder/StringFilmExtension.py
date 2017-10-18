@@ -42,17 +42,11 @@ class StringFilmExtension():
         '''
         try:
             FILM_NAME = ('{name}{year}{film_tag}{quality}{extension}').format(
-                name=self.string_utils.eval_wrapped_key(value=name,
-                                                        wrap_type=NONE_WRAP),
-                year=self.string_utils.eval_wrapped_key(value=year,
-                                                        wrap_type=PARENTHESIS_WRAP),
-                film_tag=self.string_utils.eval_wrapped_key(value=film_tag,
-                                                            wrap_type=EMPTY_WRAP),
-                quality=self.string_utils.eval_wrapped_key(value=quality,
-                                                           wrap_type=BRACKET_WRAP),
-                extension=self.string_utils.eval_wrapped_key(value=extension,
-                                                             wrap_type=EXTENSION_WRAP)
-            )
+                name=self.string_utils.eval_wrapped_key(value=name, wrap_type=NONE_WRAP),
+                year=self.string_utils.eval_wrapped_key(value=year, wrap_type=PARENTHESIS_WRAP),
+                film_tag=self.string_utils.eval_wrapped_key(value=film_tag, wrap_type=EMPTY_WRAP),
+                quality=self.string_utils.eval_wrapped_key(value=quality, wrap_type=BRACKET_WRAP),
+                extension=self.string_utils.eval_wrapped_key(value=extension, wrap_type=EXTENSION_WRAP))
 
             if debug:
                 print ('{engine}: {name}').format(engine=self.name,
@@ -78,17 +72,11 @@ class StringFilmExtension():
         try:
             SUBTITLE_NAME = (
             '{name}{year}{subtitle}{language}{extension}').format(
-                name=self.string_utils.eval_wrapped_key(value=name,
-                                                        wrap_type=NONE_WRAP),
-                year=self.string_utils.eval_wrapped_key(value=year,
-                                                        wrap_type=PARENTHESIS_WRAP),
-                subtitle=self.string_utils.eval_wrapped_key(value=subtitle,
-                                                            wrap_type=PARENTHESIS_WRAP),
-                language=self.string_utils.eval_wrapped_key(value=language,
-                                                            wrap_type=DASH_PARENTHESIS_WRAP),
-                extension=self.string_utils.eval_wrapped_key(value=extension,
-                                                             wrap_type=EXTENSION_WRAP)
-            )
+                name=self.string_utils.eval_wrapped_key(value=name, wrap_type=NONE_WRAP),
+                year=self.string_utils.eval_wrapped_key(value=year, wrap_type=PARENTHESIS_WRAP),
+                subtitle=self.string_utils.eval_wrapped_key(value=subtitle, wrap_type=PARENTHESIS_WRAP),
+                language=self.string_utils.eval_wrapped_key(value=language, wrap_type=DASH_PARENTHESIS_WRAP),
+                extension=self.string_utils.eval_wrapped_key(value=extension, wrap_type=EXTENSION_WRAP))
 
             if debug:
                 print ('{engine}: {name}').format(engine=self.name,

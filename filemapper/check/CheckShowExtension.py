@@ -17,17 +17,14 @@ class CheckShowExtension():
         _show_directory_pattern = [
             '(\w+.+)([s]\d{1,3}[e]\d{1,3}).?(?=(\d{3,4}p)?).*(\[.*\])?']
         try:
-            re.search(_show_directory_pattern[0], stream, re.IGNORECASE).group(
-                0)
+            re.search(_show_directory_pattern[0], stream, re.IGNORECASE).group(0)
         except AttributeError:
             return status
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(
-                    extension_engine=self.name,
-                    stream=stream,
-                    status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name,
+                                                                                stream=stream, status=str(status))
             return status
 
     def check_show(self, stream, debug=False):
@@ -46,10 +43,8 @@ class CheckShowExtension():
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(
-                    extension_engine=self.name,
-                    stream=stream,
-                    status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name,
+                                                                                stream=stream, status=str(status))
             return status
 
     def check_season_directory(self, stream, debug=False):
@@ -70,8 +65,6 @@ class CheckShowExtension():
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(
-                    extension_engine=self.name,
-                    stream=stream,
-                    status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name,
+                                                                                stream=stream, status=str(status))
             return status

@@ -19,7 +19,8 @@ class MetadataEngine():
 
     def map(self, stream, fflag, verbose=False, debug=False):
         '''
-        This function will map the values of a given file or directory path in order to extract the metadata
+        This function will map the values of a given file or directory path in
+        order to extract the metadata
         :param stream:
         :param fflag:
         :param verbose:
@@ -29,8 +30,10 @@ class MetadataEngine():
         metadata = Metadata()
         basename = os.path.basename(stream)
         try:
-            if fflag is (
-                    fflags.LIBRARY_FLAG or fflags.MAIN_SHOW_DIRECTORY_FLAG or fflags.IGNORE_FLAG):
+            if fflag is (fflags.LIBRARY_FLAG
+                         or fflags.MAIN_SHOW_DIRECTORY_FLAG
+                         or fflags.IGNORE_FLAG):
+
                 return Metadata(name=basename, fflag=fflag)
 
             metadata = self.regex_engine.map(stream=basename, fflag=fflag,

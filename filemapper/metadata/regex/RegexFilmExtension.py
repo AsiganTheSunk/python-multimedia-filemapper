@@ -80,8 +80,7 @@ class RegexFilmExtension():
         '''
         _film_tag_patterns = ['EXTENDED(.*)?CUT|REMASTERED']
         try:
-            film_tag = re.search(_film_tag_patterns[0], stream,
-                                 re.IGNORECASE).group(0)
+            film_tag = re.search(_film_tag_patterns[0], stream, re.IGNORECASE).group(0)
         except AttributeError:
             # raise error that would be corrected in ReEngine turning exception into blank field
             film_tag = ''

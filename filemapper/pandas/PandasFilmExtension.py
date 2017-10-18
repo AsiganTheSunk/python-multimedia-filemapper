@@ -14,8 +14,7 @@ class PandasFilmExtension():
         :param root_basename: basename of the tree_root structure
         :return: DATAFRAME
         '''
-        dataframe = self.create_film_directory(dataframe=dataframe,
-                                               root_basename=root_basename)
+        dataframe = self.create_film_directory(dataframe=dataframe, root_basename=root_basename)
         dataframe = self.create_default_movies_tree_directory(dataframe)
         return dataframe
 
@@ -31,8 +30,7 @@ class PandasFilmExtension():
         :param dataframe: It represents the dataframe input for this function
         :return: UNIQUE_FILMS
         '''
-        unique_movies = dataframe.name[
-            dataframe['fflag'] == FFLAGS.FILM_FLAG].unique()
+        unique_movies = dataframe.name[dataframe['fflag'] == FFLAGS.FILM_FLAG].unique()
         return unique_movies
 
     def get_film(self, dataframe):
@@ -92,19 +90,19 @@ class PandasFilmExtension():
 
             dataframe_film_directories = self.get_film_directories(dataframe)
             if dataframe_film_directories[
-                        dataframe_film_directories.basename == basename[
-                                                               :-4]].empty:
+                        dataframe_film_directories.basename == basename[:-4]].empty:
                 dataframe = self.pandas_utils.add_dataframe_row(
                     dataframe=dataframe, name=name,
                     season='N/A', episode='N/A',
                     fflag=FFLAGS.FILM_DIRECTORY_FLAG,
                     basename=basename[:-4], parent=parent,
                     year=year, genre='N/A', n_season='N/A', e_season='N/A')
+
                 dataframe = self.pandas_utils.update_parent_dataframe_row(
                     dataframe=dataframe, index=int(film_index),
                     parent=basename[:-4])
-        dataframe_film_directories = self.get_film_directories(
-            dataframe=dataframe)
+
+        dataframe_film_directories = self.get_film_directories(dataframe=dataframe)
 
         for directory_film_index in dataframe_film_directories.index.tolist():
             parent = dataframe.iloc[int(directory_film_index)]['parent']

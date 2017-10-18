@@ -19,11 +19,9 @@ class PandasShowExtension():
         :return: DATAFRAME
         '''
         unique_series = self.get_show_names(dataframe=dataframe)
-        dataframe = self.create_shows_directory(dataframe=dataframe,
-                                                root_basename=root_basename)
+        dataframe = self.create_shows_directory(dataframe=dataframe, root_basename=root_basename)
         for current_show in unique_series:
-            dataframe = self.create_default_show_tree_directory(
-                dataframe=dataframe, current_show=current_show)
+            dataframe = self.create_default_show_tree_directory(dataframe=dataframe, current_show=current_show)
         return dataframe
 
     '''
@@ -38,8 +36,7 @@ class PandasShowExtension():
         :param dataframe: It represents the dataframe input for this function
         :return: UNIQUE_SHOWS
         '''
-        unique_series = dataframe.name[
-            dataframe['fflag'] == fflags.SHOW_FLAG].unique()
+        unique_series = dataframe.name[dataframe['fflag'] == fflags.SHOW_FLAG].unique()
         return unique_series
 
     def get_episode(self, dataframe, current_show, drop_dup=False):
@@ -202,9 +199,7 @@ class PandasShowExtension():
                 if debug:
                     print 'created ', season, current_show
             else:
-                season_index = dataframe_seasons.index[
-                    dataframe_seasons.season == str(int(season))].tolist()[0]
-
+                season_index = dataframe_seasons.index[dataframe_seasons.season == str(int(season))].tolist()[0]
                 dataframe = self.pandas_utils.update_parent_dataframe_row(
                     dataframe=dataframe, index=season_index,
                     parent=current_show)
@@ -216,8 +211,7 @@ class PandasShowExtension():
                 dataframe=dataframe,
                 current_show=current_show)
             if dataframe_episodes_directories[
-                        dataframe_episodes_directories.basename == basename[
-                                                                   :-4]].empty:
+                        dataframe_episodes_directories.basename == basename[:-4]].empty:
                 dataframe = self.pandas_utils.add_dataframe_row(
                     dataframe=dataframe, name=name, season=season,
                     episode=episode, fflag=fflags.SHOW_DIRECTORY_FLAG,
@@ -239,9 +233,7 @@ class PandasShowExtension():
                                                                season=season)
 
             episode_directory_index = \
-                dataframe_episodes_directories.index[
-                    dataframe_episodes_directories.basename == basename].tolist()[
-                    0]
+                dataframe_episodes_directories.index[dataframe_episodes_directories.basename == basename].tolist()[0]
             if parent is not new_parent:
                 dataframe = self.pandas_utils.update_parent_dataframe_row(
                     dataframe=dataframe,
@@ -257,37 +249,29 @@ class PandasShowExtension():
         :param current_show:
         :return:
         '''
-        dataframe_episode = self.get_episode(dataframe=dataframe,
-                                             current_show=current_show)
-        dataframe_episode_directories = self.get_episode_directories(
-            dataframe=dataframe, current_show=current_show)
-        dataframe_seasons = self.get_seasons(dataframe=dataframe,
-                                             current_show=current_show)
+        dataframe_episode = self.get_episode(dataframe=dataframe, current_show=current_show)
+        dataframe_episode_directories = self.get_episode_directories(dataframe=dataframe, current_show=current_show)
+        dataframe_seasons = self.get_seasons(dataframe=dataframe, current_show=current_show)
         main_show_directory = dataframe[dataframe['basename'] == current_show]
         current_status = 'NO'
         if not main_show_directory.empty:
             current_status = 'YES'
         print('------' * 20)
-        print('-- Directory: {status} | SHOW NAME: {show_name} '.format(
-            show_name=current_show, status=current_status))
+        print('-- Directory: {status} | SHOW NAME: {show_name} '.format(show_name=current_show, status=current_status))
         print('------' * 20)
 
         try:
-            total_seasons = self.tvdb_extension.get_number_of_seasons(
-                name=current_show)
+            total_seasons = self.tvdb_extension.get_number_of_seasons(name=current_show)
             for i in range(0, total_seasons, 1):
                 try:
-                    total_episodes = self.tvdb_extension.get_number_of_season_episodes(
-                        name=current_show, season=i)
-                    dataframe_episodes_per_season = dataframe_episode[
-                        dataframe_episode.season == str(i)]
+                    total_episodes = self.tvdb_extension.get_number_of_season_episodes(name=current_show, season=i)
+                    dataframe_episodes_per_season = dataframe_episode[dataframe_episode.season == str(i)]
                     current_episodes = len(dataframe_episodes_per_season)
                 except:
                     continue
                 else:
 
-                    dataframe_season = dataframe_seasons[
-                        dataframe_seasons.season == str(i)]
+                    dataframe_season = dataframe_seasons[dataframe_seasons.season == str(i)]
                     season_dir = 'NO '
                     if not dataframe_season.empty:
                         season_dir = 'YES'
@@ -300,14 +284,12 @@ class PandasShowExtension():
                     dataframe_temp = dataframe_episodes_per_season.reindex()
                     for index in range(0, len(dataframe_temp.index), 1):
                         basename = dataframe_temp.iloc[int(index)]['basename']
-                        dataframe_directory = dataframe_episode_directories[
-                            dataframe_episode_directories.basename == basename[
-                                                                      :-4]]
+                        dataframe_directory = \
+                            dataframe_episode_directories[dataframe_episode_directories.basename == basename[:-4]]
                         current_dir = 'NO '
                         if not dataframe_directory.empty:
                             current_dir = 'YES'
-                        print('--: Directory: {status} | {basename}'.format(
-                            basename=basename, status=current_dir))
+                        print('--: Directory: {status} | {basename}'.format(basename=basename, status=current_dir))
                 print('------' * 20)
 
         except:

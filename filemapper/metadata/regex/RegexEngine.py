@@ -53,17 +53,11 @@ class RegexEngine():
 
             if fflag in extension_engine.supported_fflags:
                 try:
-                    name = extension_engine.get_name(stream=stream,
-                                                     season_directory=False,
-                                                     debug=verbose)
-                    episode = extension_engine.get_episode(stream=stream,
-                                                           debug=verbose)
-                    season = extension_engine.get_season(stream=stream,
-                                                         debug=verbose)
-                    year = extension_engine.get_year(stream=stream,
-                                                     debug=verbose)
-                    tags = extension_engine.get_tags(stream=stream,
-                                                     debug=verbose)
+                    name = extension_engine.get_name(stream=stream, season_directory=False, debug=verbose)
+                    episode = extension_engine.get_episode(stream=stream, debug=verbose)
+                    season = extension_engine.get_season(stream=stream, debug=verbose)
+                    year = extension_engine.get_year(stream=stream, debug=verbose)
+                    tags = extension_engine.get_tags(stream=stream, debug=verbose)
 
                 except AttributeError or Exception:
                     print(
@@ -72,18 +66,12 @@ class RegexEngine():
                     return
                 else:
                     try:
-                        quality = self.common_extension.get_quality(
-                            stream=stream, debug=verbose)
-                        acodec = self.common_extension.get_acodec(stream=stream,
-                                                                  debug=verbose)
-                        vcodec = self.common_extension.get_vcodec(stream=stream,
-                                                                  debug=verbose)
-                        uploader = self.common_extension.get_uploader(
-                            stream=stream, debug=verbose)
-                        source = self.common_extension.get_source(stream=stream,
-                                                                  debug=verbose)
-                        extension = self.common_extension.get_extension(
-                            stream=stream, debug=verbose)
+                        quality = self.common_extension.get_quality(stream=stream, debug=verbose)
+                        acodec = self.common_extension.get_acodec(stream=stream, debug=verbose)
+                        vcodec = self.common_extension.get_vcodec(stream=stream, debug=verbose)
+                        uploader = self.common_extension.get_uploader(stream=stream, debug=verbose)
+                        source = self.common_extension.get_source(stream=stream, debug=verbose)
+                        extension = self.common_extension.get_extension(stream=stream, debug=verbose)
                     except AttributeError or Exception:
                         # caputure errors!!!
                         print 'Error Show Regex Engine'
@@ -91,10 +79,12 @@ class RegexEngine():
                     else:
                         if debug:
                             print(
-                            '{extension_engine} :: {fflag}::{stream} ::\n name:{name} episode:{episode}, '
-                            'season:{season}, year:{year}, tags:{tags}, quality:{quality}\n acodec:{acodec}, '
-                            'vcodec:{vcodec}, uploader:{uploader} source:{source}, extension:{extension}'). \
-                                format(
+                            '{extension_engine} :: {fflag}::{stream} ::\n '
+                            'name:{name} episode:{episode}, '
+                            'season:{season}, year:{year}, tags:{tags}, '
+                            'quality:{quality}\n acodec:{acodec}, '
+                            'vcodec:{vcodec}, uploader:{uploader} '
+                            'source:{source}, extension:{extension}').format(
                                 extension_engine=self.name,
                                 fflag=fflag,
                                 stream=stream,
@@ -119,12 +109,8 @@ class RegexEngine():
 
             elif fflag in extension_engine.supported_season_fflags:
                 try:
-                    name = extension_engine.get_name(stream=stream,
-                                                     season_directory=True,
-                                                     debug=verbose)
-                    season = extension_engine.get_season(stream=stream,
-                                                         season_directory=True,
-                                                         debug=verbose)
+                    name = extension_engine.get_name(stream=stream, season_directory=True, debug=verbose)
+                    season = extension_engine.get_season(stream=stream, season_directory=True, debug=verbose)
                 except AttributeError:
                     print(
                     '{extension_engine} Error: unable to parse argument ...').format(
@@ -139,9 +125,9 @@ class RegexEngine():
                         return
                     else:
                         if debug:
-                            print(
-                            '{extension_engine} :: {fflag}::{stream} ::\n name:{name}'
-                            'season:{season}, quality:{quality}').format(
+                            print('{extension_engine} :: {fflag}::{stream} ::'
+                                  '\n name:{name}'
+                                  'season:{season}, quality:{quality}').format(
                                 extension_engine=self.name,
                                 fflag=fflag,
                                 stream=stream,
@@ -154,17 +140,11 @@ class RegexEngine():
 
             elif fflag in extension_engine.supported_subtitle_fflags:
                 try:
-                    name = extension_engine.get_name(stream=stream,
-                                                     season_directory=False,
-                                                     debug=verbose)
-                    episode = extension_engine.get_episode(stream=stream,
-                                                           debug=verbose)
-                    season = extension_engine.get_season(stream=stream,
-                                                         debug=verbose)
-                    year = extension_engine.get_year(stream=stream,
-                                                     debug=verbose)
-                    tags = extension_engine.get_tags(stream=stream,
-                                                     debug=verbose)
+                    name = extension_engine.get_name(stream=stream, season_directory=False, debug=verbose)
+                    episode = extension_engine.get_episode(stream=stream, debug=verbose)
+                    season = extension_engine.get_season(stream=stream, debug=verbose)
+                    year = extension_engine.get_year(stream=stream, debug=verbose)
+                    tags = extension_engine.get_tags(stream=stream, debug=verbose)
 
                 except AttributeError:
                     print(
@@ -173,20 +153,19 @@ class RegexEngine():
                     return
                 else:
                     try:
-                        subs = self.subtitle_extension.get_subtitles_directory(
-                            stream=stream, debug=verbose)
-                        language = self.common_extension.get_language(
-                            stream=stream, debug=verbose)
-                        extension = self.common_extension.get_extension(
-                            stream=stream, debug=verbose)
+                        subs = self.subtitle_extension.get_subtitles_directory(stream=stream, debug=verbose)
+                        language = self.common_extension.get_language(stream=stream, debug=verbose)
+                        extension = self.common_extension.get_extension(stream=stream, debug=verbose)
                     except AttributeError:
                         # caputure errors!!!
                         return
                     else:
                         if debug:
                             print(
-                            '{extension_engine} :: {fflag}::{stream} ::\n name:{name} episode:{episode}, '
-                            'season:{season}, year:{year} tags:{tags}, language:{language}, subs:{subs}, '
+                            '{extension_engine} :: {fflag}::{stream} ::'
+                            '\n name:{name} episode:{episode}, '
+                            'season:{season}, year:{year} tags:{tags}, '
+                            'language:{language}, subs:{subs}, '
                             'extension:{extension}').format(
                                 extension_engine=self.name,
                                 fflag=fflag,

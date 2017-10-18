@@ -22,10 +22,8 @@ class CheckCommonExtension():
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(
-                    extension_engine=self.name,
-                    stream=stream,
-                    status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name,
+                                                                                stream=stream, status=str(status))
             return status
 
     def check_multimedia(self, stream, debug=False):
@@ -44,10 +42,8 @@ class CheckCommonExtension():
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(
-                    extension_engine=self.name,
-                    stream=stream,
-                    status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name,
+                                                                                stream=stream, status=str(status))
             return status
 
     def check_subtitles(self, stream, debug=False):
@@ -67,10 +63,8 @@ class CheckCommonExtension():
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(
-                    extension_engine=self.name,
-                    stream=stream,
-                    status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name,
+                                                                                stream=stream, status=str(status))
             return status
 
     def check_subtitles_directory(self, stream, debug=False):
@@ -89,8 +83,6 @@ class CheckCommonExtension():
         else:
             status = True
             if debug:
-                print('{extension_engine}: {stream} :: status:{status}').format(
-                    extension_engine=self.name,
-                    stream=stream,
-                    status=str(status))
+                print('{extension_engine}: {stream} :: status:{status}').format(extension_engine=self.name,
+                                                                                stream=stream, status=str(status))
             return status

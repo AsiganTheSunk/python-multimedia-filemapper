@@ -25,8 +25,7 @@ class RegexSubtitleExtension():
         '''
         _subtitle_directory_patterns = ['(sub\w{0,6}(?!=\!))']
         try:
-            subtitle_directory = re.search(_subtitle_directory_patterns[0],
-                                           stream, re.IGNORECASE).group(0)
+            subtitle_directory = re.search(_subtitle_directory_patterns[0], stream, re.IGNORECASE).group(0)
         except AttributeError:
             # raise error that would be corrected in ReEngine turning exception into blank field
             subtitle_directory = ''

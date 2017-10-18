@@ -1,9 +1,8 @@
 # TODO: update default values to N/A to match the index namespace
 class Metadata:
     def __init__(self, name='', year='', ename='', season='', episode='',
-                 quality='', film_tag='',
-                 language='', subtitle='', uploader='', source='', extension='',
-                 fflag='', acodec='', vcodec='',
+                 quality='', film_tag='', language='', subtitle='', uploader='',
+                 source='', extension='', fflag='', acodec='', vcodec='',
                  director='', actors='', genre='', duration='', chapters='',
                  n_season='', e_season=''):
 
@@ -170,7 +169,8 @@ class Metadata:
         '''
         This function unpacks the Metada Object
         :param metadata: It represents the metadata a class Metadata Object
-        :return: name, year, season, episode, ename, quality, subs, language, film_tag, fflag, extension
+        :return: name, year, season, episode, ename, quality, subs, language,
+                    film_tag, fflag, extension
         '''
         try:
             name = self.get_name()
@@ -190,13 +190,13 @@ class Metadata:
             e_season = self.get_e_season()
 
             if debug:
-                print (
-                name, year, season, episode, ename, quality, subtitle, language,
-                film_tag, fflag, extension)
+                print(name, year, season, episode, ename,
+                      quality, subtitle, language,
+                      film_tag, fflag, extension)
 
-            return (
-            name, year, season, episode, ename, quality, subtitle, language,
-            film_tag, fflag, extension)
+            return(name, year, season, episode, ename,
+                   quality, subtitle, language,
+                   film_tag, fflag, extension)
 
         except Exception as e:
             print e

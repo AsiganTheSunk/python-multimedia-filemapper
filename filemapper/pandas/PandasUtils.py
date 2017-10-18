@@ -86,16 +86,13 @@ class PandasUtils():
                 basenamelist.append(node.basename)
                 parent_basenamelist.append(node.parent_basename)
                 namelist.append(self.eval_empty_value(metadata.get_name()))
-                episodelist.append(
-                    self.eval_empty_value(metadata.get_episode()))
+                episodelist.append(self.eval_empty_value(metadata.get_episode()))
                 seasonlist.append(self.eval_empty_value(metadata.get_season()))
                 yearlist.append(self.eval_empty_value(metadata.get_year()))
                 fflaglist.append(self.eval_empty_value(metadata.get_fflag()))
                 genrelist.append(self.eval_empty_value(metadata.get_genre()))
-                n_seasonlist.append(
-                    self.eval_empty_value(metadata.get_n_season()))
-                e_seasonlist.append(
-                    self.eval_empty_value(metadata.get_e_season()))
+                n_seasonlist.append(self.eval_empty_value(metadata.get_n_season()))
+                e_seasonlist.append(self.eval_empty_value(metadata.get_e_season()))
 
             raw_data = {'name': namelist,
                         'season': seasonlist,

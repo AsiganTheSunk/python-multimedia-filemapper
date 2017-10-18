@@ -60,12 +60,10 @@ class RegexCommonExtension():
             quality = re.search(_quality_patterns[0], stream).group(0)
         except AttributeError:
             try:
-                quality = re.search(_quality_patterns[1], stream,
-                                    re.IGNORECASE).group(0)
+                quality = re.search(_quality_patterns[1], stream, re.IGNORECASE).group(0)
             except AttributeError:
                 try:
-                    quality = re.search(_quality_patterns[2], stream,
-                                        re.IGNORECASE).group(0)
+                    quality = re.search(_quality_patterns[2], stream, re.IGNORECASE).group(0)
                 except AttributeError:
                     # raise error that would be corrected in ReEngine turning exception into blank field
                     quality = ''
@@ -104,8 +102,7 @@ class RegexCommonExtension():
         '''
         _acodec_patterns = ['((AC3)|(DTS)|(DD5\.1)|(ACC(2\.0)?)|(MP3))']
         try:
-            acodec = re.search(_acodec_patterns[0], stream,
-                               re.IGNORECASE).group(0)
+            acodec = re.search(_acodec_patterns[0], stream, re.IGNORECASE).group(0)
         except AttributeError:
             # raise error that would be corrected in ReEngine turning exception into blank field
             acodec = ''
@@ -127,8 +124,7 @@ class RegexCommonExtension():
         '''
         _vcodec_patterns = ['((x264)|(H264)|(x265)|(H265)|(XviD)|(DivX))']
         try:
-            vcodec = re.search(_vcodec_patterns[0], stream,
-                               re.IGNORECASE).group(0)
+            vcodec = re.search(_vcodec_patterns[0], stream, re.IGNORECASE).group(0)
         except AttributeError:
             # raise error that would be corrected in ReEngine turning exception into blank field
             vcodec = ''
@@ -174,8 +170,7 @@ class RegexCommonExtension():
         '''
         _source_patterns = ['rartv|rarbg|ettv']
         try:
-            source = re.search(_source_patterns[0], stream,
-                               re.IGNORECASE).group(0)
+            source = re.search(_source_patterns[0], stream, re.IGNORECASE).group(0)
         except AttributeError:
             # raise error that would be corrected in ReEngine turning exception into blank field
             source = ''
@@ -196,8 +191,7 @@ class RegexCommonExtension():
         :return: UNWANTED
         '''
         try:
-            unwanted = re.search('(((\.txt)|(\.nfo))$)', stream,
-                                 re.IGNORECASE).group(0)
+            unwanted = re.search('(((\.txt)|(\.nfo))$)', stream, re.IGNORECASE).group(0)
         except AttributeError:
             # raise error that would be corrected in ReEngine turning exception into blank field
             unwanted = ''
@@ -215,8 +209,7 @@ class RegexCommonExtension():
     def get_language(self, stream, debug=False):
         _language_patterns = ['\(es\)|\(spanish\)|\(en\w{0,5}\)']
         try:
-            language = re.search(_language_patterns[0], stream,
-                                 re.IGNORECASE).group(0)
+            language = re.search(_language_patterns[0], stream, re.IGNORECASE).group(0)
         except AttributeError:
             language = ''
             return language

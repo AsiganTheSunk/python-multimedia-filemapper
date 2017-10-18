@@ -22,7 +22,6 @@ class CheckFilmExtension():
         else:
             status = True
             if debug:
-                print('{extension}: {stream} :: status:{status}').format(
-                    extension=self.name, stream=stream,
-                    status=str(status))
+                print('{extension}: {stream} :: status:{status}').format(extension=self.name, stream=stream,
+                                                                         status=str(status))
             return status

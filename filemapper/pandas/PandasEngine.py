@@ -55,11 +55,8 @@ class PandasEngine():
 
         if debug:
             print '~~~~~~~~~~~~~~~~~~~~~~~~~~' * 8
-            print (
-            'MetadataTree MetadataNodes               :: {total}').format(
-                total=_total_rows)
-            print ('MetadataTree MetadataNodes to be added   :: {new}').format(
-                new=_new_rows)
+            print ('MetadataTree MetadataNodes               :: {total}').format(total=_total_rows)
+            print ('MetadataTree MetadataNodes to be added   :: {new}').format(new=_new_rows)
 
         for index in range(len(old_dataframe.index), len(dataframe.index), 1):
             name = dataframe.iloc[int(index)]['name']

@@ -31,15 +31,11 @@ class RegexShowExtension():
                           r'([s]\d{1,2})']
         try:
             if season_directory:
-                tail = re.search(_tail_patterns[0], stream,
-                                 re.IGNORECASE).group(0)
-                name = re.search(_name_patterns[0], stream,
-                                 re.IGNORECASE).group(0)[:-len(tail)]
+                tail = re.search(_tail_patterns[0], stream, re.IGNORECASE).group(0)
+                name = re.search(_name_patterns[0], stream, re.IGNORECASE).group(0)[:-len(tail)]
             else:
-                tail = re.search(_tail_patterns[1], stream,
-                                 re.IGNORECASE).group(0)
-                name = re.search(_name_patterns[1], stream,
-                                 re.IGNORECASE).group(0)[:-len(tail)]
+                tail = re.search(_tail_patterns[1], stream, re.IGNORECASE).group(0)
+                name = re.search(_name_patterns[1], stream, re.IGNORECASE).group(0)[:-len(tail)]
         except AttributeError:
             # raise error that would be corrected in ReEngine turning exception into blank field
             name = ''
@@ -63,8 +59,7 @@ class RegexShowExtension():
         '''
         _episode_pattern = ['([e])\d{2,3}']
         try:
-            episode = re.search(_episode_pattern[0], stream,
-                                re.IGNORECASE).group(0)
+            episode = re.search(_episode_pattern[0], stream, re.IGNORECASE).group(0)
         except AttributeError:
             # raise error that would be corrected in ReEngine turning exception into blank field
             episode = ''
@@ -91,14 +86,11 @@ class RegexShowExtension():
             '(\(|\[)?s(eason)?(\-|\s|\.)?(\d{1,2})(\)|\])?']
         try:
             if season_directory:
-                season_directory = re.search(_season_directory_patterns[0],
-                                             stream, re.IGNORECASE).group(0)
-                season = re.search(_season_patterns[0], season_directory,
-                                   re.IGNORECASE).group(0)
+                season_directory = re.search(_season_directory_patterns[0], stream, re.IGNORECASE).group(0)
+                season = re.search(_season_patterns[0], season_directory, re.IGNORECASE).group(0)
                 season = str(int(season))
             else:
-                season = re.search(_season_patterns[1], stream,
-                                   re.IGNORECASE).group(0)
+                season = re.search(_season_patterns[1], stream, re.IGNORECASE).group(0)
                 season = season[1:]
 
         except AttributeError:

@@ -42,22 +42,16 @@ class CheckEngine():
             else:
                 status = True
             if debug:
-                print(
-                '{engine}: {stream} :: status:{status}\n anime_directory:{anime_status}, '
-                'season_directory:{season_status}, show_directory:{show_status}, film_directory:{film_status}, '
-                'subs_directory:{subs_status}').format(engine=self.name,
+                print('{engine}: {stream} :: status:{status}\n anime_directory:{anime_status}, '
+                      'season_directory:{season_status}, show_directory:{show_status}, film_directory:{film_status}, '
+                      'subs_directory:{subs_status}').format(engine=self.name,
                                                        stream=stream,
                                                        status=status,
-                                                       anime_status=str(
-                                                           anime_status),
-                                                       season_status=str(
-                                                           season_status),
-                                                       show_status=str(
-                                                           show_status),
-                                                       film_status=str(
-                                                           film_status),
-                                                       subs_status=str(
-                                                           subs_status))
+                                                       anime_status=str(anime_status),
+                                                       season_status=str(season_status),
+                                                       show_status=str(show_status),
+                                                       film_status=str(film_status),
+                                                       subs_status=str(subs_status))
                 print
             return status
 

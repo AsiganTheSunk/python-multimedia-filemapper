@@ -49,11 +49,9 @@ class StringBuilder():
         '''
         try:
             if title:
-                new_stream = stream.replace('-', ' ').replace('.', ' ').replace(
-                    '_', ' ').rstrip().title()
+                new_stream = stream.replace('-', ' ').replace('.', ' ').replace('_', ' ').rstrip().title()
             else:
-                new_stream = stream.replace('-', ' ').replace('.', ' ').replace(
-                    '_', ' ').rstrip()
+                new_stream = stream.replace('-', ' ').replace('.', ' ').replace('_', ' ').rstrip()
         except Exception as e:
             return stream
         else:

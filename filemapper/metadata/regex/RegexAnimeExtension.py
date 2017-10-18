@@ -27,21 +27,14 @@ class RegexAnimeExtension():
                           '\[(\w+.*?)E(pisode)?(x|\-|\.|\s)?(\d{2,3})']
         try:
             header = len(
-                re.search(_uploader_patterns[0], stream, re.IGNORECASE).group(
-                    0)) + 1
+                re.search(_uploader_patterns[0], stream, re.IGNORECASE).group(0)) + 1
             tail = re.search(_tail_patterns[0], stream, re.IGNORECASE).group(0)
 
         except AttributeError:
             try:
-                header = len(re.search(_uploader_patterns[0], stream,
-                                       re.IGNORECASE).group(0)) + 1
-                core = len(
-                    re.search(_core_patterns[0], stream, re.IGNORECASE).group(
-                        0))
-                tail = re.search(_tail_patterns[1], stream,
-                                 re.IGNORECASE).group(0)
-
-
+                header = len(re.search(_uploader_patterns[0], stream, re.IGNORECASE).group(0)) + 1
+                core = len(re.search(_core_patterns[0], stream, re.IGNORECASE).group(0))
+                tail = re.search(_tail_patterns[1], stream, re.IGNORECASE).group(0)
             except AttributeError:
                 # raise error that would be corrected in ReEngine turning exception into blank field
                 name = ''
@@ -75,16 +68,13 @@ class RegexAnimeExtension():
         _episode_patterns = ['\-.?\d{1,3}', 'Episode(\-|\s|\.)?(\d{1,3})',
                              '(x|E)(\d{1,3})']
         try:
-            episode = re.search(_episode_patterns[0], stream,
-                                re.IGNORECASE).group(0)
+            episode = re.search(_episode_patterns[0], stream, re.IGNORECASE).group(0)
         except AttributeError:
             try:
-                episode = re.search(_episode_patterns[1], stream,
-                                    re.IGNORECASE).group(0)
+                episode = re.search(_episode_patterns[1], stream, re.IGNORECASE).group(0)
             except AttributeError:
                 try:
-                    episode = re.search(_episode_patterns[2], stream,
-                                        re.IGNORECASE).group(0)
+                    episode = re.search(_episode_patterns[2], stream, re.IGNORECASE).group(0)
                 except AttributeError:
                     # raise error that would be corrected in ReEngine turning exception into blank field
                     episode = ''

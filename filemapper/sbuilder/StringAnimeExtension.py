@@ -28,8 +28,7 @@ class StringAnimeExtension():
             build_anime_subtitle_name:
     '''
 
-    def build_name(self, name, year, season, episode, ename, quality, extension,
-                   film_tag, debug=False):
+    def build_name(self, name, year, season, episode, ename, quality, extension, film_tag, debug=False):
         '''
         This function builds a anime name for file or directory
         :param name: It represents the title of the anime you'regex rebuilding to proper match the standard
@@ -42,28 +41,18 @@ class StringAnimeExtension():
         '''
         try:
             ANIME_NAME = ('{name}{episode}{ename}{quality}{extension}').format(
-                name=self.string_utils.eval_wrapped_key(value=name,
-                                                        wrap_type=NONE_WRAP),
-                episode=self.string_utils.eval_wrapped_key(
-                    value=('E' + episode), wrap_type=EMPTY_WRAP),
-                ename=self.string_utils.eval_wrapped_key(value=ename,
-                                                         wrap_type=EMPTY_WRAP),
-                quality=self.string_utils.eval_wrapped_key(value=quality,
-                                                           wrap_type=BRACKET_WRAP),
-                extension=self.string_utils.eval_wrapped_key(value=extension,
-                                                             wrap_type=EXTENSION_WRAP)
-            )
-
+                name=self.string_utils.eval_wrapped_key(value=name, wrap_type=NONE_WRAP),
+                episode=self.string_utils.eval_wrapped_key(value=('E' + episode), wrap_type=EMPTY_WRAP),
+                ename=self.string_utils.eval_wrapped_key(value=ename, wrap_type=EMPTY_WRAP),
+                quality=self.string_utils.eval_wrapped_key(value=quality, wrap_type=BRACKET_WRAP),
+                extension=self.string_utils.eval_wrapped_key(value=extension, wrap_type=EXTENSION_WRAP))
             if debug:
-                print ('{engine}: {name}').format(engine=self.name,
-                                                  name=ANIME_NAME)
-
+                print ('{engine}: {name}').format(engine=self.name, name=ANIME_NAME)
             return ANIME_NAME
         except Exception as e:
             print e
 
-    def build_subtitle_name(self, name, year, season, episode, subtitle,
-                            language, extension, debug=False):
+    def build_subtitle_name(self, name, year, season, episode, subtitle, language, extension, debug=False):
         '''
         This function builds a subs anime name for file or directory
         :param name: It represents the title of the show you'regex rebuilding to proper match the standard
@@ -78,21 +67,13 @@ class StringAnimeExtension():
         try:
             SUBTITLE_NAME = (
             '{name}{episode}{subtitle}{language}{extension}').format(
-                name=self.string_utils.eval_wrapped_key(value=name,
-                                                        wrap_type=NONE_WRAP),
-                episode=self.string_utils.eval_wrapped_key(
-                    value=('E' + episode), wrap_type=EMPTY_WRAP),
-                subtitle=self.string_utils.eval_wrapped_key(value=subtitle,
-                                                            wrap_type=PARENTHESIS_WRAP),
-                language=self.string_utils.eval_wrapped_key(value=language,
-                                                            wrap_type=DASH_PARENTHESIS_WRAP),
-                extension=self.string_utils.eval_wrapped_key(value=extension,
-                                                             wrap_type=EXTENSION_WRAP)
-            )
-
+                name=self.string_utils.eval_wrapped_key(value=name,wrap_type=NONE_WRAP),
+                episode=self.string_utils.eval_wrapped_key(value=('E' + episode), wrap_type=EMPTY_WRAP),
+                subtitle=self.string_utils.eval_wrapped_key(value=subtitle, wrap_type=PARENTHESIS_WRAP),
+                language=self.string_utils.eval_wrapped_key(value=language, wrap_type=DASH_PARENTHESIS_WRAP),
+                extension=self.string_utils.eval_wrapped_key(value=extension, wrap_type=EXTENSION_WRAP))
             if debug:
-                print ('{engine}: {name}').format(engine=self.name,
-                                                  name=SUBTITLE_NAME)
+                print ('{engine}: {name}').format(engine=self.name, name=SUBTITLE_NAME)
 
             return SUBTITLE_NAME
 
