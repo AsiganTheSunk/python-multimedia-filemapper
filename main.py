@@ -1,19 +1,16 @@
 #!/usr/bin/python
 
-from filemapper.FileMapper import FileMapper
-from filemapper.metadata.MetadataEngine import MetadataEngine
+from filemapper.filemapper import FileMapper
+from filemapper.metadata.metadataengine import MetadataEngine
 
 import os
-import guessit
 from pipes import quote
 import subprocess
 import time
 
 def file_mapper():
-    basedir = str(os.getcwd()) + '/test-library'
-    big_test = '/media/asigan/Pila/Peliculos/Peliculas'
-    file_mapper = FileMapper(basedir=basedir)
-    file_mapper.map(verbose=True, debug=False)
+    file_mapper = FileMapper(basedir='/home/asigan/Desktop/test-library')
+    file_mapper.map(verbose=True, debug=True)
     #file_mapper.publish(debug=True)
 
 
@@ -91,9 +88,19 @@ def ttest():
 
     return
 
+# def test_multiprocess():
+#     # from multiprocessing.pool import ThreadPool
+#     # pool = ThreadPool(processes=1)
+#     #
+#     # async_result = pool.apply_async(foo, ('world', 'foo'))  # tuple of args for foo
+#     #
+#     # # do some other stuff in the main process
+#     #
+#     # return_val = async_result.get()  # get the return value from your function.
+
 def main():
-    # file_mapper()
-    ttest()
+    file_mapper()
+    #ttest()
 
 if __name__ == '__main__':
     main()

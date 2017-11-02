@@ -1,4 +1,4 @@
-from filemapper.check.CheckCommonExtension import CheckCommonExtension
+from filemapper.check.checkcommonextension import CheckCommonExtension
 
 check = CheckCommonExtension()
 # Multimedia Check Tests

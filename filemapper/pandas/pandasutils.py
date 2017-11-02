@@ -1,6 +1,5 @@
 import pandas as pd
 from pandas import DataFrame
-
 pd.set_option('display.max_rows', 750)
 pd.set_option('display.max_columns', 750)
 pd.set_option('display.width', 1400)

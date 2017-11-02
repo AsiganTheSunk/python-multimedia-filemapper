@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from filemapper.metadata.Metadata import Metadata
+from filemapper.metadata.metadata import Metadata
 
 
 class MetadataNode:

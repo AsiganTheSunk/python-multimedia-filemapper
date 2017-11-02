@@ -1,8 +1,8 @@
 import re
 
 from config import TRUSTED_UPLOADERS
-from filemapper.sbuilder.StringBuilder import StringBuilder
-from filemapper.utils.FileFlags import FileFlags as fflags
+from filemapper.sbuilder.stringbuilder import StringBuilder
+from filemapper.utils.fileflags import FileFlags as fflags
 
 
 class RegexAnimeExtension():

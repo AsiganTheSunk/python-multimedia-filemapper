@@ -1,7 +1,7 @@
-from filemapper.check.CheckAnimeExtension import CheckAnimeExtension
-from filemapper.check.CheckCommonExtension import CheckCommonExtension
-from filemapper.check.CheckFilmExtension import CheckFilmExtension
-from filemapper.check.CheckShowExtension import CheckShowExtension
+from filemapper.check.checkanimeextension import CheckAnimeExtension
+from filemapper.check.checkcommonextension import CheckCommonExtension
+from filemapper.check.checkfilmextension import CheckFilmExtension
+from filemapper.check.checkshowextension import CheckShowExtension
 
 
 class CheckEngine():
@@ -23,16 +23,11 @@ class CheckEngine():
         '''
         try:
 
-            anime_status = self.anime_engine.check_anime_directory(
-                stream=stream, debug=verbose)
-            season_status = self.show_engine.check_season_directory(
-                stream=stream, debug=verbose)
-            show_status = self.show_engine.check_show_directory(stream=stream,
-                                                                debug=verbose)
-            film_status = self.film_engine.check_film(stream=stream,
-                                                      debug=verbose)
-            subs_status = self.common_engine.check_subtitles_directory(
-                stream=stream, debug=verbose)
+            anime_status = self.anime_engine.check_anime_directory(stream=stream, debug=verbose)
+            season_status = self.show_engine.check_season_directory(stream=stream, debug=verbose)
+            show_status = self.show_engine.check_show_directory(stream=stream, debug=verbose)
+            film_status = self.film_engine.check_film(stream=stream, debug=verbose)
+            subs_status = self.common_engine.check_subtitles_directory(stream=stream, debug=verbose)
         except Exception as e:
             print 'Exception' + str(e)
             return
@@ -64,10 +59,8 @@ class CheckEngine():
         :return: BOOLEAN
         '''
         try:
-            show_status = self.show_engine.check_show(stream=stream,
-                                                      debug=verbose)
-            subs_status = self.common_engine.check_subtitles(stream=stream,
-                                                             debug=verbose)
+            show_status = self.show_engine.check_show(stream=stream, debug=verbose)
+            subs_status = self.common_engine.check_subtitles(stream=stream, debug=verbose)
         except Exception as e:
             print 'Exception' + str(e)
             return
@@ -98,10 +91,8 @@ class CheckEngine():
         :return: BOOLEAN
         '''
         try:
-            show_directory_status = self.show_engine.check_show(stream=stream,
-                                                                debug=verbose)
-            subs_status = self.common_engine.check_subtitles_directory(
-                stream=stream, debug=verbose)
+            show_directory_status = self.show_engine.check_show(stream=stream, debug=verbose)
+            subs_status = self.common_engine.check_subtitles_directory(stream=stream, debug=verbose)
         except Exception as e:
             print 'Exception' + str(e)
             return
@@ -131,10 +122,8 @@ class CheckEngine():
         :return: BOOLEAN
         '''
         try:
-            anime_status = self.anime_engine.check_anime_show2(stream=stream,
-                                                               debug=verbose)
-            subs_status = self.common_engine.check_subtitles(stream=stream,
-                                                             debug=verbose)
+            anime_status = self.anime_engine.check_anime_show2(stream=stream, debug=verbose)
+            subs_status = self.common_engine.check_subtitles(stream=stream, debug=verbose)
         except Exception as e:
             print e
             return
@@ -154,8 +143,7 @@ class CheckEngine():
                 print
             return status
 
-    def check_anime_subtitles_directory(self, stream, verbose=False,
-                                        debug=False):
+    def check_anime_subtitles_directory(self, stream, verbose=False, debug=False):
         '''
         This function maps the file or directory based on the premapping done by check engine
         :param stream: It represents the input string you're mapping
@@ -164,10 +152,8 @@ class CheckEngine():
         :return: BOOLEAN
         '''
         try:
-            anime_directory_status = self.anime_engine.check_anime_directory(
-                stream=stream, debug=verbose)
-            subs_status = self.common_engine.check_subtitles_directory(
-                stream=stream, debug=verbose)
+            anime_directory_status = self.anime_engine.check_anime_directory(stream=stream, debug=verbose)
+            subs_status = self.common_engine.check_subtitles_directory(stream=stream, debug=verbose)
         except Exception as e:
             print 'Exception' + str(e)
             return
@@ -197,10 +183,8 @@ class CheckEngine():
         :return: BOOLEAN
         '''
         try:
-            film_status = self.film_engine.check_film(stream=stream,
-                                                      debug=verbose)
-            subs_directory_status = self.common_engine.check_subtitles_directory(
-                stream=stream, debug=verbose)
+            film_status = self.film_engine.check_film(stream=stream, debug=verbose)
+            subs_directory_status = self.common_engine.check_subtitles_directory(stream=stream, debug=verbose)
         except Exception as e:
             print 'Exception' + str(e)
             return
@@ -229,10 +213,8 @@ class CheckEngine():
         :return: BOOLEAN
         '''
         try:
-            film_status = self.film_engine.check_film(stream=stream,
-                                                      debug=verbose)
-            subs_status = self.common_engine.check_subtitles(stream=stream,
-                                                             debug=verbose)
+            film_status = self.film_engine.check_film(stream=stream, debug=verbose)
+            subs_status = self.common_engine.check_subtitles(stream=stream, debug=verbose)
         except Exception as e:
             print 'Exception' + str(e)
             return

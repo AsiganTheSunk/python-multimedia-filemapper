@@ -1,4 +1,4 @@
-from filemapper.metadata import MetadataTree as tr
+from filemapper.metadata import metadatatree as tr
 
 
 # TreeRoot create Tests

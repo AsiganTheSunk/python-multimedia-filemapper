@@ -1,13 +1,13 @@
 import re
 
-from filemapper.metadata.Metadata import Metadata
-from filemapper.metadata.regex.RegexAnimeExtension import RegexAnimeExtension
-from filemapper.metadata.regex.RegexCommonExtension import RegexCommonExtension
-from filemapper.metadata.regex.RegexFilmExtension import RegexFilmExtension
-from filemapper.metadata.regex.RegexShowExtension import RegexShowExtension
-from filemapper.metadata.regex.RegexSubtitleExtension import \
+from filemapper.metadata.metadata import Metadata
+from filemapper.metadata.regex.regexanimeextension import RegexAnimeExtension
+from filemapper.metadata.regex.regexcommonextension import RegexCommonExtension
+from filemapper.metadata.regex.regexfilmextension import RegexFilmExtension
+from filemapper.metadata.regex.regexshowextension import RegexShowExtension
+from filemapper.metadata.regex.regexsubtitleextension import \
     RegexSubtitleExtension
-from filemapper.utils.FileFlags import FileFlags as fflags
+from filemapper.utils.fileflags import FileFlags as fflags
 
 
 def compile_pattern(patterns):
@@ -57,6 +57,7 @@ class RegexEngine():
                     episode = extension_engine.get_episode(stream=stream, debug=verbose)
                     season = extension_engine.get_season(stream=stream, debug=verbose)
                     year = extension_engine.get_year(stream=stream, debug=verbose)
+                    tags = extension_engine.get_tags(stream=stream, debug=verbose)
                     tags = extension_engine.get_tags(stream=stream, debug=verbose)
 
                 except AttributeError or Exception:

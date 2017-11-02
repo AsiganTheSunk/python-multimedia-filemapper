@@ -3,7 +3,7 @@ import pysrt
 from langdetect import DetectorFactory
 from langdetect import detect
 
-from filemapper.utils.FileFlags import FileFlags as fflags
+from filemapper.utils.fileflags import FileFlags as fflags
 
 
 class SubtitleSrtExtension():

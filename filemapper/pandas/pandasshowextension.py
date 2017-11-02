@@ -1,7 +1,7 @@
-from filemapper.metadata.tvdb.TVDbShowExtension import TVDbShowExtension
-from filemapper.pandas.PandasUtils import PandasUtils
-from filemapper.sbuilder.StringShowExtension import StringShowExtension
-from filemapper.utils.FileFlags import FileFlags as fflags
+from filemapper.metadata.tvdb.tvdbshowextension import TVDbShowExtension
+from filemapper.pandas.pandasutils import PandasUtils
+from filemapper.sbuilder.stringshowextension import StringShowExtension
+from filemapper.utils.fileflags import FileFlags as fflags
 
 
 class PandasShowExtension():

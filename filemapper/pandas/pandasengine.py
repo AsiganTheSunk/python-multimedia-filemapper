@@ -8,11 +8,11 @@
 # from filemapper.utils.FileFlags import FileFlags as FFLAGS
 from pandas import DataFrame
 
-from filemapper.metadata.Metadata import Metadata
-from filemapper.pandas.PandasAnimeExtension import PandasAnimeExtension
-from filemapper.pandas.PandasFilmExtension import PandasFilmExtension
-from filemapper.pandas.PandasShowExtension import PandasShowExtension
-from filemapper.pandas.PandasUtils import PandasUtils
+from filemapper.metadata.metadata import Metadata
+from filemapper.pandas.pandasanimeextension import PandasAnimeExtension
+from filemapper.pandas.pandasfilmextension import PandasFilmExtension
+from filemapper.pandas.pandasshowextension import PandasShowExtension
+from filemapper.pandas.pandasutils import PandasUtils
 
 
 class PandasEngine():

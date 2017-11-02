@@ -1,5 +1,5 @@
-from filemapper.sbuilder.StringUtils import StringUtils
-from filemapper.utils.FileFlags import FileFlags as fflags
+from filemapper.sbuilder.stringutils import StringUtils
+from filemapper.utils.fileflags import FileFlags as fflags
 
 EMPTY_WRAP = -1
 BRACKET_WRAP = 0

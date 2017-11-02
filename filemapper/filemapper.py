@@ -2,13 +2,13 @@
 
 import os
 
-from filemapper.check.CheckEngine import CheckEngine
-from filemapper.metadata.Metadata import Metadata
-from filemapper.metadata.MetadataEngine import MetadataEngine
-from filemapper.metadata.MetadataTree import MetadataTree
-from filemapper.pandas.PandasEngine import PandasEngine
-from filemapper.sbuilder.StringBuilder import StringBuilder
-from utils.FileFlags import FileFlags as fflags
+from check.checkengine import CheckEngine
+from metadata.metadata import Metadata
+from metadata.metadataengine import MetadataEngine
+from metadata.metadatatree import MetadataTree
+from pandas.pandasengine import PandasEngine
+from sbuilder.stringbuilder import StringBuilder
+from utils.fileflags import FileFlags as fflags
 
 
 class FileMapper():
@@ -197,8 +197,12 @@ class FileMapper():
         tree = self.build_directory_tree(verbose=verbose, debug=False)
         pandas_engine = PandasEngine(tree=tree[0])
         pandas_engine.create_library(debug=debug)
-        tree = pandas_engine.update_tree(debug=True)
+        tree = pandas_engine.update_tree(debug=debug)
         self.set_tupdated(tree=tree)
+
+        list = self.tUpdated.get_abs_paths()
+        for item in list:
+            print item
 
     def test_map(self, verbose=False, debug=False):
         '''
@@ -209,7 +213,8 @@ class FileMapper():
         :return:
         '''
         self.premap(verbose=verbose, debug=debug)
-        self.build_directory_tree(verbose=verbose, debug=debug)
+        tree = self.build_directory_tree(verbose=verbose, debug=debug)[0]
+
         return
 
     def publish(self, debug=False):

@@ -1,6 +1,5 @@
 import re
 
-
 class CheckAnimeExtension():
     def __init__(self):
         self.name = 'CheckAnimeExtension'

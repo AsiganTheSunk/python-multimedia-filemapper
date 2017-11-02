@@ -1,6 +1,6 @@
-from filemapper.metadata.Metadata import Metadata
-from filemapper.metadata.imdb.IMDbFilmExtension import IMDbExtension
-from filemapper.utils.FileFlags import FileFlags as fflags
+from filemapper.metadata.metadata import Metadata
+from filemapper.metadata.imdb.imdbfilmextension import IMDbExtension
+from filemapper.utils.fileflags import FileFlags as fflags
 
 
 class IMDbEngine():

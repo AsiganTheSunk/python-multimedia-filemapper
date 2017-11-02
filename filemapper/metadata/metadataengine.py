@@ -1,11 +1,11 @@
 import os
 
-from filemapper.metadata.Metadata import Metadata
-from filemapper.metadata.imdb.IMDbEngine import IMDbEngine
-from filemapper.metadata.regex.RegexEngine import RegexEngine
-from filemapper.metadata.subs.SubtitleEngine import SubtitleEngine
-from filemapper.metadata.tvdb.TVDbEngine import TVDbEngine
-from filemapper.utils.FileFlags import FileFlags as fflags
+from filemapper.metadata.metadata import Metadata
+from filemapper.metadata.imdb.imdbengine import IMDbEngine
+from filemapper.metadata.regex.regexengine import RegexEngine
+from filemapper.metadata.subs.subtitleengine import SubtitleEngine
+from filemapper.metadata.tvdb.tvdbengine import TVDbEngine
+from filemapper.utils.fileflags import FileFlags as fflags
 
 
 # from filemapper.metadata import FFProbeExtension as ffprobee
@@ -50,7 +50,7 @@ class MetadataEngine():
                     metadata = category_engine.map(metadata=metadata,
                                                    verbose=verbose, debug=debug)
         except Exception as e:
-            print 'ERROR HERE' + str(e)
+            print 'MetadataEngine Error Here' + str(e)
             return Metadata()
         else:
             return metadata

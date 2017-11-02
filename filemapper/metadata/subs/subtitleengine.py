@@ -1,6 +1,6 @@
-from filemapper.metadata.Metadata import Metadata
-from filemapper.metadata.subs.SubtitleSrtExtension import SubtitleSrtExtension
-from filemapper.utils.FileFlags import FileFlags as fflags
+from filemapper.metadata.metadata import Metadata
+from filemapper.metadata.subs.subtitlesrtextension import SubtitleSrtExtension
+from filemapper.utils.fileflags import FileFlags as fflags
 
 
 class SubtitleEngine():

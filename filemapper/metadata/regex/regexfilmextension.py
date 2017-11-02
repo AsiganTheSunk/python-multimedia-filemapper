@@ -1,8 +1,8 @@
 # from filemapper.metadata.regex.RegexEngine import compile_pattern
 import re
 
-from filemapper.sbuilder.StringBuilder import StringBuilder
-from filemapper.utils.FileFlags import FileFlags as fflags
+from filemapper.sbuilder.stringbuilder import StringBuilder
+from filemapper.utils.fileflags import FileFlags as fflags
 
 
 def compile_pattern(patterns):
@@ -91,5 +91,5 @@ class RegexFilmExtension():
                 print('{extension_engine}: {stream} :: tags:{tag}').format(
                     extension_engine=self.name,
                     stream=stream,
-                    value=film_tag)
+                    tag=film_tag)
             return film_tag

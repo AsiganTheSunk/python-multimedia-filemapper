@@ -1,4 +1,4 @@
-from filemapper.check.CheckEngine import CheckEngine
+from filemapper.check.checkengine import CheckEngine
 
 check = CheckEngine()
 

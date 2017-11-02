@@ -1,6 +1,6 @@
 import tvdb_api
 
-from filemapper.utils.FileFlags import FileFlags as fflags
+from filemapper.utils.fileflags import FileFlags as fflags
 
 
 class TVDbShowExtension():

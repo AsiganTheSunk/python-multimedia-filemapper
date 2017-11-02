@@ -1,6 +1,5 @@
-from filemapper.pandas.PandasUtils import PandasUtils
-from filemapper.utils.FileFlags import FileFlags as FFLAGS
-
+from filemapper.pandas.pandasutils import PandasUtils
+from filemapper.utils.fileflags import FileFlags as FFLAGS
 
 class PandasAnimeExtension():
     def __init__(self):

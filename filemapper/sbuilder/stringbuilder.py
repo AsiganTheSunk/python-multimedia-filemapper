@@ -1,8 +1,8 @@
-from filemapper.metadata.Metadata import Metadata
-from filemapper.sbuilder.StringAnimeExtension import StringAnimeExtension
-from filemapper.sbuilder.StringFilmExtension import StringFilmExtension
-from filemapper.sbuilder.StringShowExtension import StringShowExtension
-from filemapper.utils.FileFlags import FileFlags as fflags
+from filemapper.metadata.metadata import Metadata
+from filemapper.sbuilder.stringanimeextension import StringAnimeExtension
+from filemapper.sbuilder.stringfilmextension import StringFilmExtension
+from filemapper.sbuilder.stringshowextension import StringShowExtension
+from filemapper.utils.fileflags import FileFlags as fflags
 
 EMPTY_WRAP = -1
 BRACKET_WRAP = 0
